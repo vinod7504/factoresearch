@@ -7,22 +7,33 @@ const FloatingChatWidget = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
-
-    const buildWhatsappUrl = () => {
-        const textLines = [
-            'Hello Facto Research Team,',
-            name ? `Name: ${name}` : null,
-            email ? `Email: ${email}` : null,
-            `Message: ${message || 'I would like to know more about your services.'}`,
-        ].filter(Boolean);
-
-        const encodedText = encodeURIComponent(textLines.join('\n'));
-        return `https://api.whatsapp.com/send/?phone=919959937373&text=${encodedText}&type=phone_number&app_absent=0`;
-    };
+    const [status, setStatus] = useState('');
 
     const handleSend = (event) => {
         event.preventDefault();
-        window.open(buildWhatsappUrl(), '_blank', 'noopener,noreferrer');
+        const trimmedName = name.trim();
+        const trimmedEmail = email.trim();
+        const trimmedMessage = message.trim();
+
+        if (!trimmedName || !trimmedEmail || !trimmedMessage) {
+            setStatus('Please fill name, email, and message.');
+            return;
+        }
+
+        const subject = `Chat Enquiry - ${trimmedName}`;
+        const body = [
+            'New enquiry from floating contact widget:',
+            '',
+            `Name: ${trimmedName}`,
+            `Email: ${trimmedEmail}`,
+            `Message: ${trimmedMessage}`,
+            `Page: ${window.location.href}`,
+        ].join('\n');
+
+        const recipient = siteData.contact.email || 'support@factoresearch.com';
+        const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailtoUrl;
+        setStatus('Email draft opened. Please click send in your mail app.');
     };
 
     return (
@@ -36,7 +47,7 @@ const FloatingChatWidget = () => {
                         </button>
                     </div>
                     <p className="chat-panel-subtitle">We&apos;ll respond as soon as we can.</p>
-                    <div className="chat-bubble">hello</div>
+                    <div className="chat-bubble">Tell us your requirement.</div>
 
                     <form className="chat-panel-form" onSubmit={handleSend}>
                         <input
@@ -44,22 +55,26 @@ const FloatingChatWidget = () => {
                             placeholder="Name"
                             value={name}
                             onChange={(event) => setName(event.target.value)}
+                            required
                         />
                         <input
                             type="email"
                             placeholder="Email"
                             value={email}
                             onChange={(event) => setEmail(event.target.value)}
+                            required
                         />
                         <textarea
                             placeholder="Type your message"
                             rows="3"
                             value={message}
                             onChange={(event) => setMessage(event.target.value)}
+                            required
                         />
                         <button type="submit" className="btn-primary chat-send-btn">
-                            Send <Send size={15} />
+                            Send Email <Send size={15} />
                         </button>
+                        {status && <p className="chat-form-status">{status}</p>}
                     </form>
 
                     <a

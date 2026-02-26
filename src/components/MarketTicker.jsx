@@ -5,18 +5,19 @@ const REFRESH_INTERVAL_MS = 120000;
 const REQUEST_TIMEOUT_MS = 8500;
 const CACHE_TTL_MS = 60000;
 const RATE_LIMIT_BACKOFF_MS = 5 * 60 * 1000;
+const MIN_QUOTES_FOR_FEED = 1;
+const DAY_SNAPSHOT_KEY = 'marketTickerDaySnapshotV1';
 
 const MARKET_INDEXES = [
     { label: 'SENSEX', symbols: ['^BSESN'], logo: '/images/market/bse.svg' },
-    { label: 'NIFTY 50', symbols: ['^NSEI'], logo: '/images/market/nse.svg' },
     { label: 'BANKNIFTY', symbols: ['^NSEBANK'], logo: '/images/market/nse.svg' },
+    { label: 'NIFTY 50', symbols: ['^NSEI'], logo: '/images/market/nse.svg' },
     { label: 'FINNIFTY', symbols: ['^CNXFIN'], logo: '/images/market/nse.svg' },
-    { label: 'NIFTY 100', symbols: ['^CNX100'], logo: '/images/market/nse.svg' },
     { label: 'NIFTY MIDCAP 50', symbols: ['^NSEMDCP50'], logo: '/images/market/nse.svg' },
     { label: 'NIFTY IT', symbols: ['^CNXIT'], logo: '/images/market/nse.svg' },
 ];
 
-const marketPayloadCache = {
+const marketQuoteCache = {
     payload: null,
     timestamp: 0,
     inflight: null,
@@ -29,6 +30,34 @@ const emptyQuote = (index) => ({
     change: null,
     changePercent: null,
 });
+
+const getTodayKey = () => new Date().toISOString().slice(0, 10);
+
+const readDaySnapshot = () => {
+    try {
+        const raw = localStorage.getItem(DAY_SNAPSHOT_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (parsed?.day !== getTodayKey() || !Array.isArray(parsed?.quotes)) return null;
+        return parsed.quotes;
+    } catch {
+        return null;
+    }
+};
+
+const writeDaySnapshot = (quotes) => {
+    try {
+        localStorage.setItem(
+            DAY_SNAPSHOT_KEY,
+            JSON.stringify({
+                day: getTodayKey(),
+                quotes,
+            })
+        );
+    } catch {
+        // Ignore storage failures; ticker can still run from in-memory state.
+    }
+};
 
 const toFiniteNumber = (value) => {
     const parsed = typeof value === 'number' ? value : Number(value);
@@ -46,10 +75,12 @@ const formatSigned = (value) => {
 
 const formatPrice = (value) => {
     if (typeof value !== 'number') return '--';
-    return `₹${value.toLocaleString('en-IN', {
+    return value.toLocaleString('en-IN', {
+        style: 'currency',
+        currency: 'INR',
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
-    })}`;
+    });
 };
 
 const fetchJsonWithTimeout = async (url) => {
@@ -68,118 +99,181 @@ const fetchJsonWithTimeout = async (url) => {
             error.status = response.status;
             throw error;
         }
-        const text = await response.text();
-        return JSON.parse(text);
+
+        return await response.json();
     } finally {
         clearTimeout(timeoutId);
     }
 };
 
-const buildEndpoints = (symbolsQuery) => {
-    const queryOne = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbolsQuery}`;
-    const queryTwo = `https://query2.finance.yahoo.com/v7/finance/quote?symbols=${symbolsQuery}`;
+const extractQuoteFromChartPayload = (payload) => {
+    const result = payload?.chart?.result?.[0];
+    const meta = result?.meta || {};
+    const quoteSeries = result?.indicators?.quote?.[0] || {};
+    const closes = Array.isArray(quoteSeries.close) ? quoteSeries.close.filter((value) => typeof value === 'number') : [];
+    const lastClose = closes.length > 0 ? closes[closes.length - 1] : null;
+
+    const price = toFiniteNumber(meta.regularMarketPrice ?? lastClose);
+    const previousClose = toFiniteNumber(
+        meta.chartPreviousClose ?? meta.previousClose ?? meta.regularMarketPreviousClose
+    );
+
+    let change = toFiniteNumber(meta.regularMarketChange);
+    let changePercent = toFiniteNumber(meta.regularMarketChangePercent);
+
+    if (change === null && typeof price === 'number' && typeof previousClose === 'number') {
+        change = price - previousClose;
+    }
+
+    if (changePercent === null && typeof change === 'number' && typeof previousClose === 'number' && previousClose !== 0) {
+        changePercent = (change / previousClose) * 100;
+    }
+
+    return {
+        price,
+        change,
+        changePercent,
+    };
+};
+
+const buildChartEndpoints = (symbol) => {
+    const encoded = encodeURIComponent(symbol);
+    const direct = `https://query1.finance.yahoo.com/v8/finance/chart/${encoded}?interval=1d&range=5d`;
+    const cors = `https://api.allorigins.win/raw?url=${encodeURIComponent(direct)}`;
 
     return [
-        `/api/market?symbols=${symbolsQuery}`,
-        `/api/market-alt?symbols=${symbolsQuery}`,
-        queryOne,
-        queryTwo,
+        `/api/market-chart/${encoded}?interval=1d&range=5d`,
+        cors,
     ];
 };
 
-const hasValidPayload = (payload) => Array.isArray(payload?.quoteResponse?.result);
+const fetchQuoteForIndex = async (index) => {
+    let sawRateLimit = false;
 
-const fetchPayloadWithCache = async (endpoints) => {
+    for (const symbol of index.symbols) {
+        const endpoints = buildChartEndpoints(symbol);
+
+        for (const endpoint of endpoints) {
+            try {
+                const payload = await fetchJsonWithTimeout(endpoint);
+                const parsed = extractQuoteFromChartPayload(payload);
+                if (typeof parsed.price === 'number') {
+                    return {
+                        ...index,
+                        ...parsed,
+                    };
+                }
+            } catch (error) {
+                if (error?.status === 429) sawRateLimit = true;
+            }
+        }
+    }
+
+    if (sawRateLimit) {
+        const error = new Error('Ticker request rate-limited.');
+        error.status = 429;
+        throw error;
+    }
+
+    return emptyQuote(index);
+};
+
+const fetchQuotesWithCache = async () => {
     const now = Date.now();
 
-    if (marketPayloadCache.payload && now - marketPayloadCache.timestamp < CACHE_TTL_MS) {
-        return marketPayloadCache.payload;
+    if (marketQuoteCache.payload && now - marketQuoteCache.timestamp < CACHE_TTL_MS) {
+        return marketQuoteCache.payload;
     }
 
-    if (marketPayloadCache.inflight) {
-        return marketPayloadCache.inflight;
+    if (marketQuoteCache.inflight) {
+        return marketQuoteCache.inflight;
     }
 
-    if (marketPayloadCache.backoffUntil > now) {
-        if (marketPayloadCache.payload) return marketPayloadCache.payload;
-
+    if (marketQuoteCache.backoffUntil > now) {
+        if (marketQuoteCache.payload) return marketQuoteCache.payload;
         const backoffError = new Error('Ticker request backoff active.');
         backoffError.status = 429;
         throw backoffError;
     }
 
-    marketPayloadCache.inflight = (async () => {
-        let payload = null;
-        let sawRateLimit = false;
+    marketQuoteCache.inflight = (async () => {
+        const mapped = await Promise.all(
+            MARKET_INDEXES.map(async (index) => {
+                try {
+                    return await fetchQuoteForIndex(index);
+                } catch (error) {
+                    if (error?.status === 429) {
+                        marketQuoteCache.backoffUntil = Date.now() + RATE_LIMIT_BACKOFF_MS;
+                    }
+                    return emptyQuote(index);
+                }
+            })
+        );
 
-        for (const endpoint of endpoints) {
-            try {
-                payload = await fetchJsonWithTimeout(endpoint);
-                if (hasValidPayload(payload)) break;
-            } catch (error) {
-                if (error?.status === 429) sawRateLimit = true;
-                payload = null;
-            }
-        }
-
-        if (!hasValidPayload(payload)) {
-            if (sawRateLimit) {
-                marketPayloadCache.backoffUntil = Date.now() + RATE_LIMIT_BACKOFF_MS;
-            }
-            throw new Error('No market payload available.');
-        }
-
-        marketPayloadCache.payload = payload;
-        marketPayloadCache.timestamp = Date.now();
-        marketPayloadCache.backoffUntil = 0;
-        return payload;
+        marketQuoteCache.payload = mapped;
+        marketQuoteCache.timestamp = Date.now();
+        return mapped;
     })();
 
     try {
-        return await marketPayloadCache.inflight;
+        return await marketQuoteCache.inflight;
     } finally {
-        marketPayloadCache.inflight = null;
+        marketQuoteCache.inflight = null;
     }
 };
 
 const MarketTicker = () => {
-    const [quotes, setQuotes] = useState(() => MARKET_INDEXES.map(emptyQuote));
+    const [quotes, setQuotes] = useState(() => readDaySnapshot() || MARKET_INDEXES.map(emptyQuote));
     const [isLiveFeed, setIsLiveFeed] = useState(false);
     const [hasError, setHasError] = useState(false);
+    const [isDaySnapshot, setIsDaySnapshot] = useState(() => Boolean(readDaySnapshot()));
 
     useEffect(() => {
         let isMounted = true;
 
-        const symbols = MARKET_INDEXES.flatMap((item) => item.symbols);
-        const symbolsQuery = encodeURIComponent(symbols.join(','));
-        const endpoints = buildEndpoints(symbolsQuery);
-
         const fetchQuotes = async () => {
             try {
-                const payload = await fetchPayloadWithCache(endpoints);
+                const mappedQuotes = await fetchQuotesWithCache();
                 if (!isMounted) return;
 
-                const results = Array.isArray(payload.quoteResponse.result) ? payload.quoteResponse.result : [];
-                const quoteMap = new Map(results.map((item) => [item.symbol, item]));
+                const liveQuotes = mappedQuotes.filter((item) => typeof item.price === 'number');
+                const hasLiveData = liveQuotes.length >= MIN_QUOTES_FOR_FEED;
+                if (hasLiveData) {
+                    setQuotes(liveQuotes);
+                    writeDaySnapshot(liveQuotes);
+                    setIsLiveFeed(true);
+                    setHasError(false);
+                    setIsDaySnapshot(false);
+                    return;
+                }
 
-                const mappedQuotes = MARKET_INDEXES.map((index) => {
-                    const quote = index.symbols.map((symbol) => quoteMap.get(symbol)).find(Boolean);
-                    return {
-                        ...index,
-                        price: toFiniteNumber(quote?.regularMarketPrice),
-                        change: toFiniteNumber(quote?.regularMarketChange),
-                        changePercent: toFiniteNumber(quote?.regularMarketChangePercent),
-                    };
-                });
+                const snapshot = readDaySnapshot();
+                if (snapshot?.length) {
+                    setQuotes(snapshot);
+                    setIsLiveFeed(false);
+                    setHasError(false);
+                    setIsDaySnapshot(true);
+                    return;
+                }
 
-                const liveCount = mappedQuotes.filter((item) => typeof item.price === 'number').length;
                 setQuotes(mappedQuotes);
-                setIsLiveFeed(liveCount >= 4);
-                setHasError(liveCount === 0);
-            } catch {
-                if (!isMounted) return;
                 setIsLiveFeed(false);
                 setHasError(true);
+                setIsDaySnapshot(false);
+            } catch {
+                if (!isMounted) return;
+                const snapshot = readDaySnapshot();
+                if (snapshot?.length) {
+                    setQuotes(snapshot);
+                    setIsLiveFeed(false);
+                    setHasError(false);
+                    setIsDaySnapshot(true);
+                    return;
+                }
+
+                setIsLiveFeed(false);
+                setHasError(true);
+                setIsDaySnapshot(false);
             }
         };
 
@@ -197,7 +291,7 @@ const MarketTicker = () => {
             <div className="ticker-shell">
                 <div className={`ticker-status ${isLiveFeed ? 'live' : 'offline'}`}>
                     <span className="ticker-dot" />
-                    {isLiveFeed ? 'Live NSE/BSE' : 'Feed reconnecting'}
+                    {isLiveFeed ? 'Live NSE/BSE' : isDaySnapshot ? 'Day snapshot' : 'Feed reconnecting'}
                 </div>
 
                 <div className="ticker-marquee" role="status" aria-live="polite">

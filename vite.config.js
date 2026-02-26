@@ -28,6 +28,17 @@ export default defineConfig({
         },
         rewrite: (path) => path.replace(/^\/api\/market-alt/, '/v7/finance/quote'),
       },
+      '/api/market-chart': {
+        target: 'https://query1.finance.yahoo.com',
+        changeOrigin: true,
+        secure: true,
+        headers: {
+          'User-Agent': 'Mozilla/5.0',
+          Accept: 'application/json,text/plain,*/*',
+          Referer: 'https://finance.yahoo.com/',
+        },
+        rewrite: (path) => path.replace(/^\/api\/market-chart/, '/v8/finance/chart'),
+      },
     },
   },
 })

@@ -1,13 +1,15 @@
 import React from 'react';
 import Hero from '../components/Hero';
-import Services from '../components/Services';
+import HomeWhatWeDo from '../components/HomeWhatWeDo';
+import WhyFactoSection from '../components/WhyFactoSection';
 import TrustSection from '../components/TrustSection';
 
 const HomePage = () => {
     return (
         <>
             <Hero />
-            <Services />
+            <HomeWhatWeDo />
+            <WhyFactoSection />
             <TrustSection />
         </>
     );

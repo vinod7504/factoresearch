@@ -127,7 +127,12 @@ const Navbar = () => {
                             {contactLink.label}
                         </RouteLink>
                     )}
-                    <RouteLink to={siteData.hero.primaryAction.path} className="nav-cta">
+                    <RouteLink
+                        to={siteData.hero.primaryAction.path}
+                        className="nav-cta"
+                        target="_blank"
+                        rel="noreferrer noopener"
+                    >
                         Onboarding <ArrowUpRight size={16} />
                     </RouteLink>
                 </div>
@@ -212,7 +217,13 @@ const Navbar = () => {
                             {contactLink.label}
                         </RouteLink>
                     )}
-                    <RouteLink to={siteData.hero.primaryAction.path} className="nav-cta" onClick={handleMobileClose}>
+                    <RouteLink
+                        to={siteData.hero.primaryAction.path}
+                        className="nav-cta"
+                        onClick={handleMobileClose}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                    >
                         Onboarding
                     </RouteLink>
                 </div>

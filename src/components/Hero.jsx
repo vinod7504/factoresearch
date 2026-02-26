@@ -6,51 +6,90 @@ import { siteData } from '../data/siteData';
 
 const Hero = () => {
     const [primaryMetric, secondaryMetric] = siteData.hero.stats;
+    const textReveal = {
+        hidden: { opacity: 0 },
+        show: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.14,
+                delayChildren: 0.1,
+            },
+        },
+    };
+
+    const textItem = {
+        hidden: { opacity: 0, y: 24 },
+        show: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.65,
+                ease: [0.22, 1, 0.36, 1],
+            },
+        },
+    };
 
     return (
         <section id="home" className="hero-section">
             <div className="container hero-content">
                 <Motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
+                    variants={textReveal}
+                    initial="hidden"
+                    animate="show"
                     className="hero-text"
                 >
-                    <div className="badge">
+                    <Motion.div variants={textItem} className="badge">
                         <TrendingUp size={14} /> <span>{siteData.hero.badge}</span>
-                    </div>
-                    <h1 className="hero-title">{siteData.hero.title}</h1>
-                    <p className="hero-subtitle">{siteData.hero.description}</p>
-                    <div className="hero-btns">
-                        <RouteLink to={siteData.hero.primaryAction.path} className="btn-primary">
+                    </Motion.div>
+                    <Motion.h1 variants={textItem} className="hero-title">
+                        {siteData.hero.title}
+                    </Motion.h1>
+                    <Motion.p variants={textItem} className="hero-subtitle">
+                        {siteData.hero.description}
+                    </Motion.p>
+                    <Motion.div variants={textItem} className="hero-btns">
+                        <RouteLink
+                            to={siteData.hero.primaryAction.path}
+                            className="btn-primary"
+                            target="_blank"
+                            rel="noreferrer noopener"
+                        >
                             {siteData.hero.primaryAction.label}
                         </RouteLink>
                         <RouteLink to={siteData.hero.secondaryAction.path} className="btn-outline">
                             {siteData.hero.secondaryAction.label}
                         </RouteLink>
-                    </div>
+                    </Motion.div>
                 </Motion.div>
 
                 <Motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1, delay: 0.2 }}
+                    transition={{ duration: 0.95, delay: 0.35 }}
                     className="hero-image"
                 >
-                    <div className="stat-card glass-card">
+                    <Motion.div
+                        className="stat-card glass-card"
+                        animate={{ y: [0, -10, 0] }}
+                        transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut' }}
+                    >
                         <Star className="stat-icon" />
                         <div className="stat-info">
                             <span className="stat-value">{primaryMetric.value}</span>
                             <span className="stat-label">{primaryMetric.label}</span>
                         </div>
-                    </div>
-                    <div className="security-card glass-card">
+                    </Motion.div>
+                    <Motion.div
+                        className="security-card glass-card"
+                        animate={{ y: [0, 10, 0] }}
+                        transition={{ duration: 5.6, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
+                    >
                         <Users className="stat-icon" />
                         <div className="stat-info">
                             <span className="stat-value">{secondaryMetric.value}</span>
                             <span className="stat-label">{secondaryMetric.label}</span>
                         </div>
-                    </div>
+                    </Motion.div>
                 </Motion.div>
             </div>
 

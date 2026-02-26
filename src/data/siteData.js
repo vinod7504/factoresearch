@@ -23,7 +23,7 @@ export const siteData = {
     },
     hero: {
         badge: 'A Decade of Market Mastery',
-        title: 'Institutional Grade Market Intelligence for Indian Equities',
+        title: 'Research Built on Data\nReports Built on Facts.',
         description:
             "Facto Research is led by a veteran Research Analyst with over 10 years of deep-market experience. We help investors navigate Indian financial markets with clarity, confidence, and consistency.",
         primaryAction: { label: 'Onboarding', path: ONBOARDING_URL },
@@ -74,8 +74,9 @@ export const siteData = {
                 points: ['Business model', 'Financial performance', 'Valuation metrics', 'Industry outlook'],
             },
             {
-                title: 'Technical Analysis & Market Trends',
+                title: 'Technical Analysis, Market Trends & Live Index Tracking',
                 points: [
+                    'Live tracking of SENSEX & NIFTY',
                     'Short term trends',
                     'Chart patterns',
                     'Indicators & momentum studies',
@@ -212,12 +213,12 @@ export const siteData = {
             'To be the most trusted name in independent equity research in India, where every recommendation is backed by a decade of expertise and a commitment to the absolute facts.',
     },
     team: {
-        heading: 'We Believe in Team Work',
+        heading: 'We Belive In Team Work',
         members: [
             {
-                role: 'Chief Research Analyst',
+                role: 'Cheif Research Ananlyst',
                 description:
-                    'A SEBI-registered Research Analyst with a decade of expertise in equity research. Fundamental and technical analysis are combined to deliver comprehensive market insights.',
+                    'A SEBI-registered Research Analyst with a decade of expertise in equity research. Fundamental and technical analysis to deliver comprehensive market insights.',
             },
             {
                 role: 'Pro Research Team',
@@ -225,9 +226,9 @@ export const siteData = {
                     'Our team of specialized market analysts provides comprehensive, data-driven research across every market segment.',
             },
             {
-                role: 'Client Support',
+                role: 'Client support',
                 description:
-                    'Our dedicated support team ensures seamless service and rapid resolution of client inquiries and requirements.',
+                    'Our dedicated support team ensures seamless service and rapid resolution of all client inquiries and requirements.',
             },
         ],
     },

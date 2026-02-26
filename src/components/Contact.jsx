@@ -1,9 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion as Motion } from 'framer-motion';
 import { Mail, Phone, MapPin, MessageSquare, ArrowRight } from 'lucide-react';
 import { siteData } from '../data/siteData';
 
 const Contact = () => {
+    const [formData, setFormData] = useState({
+        fullName: '',
+        email: '',
+        phone: '',
+        service: siteData.services.categories[0]?.title || '',
+        message: '',
+    });
+    const [formStatus, setFormStatus] = useState('');
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const trimmedName = formData.fullName.trim();
+        const trimmedEmail = formData.email.trim();
+        const trimmedPhone = formData.phone.trim();
+        const trimmedMessage = formData.message.trim();
+
+        if (!trimmedName || !trimmedEmail || !trimmedPhone || !trimmedMessage) {
+            setFormStatus('Please fill all required fields before submitting.');
+            return;
+        }
+
+        const subject = `New Enquiry - ${formData.service}`;
+        const body = [
+            `Full Name: ${trimmedName}`,
+            `Email: ${trimmedEmail}`,
+            `Phone Number: ${trimmedPhone}`,
+            `Service Interested In: ${formData.service}`,
+            '',
+            'Message:',
+            trimmedMessage,
+        ].join('\n');
+
+        const recipient = siteData.contact.email || 'support@factoresearch.com';
+        const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        window.location.href = mailtoUrl;
+        setFormStatus('Your email draft is ready. Please click send in your mail app.');
+    };
+
     return (
         <section id="contact" className="contact-section-v3 section-padding">
             <div className="container">
@@ -87,41 +135,72 @@ const Contact = () => {
                             <h3>Send Your Requirement</h3>
                             <p>Our onboarding team responds within one business day.</p>
                         </div>
-                        <form className="luxury-form">
+                        <form className="luxury-form" onSubmit={handleSubmit}>
                             <div className="form-row">
                                 <div className="form-group-v3">
                                     <label>Full Name</label>
-                                    <input type="text" placeholder="Your name" />
+                                    <input
+                                        type="text"
+                                        name="fullName"
+                                        value={formData.fullName}
+                                        onChange={handleChange}
+                                        placeholder="Your name"
+                                        required
+                                    />
                                 </div>
                                 <div className="form-group-v3">
                                     <label>Email Address</label>
-                                    <input type="email" placeholder="Your email" />
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        placeholder="Your email"
+                                        required
+                                    />
                                 </div>
                             </div>
                             <div className="form-group-v3">
                                 <label>Phone Number</label>
-                                <input type="text" placeholder="+91 99599 37373" />
+                                <input
+                                    type="text"
+                                    name="phone"
+                                    value={formData.phone}
+                                    onChange={handleChange}
+                                    placeholder="+91 99599 37373"
+                                    required
+                                />
                             </div>
                             <div className="form-group-v3">
                                 <label>Service Interested In</label>
-                                <select>
+                                <select name="service" value={formData.service} onChange={handleChange}>
                                     {siteData.services.categories.map((category) => (
-                                        <option key={category.title}>{category.title}</option>
+                                        <option key={category.title} value={category.title}>
+                                            {category.title}
+                                        </option>
                                     ))}
                                 </select>
                             </div>
                             <div className="form-group-v3">
                                 <label>Message</label>
-                                <textarea rows="4" placeholder="How can we help you?" />
+                                <textarea
+                                    rows="4"
+                                    name="message"
+                                    value={formData.message}
+                                    onChange={handleChange}
+                                    placeholder="How can we help you?"
+                                    required
+                                />
                             </div>
                             <Motion.button
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                                 className="btn-primary luxury-submit"
-                                type="button"
+                                type="submit"
                             >
                                 Submit Enquiry <ArrowRight size={18} />
                             </Motion.button>
+                            {formStatus && <p className="contact-form-status">{formStatus}</p>}
                         </form>
                         <div className="contact-trust-row">
                             <span className="contact-trust-pill">SEBI Registered RA</span>

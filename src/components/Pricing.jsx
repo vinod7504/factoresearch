@@ -49,7 +49,14 @@ const Pricing = ({ planSlug = 'stock-cash' }) => {
                 </div>
 
                 <div className="pricing-action-row">
-                    <RouteLink to={siteData.hero.primaryAction.path} className="btn-primary">Start Onboarding</RouteLink>
+                    <RouteLink
+                        to={siteData.hero.primaryAction.path}
+                        className="btn-primary"
+                        target="_blank"
+                        rel="noreferrer noopener"
+                    >
+                        Start Onboarding
+                    </RouteLink>
                     <a
                         className="btn-outline"
                         href={siteData.contact.whatsappUrl}
