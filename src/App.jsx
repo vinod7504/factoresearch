@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from './components/Navbar';
+import MarketTicker from './components/MarketTicker';
 import Footer from './components/Footer';
 import SEBIModal from './components/SEBIModal';
 import FloatingChatWidget from './components/FloatingChatWidget';
@@ -16,6 +17,7 @@ const AppShell = () => {
     return (
         <div className="app-wrapper">
             <Navbar />
+            <MarketTicker />
             <main className="main-content">
                 <PageComponent />
             </main>

@@ -7,7 +7,7 @@ const PricingPage = ({ planSlug = 'stock-cash' }) => {
         <div className="inner-page">
             <PageHeader
                 eyebrow="Get Started"
-                title="Join"
+                title="Onboarding"
                 highlight="Facto Research"
                 subtitle="Please contact us directly to discuss service suitability and onboarding."
             />

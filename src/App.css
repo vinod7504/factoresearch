@@ -8,7 +8,7 @@
 }
 
 .inner-page {
-  padding-top: var(--header-height);
+  padding-top: var(--top-offset);
 }
 
 .page-header {
@@ -56,7 +56,7 @@
 .mobile-pricing-trigger.active,
 .legal-trigger.active,
 .mobile-legal-trigger.active {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .nav-links a.active {
@@ -179,8 +179,8 @@
 }
 
 .legal-table th {
-  background: rgba(79, 70, 229, 0.12);
-  color: #fff;
+  background: rgba(37, 99, 235, 0.12);
+  color: var(--text-primary);
   font-size: 0.88rem;
 }
 
@@ -371,9 +371,9 @@
 
 .plan-switch-btn:hover,
 .plan-switch-btn.active {
-  color: #fff;
-  border-color: rgba(79, 70, 229, 0.75);
-  background: rgba(79, 70, 229, 0.2);
+  color: var(--text-primary);
+  border-color: rgba(37, 99, 235, 0.55);
+  background: rgba(37, 99, 235, 0.12);
 }
 
 .pricing-main-title {
@@ -419,7 +419,7 @@
 .plan-price-badge {
   margin-top: auto;
   width: fit-content;
-  background: #2f39bf;
+  background: #1d4ed8;
   color: #fff;
   padding: 10px 18px;
   border-radius: 8px;
@@ -473,8 +473,8 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid rgba(129, 140, 248, 0.35);
-  background: rgba(79, 70, 229, 0.15);
+  border: 1px solid rgba(37, 99, 235, 0.28);
+  background: rgba(37, 99, 235, 0.12);
   padding: 6px 14px;
   border-radius: 999px;
   font-size: 0.82rem;
@@ -484,8 +484,12 @@
 
 .contact-main-wrapper {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.15fr);
   overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid rgba(37, 99, 235, 0.22);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 30px 60px rgba(29, 78, 216, 0.13);
 }
 
 @media (max-width: 968px) {
@@ -496,25 +500,40 @@
 
 .contact-info-panel {
   position: relative;
-  padding: 36px;
-  border-right: 1px solid var(--glass-border);
-  background: linear-gradient(180deg, rgba(79, 70, 229, 0.15), rgba(79, 70, 229, 0.05));
+  padding: 34px;
+  border-right: 1px solid rgba(255, 255, 255, 0.32);
+  background: linear-gradient(155deg, #1d4ed8 0%, #2563eb 48%, #0ea5e9 100%);
 }
 
 @media (max-width: 968px) {
   .contact-info-panel {
     border-right: 0;
-    border-bottom: 1px solid var(--glass-border);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
   }
+}
+
+.contact-hero-visual {
+  margin-bottom: 22px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.13);
+  box-shadow: 0 16px 32px rgba(2, 44, 126, 0.2);
+}
+
+.contact-hero-visual img {
+  width: 100%;
+  display: block;
 }
 
 .panel-title {
   font-size: 1.4rem;
   margin-bottom: 10px;
+  color: #fff;
 }
 
 .panel-desc {
-  color: var(--text-secondary);
+  color: rgba(225, 236, 255, 0.95);
   margin-bottom: 28px;
 }
 
@@ -536,37 +555,39 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent-secondary);
-  border: 1px solid rgba(129, 140, 248, 0.35);
-  background: rgba(79, 70, 229, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  background: rgba(255, 255, 255, 0.16);
 }
 
 .info-text-v3 span {
   display: block;
-  color: var(--text-muted);
+  color: rgba(219, 234, 254, 0.9);
   font-size: 0.84rem;
   margin-bottom: 2px;
 }
 
 .info-text-v3 p {
   color: #fff;
-  font-size: 0.95rem;
+  font-size: 0.96rem;
 }
 
 .whatsapp-contact-btn {
   display: inline-flex;
+  align-items: center;
   margin-top: 8px;
   font-size: 0.82rem;
-  color: #22c55e;
-  border: 1px solid rgba(34, 197, 94, 0.35);
+  color: #d1fae5;
+  border: 1px solid rgba(167, 243, 208, 0.45);
+  background: rgba(16, 185, 129, 0.2);
   border-radius: 999px;
-  padding: 4px 10px;
+  padding: 5px 11px;
 }
 
 .whatsapp-contact-btn:hover {
   color: #fff;
-  background: rgba(34, 197, 94, 0.2);
-  border-color: rgba(34, 197, 94, 0.55);
+  background: rgba(16, 185, 129, 0.3);
+  border-color: rgba(167, 243, 208, 0.72);
 }
 
 .social-minimal-v3 {
@@ -577,26 +598,43 @@
 }
 
 .social-pill {
-  border: 1px solid var(--glass-border);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.12);
   padding: 6px 12px;
   border-radius: 999px;
-  color: var(--text-secondary);
+  color: #e2ebff;
   font-size: 0.82rem;
 }
 
 .info-bg-glow {
   position: absolute;
-  right: -80px;
-  bottom: -100px;
-  width: 220px;
-  height: 220px;
+  right: -70px;
+  bottom: -90px;
+  width: 200px;
+  height: 200px;
   border-radius: 999px;
-  background: radial-gradient(circle, rgba(129, 140, 248, 0.3), rgba(0, 0, 0, 0));
+  background: radial-gradient(circle, rgba(191, 219, 254, 0.5), rgba(191, 219, 254, 0));
   pointer-events: none;
 }
 
 .contact-form-panel {
-  padding: 36px;
+  padding: 38px;
+  background: linear-gradient(180deg, #ffffff 0%, #f3f8ff 100%);
+}
+
+.contact-form-head {
+  margin-bottom: 18px;
+}
+
+.contact-form-head h3 {
+  margin-bottom: 6px;
+  font-size: 1.34rem;
+}
+
+.contact-form-head p {
+  color: var(--text-secondary);
+  font-size: 0.93rem;
+  margin: 0;
 }
 
 .luxury-form {
@@ -631,11 +669,11 @@
 .form-group-v3 select,
 .form-group-v3 textarea {
   width: 100%;
-  border: 1px solid var(--glass-border);
-  border-radius: 10px;
-  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  border-radius: 11px;
+  background: #fff;
   padding: 12px 14px;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.95rem;
   transition: var(--transition);
 }
@@ -645,7 +683,7 @@
 .form-group-v3 textarea:focus {
   outline: none;
   border-color: var(--accent-secondary);
-  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
 }
 
 .form-group-v3 textarea {
@@ -658,6 +696,34 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
+}
+
+.contact-trust-row {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.contact-trust-pill {
+  border: 1px solid rgba(37, 99, 235, 0.24);
+  background: rgba(219, 234, 254, 0.6);
+  border-radius: 999px;
+  padding: 6px 12px;
+  color: #1e3a8a;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .contact-info-panel,
+  .contact-form-panel {
+    padding: 24px;
+  }
+
+  .contact-trust-row {
+    gap: 8px;
+  }
 }
 
 /* Floating Chat */

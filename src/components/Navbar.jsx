@@ -127,8 +127,8 @@ const Navbar = () => {
                             {contactLink.label}
                         </RouteLink>
                     )}
-                    <RouteLink to="/onboarding" className="nav-cta">
-                        Join Us <ArrowUpRight size={16} />
+                    <RouteLink to={siteData.hero.primaryAction.path} className="nav-cta">
+                        Onboarding <ArrowUpRight size={16} />
                     </RouteLink>
                 </div>
 
@@ -212,8 +212,8 @@ const Navbar = () => {
                             {contactLink.label}
                         </RouteLink>
                     )}
-                    <RouteLink to="/onboarding" className="nav-cta" onClick={handleMobileClose}>
-                        Join Us
+                    <RouteLink to={siteData.hero.primaryAction.path} className="nav-cta" onClick={handleMobileClose}>
+                        Onboarding
                     </RouteLink>
                 </div>
             )}

@@ -24,6 +24,12 @@ const Contact = () => {
 
                 <div className="contact-main-wrapper glass-card">
                     <div className="contact-info-panel">
+                        <div className="contact-hero-visual">
+                            <img
+                                src="/images/contact/support-analyst.svg"
+                                alt="Facto Research analyst support illustration"
+                            />
+                        </div>
                         <h3 className="panel-title">Contact Information</h3>
                         <p className="panel-desc">Reach us by phone, email, or office visit.</p>
 
@@ -77,6 +83,10 @@ const Contact = () => {
                     </div>
 
                     <div className="contact-form-panel">
+                        <div className="contact-form-head">
+                            <h3>Send Your Requirement</h3>
+                            <p>Our onboarding team responds within one business day.</p>
+                        </div>
                         <form className="luxury-form">
                             <div className="form-row">
                                 <div className="form-group-v3">
@@ -113,6 +123,11 @@ const Contact = () => {
                                 Submit Enquiry <ArrowRight size={18} />
                             </Motion.button>
                         </form>
+                        <div className="contact-trust-row">
+                            <span className="contact-trust-pill">SEBI Registered RA</span>
+                            <span className="contact-trust-pill">Dedicated Human Support</span>
+                            <span className="contact-trust-pill">Privacy First Communication</span>
+                        </div>
                     </div>
                 </div>
             </div>

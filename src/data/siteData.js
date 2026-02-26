@@ -12,6 +12,9 @@ const envContact = {
     whatsappUrl: import.meta.env.VITE_WHATSAPP_URL || defaultContact.whatsappUrl,
 };
 
+const ONBOARDING_URL =
+    import.meta.env.VITE_ONBOARDING_URL || 'https://onboarding.cognifyai.in/Facto/';
+
 export const siteData = {
     brand: {
         name: 'Facto Research',
@@ -23,7 +26,7 @@ export const siteData = {
         title: 'Institutional Grade Market Intelligence for Indian Equities',
         description:
             "Facto Research is led by a veteran Research Analyst with over 10 years of deep-market experience. We help investors navigate Indian financial markets with clarity, confidence, and consistency.",
-        primaryAction: { label: 'Join Us', path: '/onboarding' },
+        primaryAction: { label: 'Onboarding', path: ONBOARDING_URL },
         secondaryAction: { label: 'About Facto Research', path: '/about' },
         stats: [
             { value: '10+', label: 'Years of Experience' },
