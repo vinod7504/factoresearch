@@ -891,6 +891,26 @@ ul {
   min-height: 100%;
 }
 
+.hero-video-shell {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 560px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(37, 99, 235, 0.26);
+  background: #020617;
+  box-shadow: 0 22px 48px rgba(15, 23, 42, 0.32);
+}
+
+.hero-video-player {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .hero-market-stack > .hero-market-card:only-child {
   grid-column: 1 / -1;
 }
@@ -1354,6 +1374,11 @@ ul {
 }
 
 @media (max-width: 968px) {
+  .hero-video-shell {
+    min-height: 330px;
+    border-radius: 14px;
+  }
+
   .hero-market-stack {
     max-width: 620px;
     gap: 10px;
@@ -1392,6 +1417,11 @@ ul {
 }
 
 @media (max-width: 576px) {
+  .hero-video-shell {
+    min-height: 260px;
+    border-radius: 12px;
+  }
+
   .hero-market-stack {
     max-width: 100%;
     gap: 8px;

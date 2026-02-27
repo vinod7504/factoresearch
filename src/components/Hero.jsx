@@ -3,8 +3,7 @@ import { motion as Motion } from 'framer-motion';
 import { TrendingUp } from 'lucide-react';
 import { RouteLink } from '../router';
 import { siteData } from '../data/siteData';
-import HeroMarketErrorBoundary from './HeroMarketErrorBoundary';
-import HeroMarketPanel from './HeroMarketPanel';
+import homeShowcaseVideo from '../assets/WhatsApp Video 2026-02-27 at 5.24.20 PM.mp4';
 
 const Hero = () => {
     const textReveal = {
@@ -69,9 +68,20 @@ const Hero = () => {
                     transition={{ duration: 0.95, delay: 0.35 }}
                     className="hero-image"
                 >
-                    <HeroMarketErrorBoundary>
+                    {/* <HeroMarketErrorBoundary>
                         <HeroMarketPanel />
-                    </HeroMarketErrorBoundary>
+                    </HeroMarketErrorBoundary> */}
+                    <div className="hero-video-shell">
+                        <video
+                            className="hero-video-player"
+                            src={homeShowcaseVideo}
+                            controls
+                            preload="metadata"
+                            playsInline
+                        >
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
                 </Motion.div>
             </div>
 
