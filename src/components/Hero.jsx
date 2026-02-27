@@ -1,11 +1,12 @@
 import React from 'react';
 import { motion as Motion } from 'framer-motion';
-import { TrendingUp, Star, Users } from 'lucide-react';
+import { TrendingUp } from 'lucide-react';
 import { RouteLink } from '../router';
 import { siteData } from '../data/siteData';
+import HeroMarketErrorBoundary from './HeroMarketErrorBoundary';
+import HeroMarketPanel from './HeroMarketPanel';
 
 const Hero = () => {
-    const [primaryMetric, secondaryMetric] = siteData.hero.stats;
     const textReveal = {
         hidden: { opacity: 0 },
         show: {
@@ -68,28 +69,9 @@ const Hero = () => {
                     transition={{ duration: 0.95, delay: 0.35 }}
                     className="hero-image"
                 >
-                    <Motion.div
-                        className="stat-card glass-card"
-                        animate={{ y: [0, -10, 0] }}
-                        transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut' }}
-                    >
-                        <Star className="stat-icon" />
-                        <div className="stat-info">
-                            <span className="stat-value">{primaryMetric.value}</span>
-                            <span className="stat-label">{primaryMetric.label}</span>
-                        </div>
-                    </Motion.div>
-                    <Motion.div
-                        className="security-card glass-card"
-                        animate={{ y: [0, 10, 0] }}
-                        transition={{ duration: 5.6, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
-                    >
-                        <Users className="stat-icon" />
-                        <div className="stat-info">
-                            <span className="stat-value">{secondaryMetric.value}</span>
-                            <span className="stat-label">{secondaryMetric.label}</span>
-                        </div>
-                    </Motion.div>
+                    <HeroMarketErrorBoundary>
+                        <HeroMarketPanel />
+                    </HeroMarketErrorBoundary>
                 </Motion.div>
             </div>
 
