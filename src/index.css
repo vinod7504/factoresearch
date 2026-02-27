@@ -1556,6 +1556,7 @@ ul {
   top: var(--top-offset);
   left: 0;
   width: 100%;
+  max-height: calc(100dvh - var(--top-offset));
   background: var(--bg-primary);
   padding: 24px;
   display: flex;
@@ -1563,6 +1564,10 @@ ul {
   gap: 16px;
   border-bottom: 1px solid var(--glass-border);
   z-index: 999;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
 }
 
 .mobile-legal-trigger {
