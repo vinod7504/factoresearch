@@ -1,10 +1,89 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, ArrowUpRight, ChevronDown } from 'lucide-react';
+import {
+    Menu,
+    X,
+    ArrowUpRight,
+    ChevronDown,
+    BarChart3,
+    TrendingUp,
+    Activity,
+    Layers3,
+    Target,
+    Sparkles,
+    ShieldAlert,
+    ShieldCheck,
+    Award,
+    MessageSquare,
+    Eye,
+    CheckCircle2,
+} from 'lucide-react';
 import { RouteLink } from '../router';
 import { useRouter } from '../useRouter';
 import { navLinks, pricingLinks } from '../routes';
 import { siteData } from '../data/siteData';
 import { legalLinks } from '../data/legalData';
+
+const pricingMenuMeta = {
+    '/pricing/stock-cash': {
+        Icon: BarChart3,
+        subtitle: 'Cash market recommendations with clear entry and exit levels.',
+    },
+    '/pricing/stock-future': {
+        Icon: TrendingUp,
+        subtitle: 'Trend-driven futures setups with risk-managed execution.',
+    },
+    '/pricing/stock-option': {
+        Icon: Activity,
+        subtitle: 'Stock option strategies with strike and volatility guidance.',
+    },
+    '/pricing/index-future': {
+        Icon: Layers3,
+        subtitle: 'Nifty and Bank Nifty futures calls for active traders.',
+    },
+    '/pricing/index-option': {
+        Icon: Target,
+        subtitle: 'Index option plans for expiry-based market opportunities.',
+    },
+    '/pricing/investment-services': {
+        Icon: Sparkles,
+        subtitle: 'Research-led portfolio and investment planning support.',
+    },
+};
+
+const legalMenuMeta = {
+    '/legal/disclaimer': {
+        Icon: ShieldAlert,
+        subtitle: 'Important market risk and service limitation disclosures.',
+    },
+    '/legal/privacy-policy': {
+        Icon: ShieldCheck,
+        subtitle: 'How your personal data is handled and protected by us.',
+    },
+    '/legal/terms-and-conditions': {
+        Icon: Award,
+        subtitle: 'Terms governing access and usage of our services.',
+    },
+    '/legal/return-and-refund-policy': {
+        Icon: Target,
+        subtitle: 'Policy details for cancellations and refund eligibility.',
+    },
+    '/legal/grievance-redressal': {
+        Icon: MessageSquare,
+        subtitle: 'Steps to raise complaints and resolution timelines.',
+    },
+    '/legal/investor-charter': {
+        Icon: Eye,
+        subtitle: 'Investor rights, responsibilities, and service standards.',
+    },
+    '/legal/complaint-board': {
+        Icon: Activity,
+        subtitle: 'Complaint statistics and disclosures in a transparent format.',
+    },
+    '/legal/compliance-audit-status': {
+        Icon: CheckCircle2,
+        subtitle: 'Current compliance and audit status as per regulations.',
+    },
+};
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -16,6 +95,8 @@ const Navbar = () => {
     const { path } = useRouter();
     const pricingMenuRef = useRef(null);
     const legalMenuRef = useRef(null);
+    const pricingCloseTimerRef = useRef(null);
+    const legalCloseTimerRef = useRef(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -39,11 +120,62 @@ const Navbar = () => {
         return () => document.removeEventListener('mousedown', handleOutsideClick);
     }, []);
 
+    useEffect(() => {
+        return () => {
+            if (pricingCloseTimerRef.current) {
+                clearTimeout(pricingCloseTimerRef.current);
+            }
+            if (legalCloseTimerRef.current) {
+                clearTimeout(legalCloseTimerRef.current);
+            }
+        };
+    }, []);
+
     const linkClassName = (targetPath) => (path === targetPath ? 'active' : '');
     const isPricingActive = path === '/pricing' || path.startsWith('/pricing/');
     const isLegalActive = legalLinks.some((item) => item.path === path);
     const primaryNavLinks = navLinks.filter((item) => item.path !== '/pricing' && item.path !== '/contact');
     const contactLink = navLinks.find((item) => item.path === '/contact');
+
+    const handlePricingHoverOpen = () => {
+        if (pricingCloseTimerRef.current) clearTimeout(pricingCloseTimerRef.current);
+        setIsLegalMenuOpen(false);
+        setIsPricingMenuOpen(true);
+    };
+
+    const handlePricingHoverClose = () => {
+        pricingCloseTimerRef.current = setTimeout(() => {
+            setIsPricingMenuOpen(false);
+        }, 120);
+    };
+
+    const handleLegalHoverOpen = () => {
+        if (legalCloseTimerRef.current) clearTimeout(legalCloseTimerRef.current);
+        setIsPricingMenuOpen(false);
+        setIsLegalMenuOpen(true);
+    };
+
+    const handleLegalHoverClose = () => {
+        legalCloseTimerRef.current = setTimeout(() => {
+            setIsLegalMenuOpen(false);
+        }, 120);
+    };
+
+    const renderRichDropdownLink = (item, metaMap, FallbackIcon, className, onClick) => {
+        const meta = metaMap[item.path] || {};
+        const Icon = meta.Icon || FallbackIcon;
+        return (
+            <RouteLink key={item.path} to={item.path} className={className} onClick={onClick}>
+                <span className="dropdown-link-icon">
+                    <Icon size={16} />
+                </span>
+                <span className="dropdown-link-copy">
+                    <span className="dropdown-link-title">{item.label}</span>
+                    <span className="dropdown-link-subtitle">{meta.subtitle}</span>
+                </span>
+            </RouteLink>
+        );
+    };
 
     const handleMobileClose = () => {
         setIsMobileMenuOpen(false);
@@ -70,7 +202,12 @@ const Navbar = () => {
                             {item.label}
                         </RouteLink>
                     ))}
-                    <div className="pricing-menu" ref={pricingMenuRef}>
+                    <div
+                        className="pricing-menu"
+                        ref={pricingMenuRef}
+                        onMouseEnter={handlePricingHoverOpen}
+                        onMouseLeave={handlePricingHoverClose}
+                    >
                         <button
                             type="button"
                             className={`pricing-trigger ${isPricingActive ? 'active' : ''}`}
@@ -84,19 +221,23 @@ const Navbar = () => {
                         {isPricingMenuOpen && (
                             <div className="pricing-dropdown glass-card">
                                 {pricingLinks.map((item) => (
-                                    <RouteLink
-                                        key={item.path}
-                                        to={item.path}
-                                        className={`pricing-dropdown-link ${linkClassName(item.path)}`}
-                                        onClick={() => setIsPricingMenuOpen(false)}
-                                    >
-                                        {item.label}
-                                    </RouteLink>
+                                    renderRichDropdownLink(
+                                        item,
+                                        pricingMenuMeta,
+                                        BarChart3,
+                                        `pricing-dropdown-link ${linkClassName(item.path)}`,
+                                        () => setIsPricingMenuOpen(false)
+                                    )
                                 ))}
                             </div>
                         )}
                     </div>
-                    <div className="legal-menu" ref={legalMenuRef}>
+                    <div
+                        className="legal-menu"
+                        ref={legalMenuRef}
+                        onMouseEnter={handleLegalHoverOpen}
+                        onMouseLeave={handleLegalHoverClose}
+                    >
                         <button
                             type="button"
                             className={`legal-trigger ${isLegalActive ? 'active' : ''}`}
@@ -110,14 +251,13 @@ const Navbar = () => {
                         {isLegalMenuOpen && (
                             <div className="legal-dropdown glass-card">
                                 {legalLinks.map((item) => (
-                                    <RouteLink
-                                        key={item.path}
-                                        to={item.path}
-                                        className={`legal-dropdown-link ${linkClassName(item.path)}`}
-                                        onClick={() => setIsLegalMenuOpen(false)}
-                                    >
-                                        {item.label}
-                                    </RouteLink>
+                                    renderRichDropdownLink(
+                                        item,
+                                        legalMenuMeta,
+                                        ShieldCheck,
+                                        `legal-dropdown-link ${linkClassName(item.path)}`,
+                                        () => setIsLegalMenuOpen(false)
+                                    )
                                 ))}
                             </div>
                         )}
@@ -172,16 +312,15 @@ const Navbar = () => {
                     </button>
                     {isMobilePricingMenuOpen && (
                         <div className="mobile-pricing-links">
-                            {pricingLinks.map((item) => (
-                                <RouteLink
-                                    key={item.path}
-                                    to={item.path}
-                                    className={linkClassName(item.path)}
-                                    onClick={handleMobileClose}
-                                >
-                                    {item.label}
-                                </RouteLink>
-                            ))}
+                            {pricingLinks.map((item) =>
+                                renderRichDropdownLink(
+                                    item,
+                                    pricingMenuMeta,
+                                    BarChart3,
+                                    `mobile-pricing-link-card ${linkClassName(item.path)}`,
+                                    handleMobileClose
+                                )
+                            )}
                         </div>
                     )}
                     <button
@@ -196,16 +335,15 @@ const Navbar = () => {
                     </button>
                     {isMobileLegalMenuOpen && (
                         <div className="mobile-legal-links">
-                            {legalLinks.map((item) => (
-                                <RouteLink
-                                    key={item.path}
-                                    to={item.path}
-                                    className={linkClassName(item.path)}
-                                    onClick={handleMobileClose}
-                                >
-                                    {item.label}
-                                </RouteLink>
-                            ))}
+                            {legalLinks.map((item) =>
+                                renderRichDropdownLink(
+                                    item,
+                                    legalMenuMeta,
+                                    ShieldCheck,
+                                    `mobile-legal-link-card ${linkClassName(item.path)}`,
+                                    handleMobileClose
+                                )
+                            )}
                         </div>
                     )}
                     {contactLink && (

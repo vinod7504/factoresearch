@@ -271,24 +271,73 @@ ul {
   position: absolute;
   top: calc(100% + 14px);
   right: 0;
-  min-width: 260px;
+  width: min(680px, calc(100vw - 44px));
   display: grid;
-  gap: 2px;
-  padding: 8px;
-  z-index: 1100;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 12px;
+  z-index: 1200;
+  opacity: 1;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 28px 58px rgba(29, 78, 216, 0.2);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .pricing-dropdown-link {
-  padding: 10px 12px;
-  border-radius: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(37, 99, 235, 0.1);
+  background: rgba(255, 255, 255, 0.92);
   color: var(--text-secondary);
   font-size: 0.85rem;
+  min-height: 74px;
 }
 
 .pricing-dropdown-link:hover,
 .pricing-dropdown-link.active {
   color: var(--text-primary);
-  background: rgba(37, 99, 235, 0.1);
+  background: rgba(37, 99, 235, 0.14);
+  border-color: rgba(37, 99, 235, 0.3);
+}
+
+.dropdown-link-icon {
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #2563eb;
+  background: linear-gradient(145deg, rgba(219, 234, 254, 0.95), rgba(191, 219, 254, 0.7));
+  border: 1px solid rgba(59, 130, 246, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 6px 14px rgba(37, 99, 235, 0.12);
+}
+
+.dropdown-link-copy {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.dropdown-link-title {
+  color: var(--text-primary);
+  font-size: 0.93rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.dropdown-link-subtitle {
+  color: #64748b;
+  font-size: 0.78rem;
+  line-height: 1.35;
 }
 
 .legal-menu {
@@ -323,24 +372,46 @@ ul {
   position: absolute;
   top: calc(100% + 14px);
   right: 0;
-  min-width: 300px;
+  width: min(760px, calc(100vw - 44px));
   display: grid;
-  gap: 2px;
-  padding: 8px;
-  z-index: 1100;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 12px;
+  z-index: 1200;
+  opacity: 1;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 28px 58px rgba(29, 78, 216, 0.2);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .legal-dropdown-link {
-  padding: 10px 12px;
-  border-radius: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(37, 99, 235, 0.1);
+  background: rgba(255, 255, 255, 0.92);
   color: var(--text-secondary);
   font-size: 0.85rem;
+  min-height: 74px;
 }
 
 .legal-dropdown-link:hover,
 .legal-dropdown-link.active {
   color: var(--text-primary);
-  background: rgba(37, 99, 235, 0.1);
+  background: rgba(37, 99, 235, 0.14);
+  border-color: rgba(37, 99, 235, 0.3);
+}
+
+@media (max-width: 1180px) {
+  .pricing-dropdown,
+  .legal-dropdown {
+    grid-template-columns: 1fr;
+    width: min(460px, calc(100vw - 36px));
+  }
 }
 
 .nav-cta {
@@ -1491,20 +1562,10 @@ ul {
 
 .mobile-legal-links {
   display: grid;
-  gap: 10px;
-  border-left: 1px solid var(--glass-border);
-  margin-left: 8px;
-  padding-left: 14px;
-}
-
-.mobile-legal-links a {
-  color: var(--text-secondary);
-  font-size: 0.86rem;
-}
-
-.mobile-legal-links a.active,
-.mobile-legal-links a:hover {
-  color: var(--text-primary);
+  gap: 8px;
+  margin-left: 0;
+  padding-left: 0;
+  border-left: 0;
 }
 
 .mobile-pricing-trigger {
@@ -1534,20 +1595,47 @@ ul {
 
 .mobile-pricing-links {
   display: grid;
+  gap: 8px;
+  margin-left: 0;
+  padding-left: 0;
+  border-left: 0;
+}
+
+.mobile-pricing-link-card,
+.mobile-legal-link-card {
+  display: flex;
+  align-items: flex-start;
   gap: 10px;
-  border-left: 1px solid var(--glass-border);
-  margin-left: 8px;
-  padding-left: 14px;
-}
-
-.mobile-pricing-links a {
-  color: var(--text-secondary);
-  font-size: 0.86rem;
-}
-
-.mobile-pricing-links a.active,
-.mobile-pricing-links a:hover {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  background: rgba(37, 99, 235, 0.05);
   color: var(--text-primary);
+}
+
+.mobile-pricing-link-card .dropdown-link-icon,
+.mobile-legal-link-card .dropdown-link-icon {
+  width: 30px;
+  height: 30px;
+  flex-basis: 30px;
+}
+
+.mobile-pricing-link-card .dropdown-link-title,
+.mobile-legal-link-card .dropdown-link-title {
+  font-size: 0.88rem;
+}
+
+.mobile-pricing-link-card .dropdown-link-subtitle,
+.mobile-legal-link-card .dropdown-link-subtitle {
+  font-size: 0.74rem;
+}
+
+.mobile-pricing-link-card:hover,
+.mobile-pricing-link-card.active,
+.mobile-legal-link-card:hover,
+.mobile-legal-link-card.active {
+  border-color: rgba(37, 99, 235, 0.3);
+  background: rgba(37, 99, 235, 0.1);
 }
 
 /* Services */
