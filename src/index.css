@@ -913,6 +913,25 @@ ul {
   background: #020617;
 }
 
+.hero-video-caption {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  margin: 0;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(15, 23, 42, 0.72);
+  color: #e2e8f0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+}
+
 .hero-market-stack > .hero-market-card:only-child {
   grid-column: 1 / -1;
 }
@@ -1381,6 +1400,13 @@ ul {
     border-radius: 14px;
   }
 
+  .hero-video-caption {
+    top: 10px;
+    left: 10px;
+    font-size: 0.7rem;
+    padding: 5px 9px;
+  }
+
   .hero-market-stack {
     max-width: 620px;
     gap: 10px;
@@ -1422,6 +1448,10 @@ ul {
   .hero-video-shell {
     min-height: 260px;
     border-radius: 12px;
+  }
+
+  .hero-video-caption {
+    font-size: 0.66rem;
   }
 
   .hero-market-stack {
