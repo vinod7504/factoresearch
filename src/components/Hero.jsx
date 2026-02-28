@@ -3,6 +3,7 @@ import { motion as Motion } from 'framer-motion';
 import { TrendingUp } from 'lucide-react';
 import { RouteLink } from '../router';
 import { siteData } from '../data/siteData';
+import homeShowcasePoster from '../assets/image.png';
 import homeShowcaseVideo from '../assets/WhatsApp Video 2026-02-27 at 5.24.20 PM.mp4';
 
 const Hero = () => {
@@ -76,6 +77,7 @@ const Hero = () => {
                             <video
                                 className="hero-video-player"
                                 src={homeShowcaseVideo}
+                                poster={homeShowcasePoster}
                                 controls
                                 preload="metadata"
                                 playsInline

@@ -10,6 +10,8 @@ const durations = [
     { key: 'yearly', label: 'Yearly' },
 ];
 
+const formatPlanPrice = (price) => (price === 'Custom' ? price : `₹${price}`);
+
 const Pricing = ({ planSlug = 'stock-cash' }) => {
     const selectedPlan =
         siteData.pricingPlans.find((plan) => plan.slug === planSlug) || siteData.pricingPlans[0];
@@ -43,7 +45,9 @@ const Pricing = ({ planSlug = 'stock-cash' }) => {
                                     </li>
                                 ))}
                             </ul>
-                            <div className="plan-price-badge">{selectedPlan.prices[duration.key]}</div>
+                            <div className="plan-price-badge">
+                                {formatPlanPrice(selectedPlan.prices[duration.key])}
+                            </div>
                         </article>
                     ))}
                 </div>
