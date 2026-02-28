@@ -891,11 +891,20 @@ ul {
   min-height: 100%;
 }
 
+.hero-video-block {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .hero-video-shell {
   position: relative;
   z-index: 1;
   width: 100%;
-  height: 100%;
+  height: auto;
+  flex: 1 1 auto;
   min-height: 560px;
   border-radius: 20px;
   overflow: hidden;
@@ -914,22 +923,13 @@ ul {
 }
 
 .hero-video-caption {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 2;
-  margin: 0;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  background: rgba(15, 23, 42, 0.72);
-  color: #e2e8f0;
-  font-size: 0.75rem;
+  margin: 10px 0 0;
+  padding: 0;
+  color: #1e293b;
+  font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: 0.01em;
-  line-height: 1.2;
-  backdrop-filter: blur(4px);
-  pointer-events: none;
+  line-height: 1.3;
+  text-align: center;
 }
 
 .hero-market-stack > .hero-market-card:only-child {
@@ -1401,10 +1401,8 @@ ul {
   }
 
   .hero-video-caption {
-    top: 10px;
-    left: 10px;
-    font-size: 0.7rem;
-    padding: 5px 9px;
+    margin-top: 8px;
+    font-size: 0.78rem;
   }
 
   .hero-market-stack {
@@ -1451,7 +1449,7 @@ ul {
   }
 
   .hero-video-caption {
-    font-size: 0.66rem;
+    font-size: 0.72rem;
   }
 
   .hero-market-stack {

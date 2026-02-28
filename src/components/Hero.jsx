@@ -71,16 +71,18 @@ const Hero = () => {
                     {/* <HeroMarketErrorBoundary>
                         <HeroMarketPanel />
                     </HeroMarketErrorBoundary> */}
-                    <div className="hero-video-shell">
-                        <video
-                            className="hero-video-player"
-                            src={homeShowcaseVideo}
-                            controls
-                            preload="metadata"
-                            playsInline
-                        >
-                            Your browser does not support the video tag.
-                        </video>
+                    <div className="hero-video-block">
+                        <div className="hero-video-shell">
+                            <video
+                                className="hero-video-player"
+                                src={homeShowcaseVideo}
+                                controls
+                                preload="metadata"
+                                playsInline
+                            >
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
                         <p className="hero-video-caption">About Factoresearch thumbnail</p>
                     </div>
                 </Motion.div>
