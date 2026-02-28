@@ -3,9 +3,10 @@ export const sebiRiskDisclosure =
 
 export const legalLinks = [
     { label: 'Disclaimer', path: '/legal/disclaimer' },
+    { label: 'MITC', path: '/legal/mitc' },
     { label: 'Privacy Policy', path: '/legal/privacy-policy' },
     { label: 'Terms & Conditions', path: '/legal/terms-and-conditions' },
-    { label: 'Return & Refund Policy', path: '/legal/return-and-refund-policy' },
+    { label: 'Refund Policy', path: '/legal/return-and-refund-policy' },
     { label: 'Grievance Redressal', path: '/legal/grievance-redressal' },
     { label: 'Investor Charter', path: '/legal/investor-charter' },
     { label: 'Complaint Board', path: '/legal/complaint-board' },
@@ -372,207 +373,157 @@ export const legalDocuments = {
             ],
         },
     },
-    returnAndRefundPolicy: {
-        title: 'Return & Refund Policy',
-        subtitle: 'Refund eligibility, timelines, and process for service subscriptions.',
+    mitc: {
+        title: 'Most Important Terms and Conditions (MITC)',
+        subtitle: 'Annexure A',
         sections: [
             {
-                heading: 'Policy Overview',
                 paragraphs: [
-                    'Facto Research (SEBI Registration No: INH000024480) is committed to providing high-quality investment advisory services.',
-                    'This Return and Refund Policy outlines the terms and conditions under which refunds may be granted for our services.',
+                    'Most Important Terms and Conditions (MITC) [Forming part of the Terms and Conditions for providing research services]',
+                    'These terms and conditions, and consent thereon are for the research services provided by the Research Analyst (RA) and RA cannot execute/carry out any trade (purchase/sell transaction) on behalf of, the client. Thus, the clients are advised not to permit RA to execute any trade on their behalf.',
+                    'The fee charged by RA to the client will be subject to the maximum of amount prescribed by SEBI/ Research Analyst Administration and Supervisory Body (RAASB) from time to time (applicable only for Individual and HUF Clients).',
                 ],
-            },
-            {
-                heading: 'Service Categories',
-                subSections: [
-                    {
-                        heading: 'Online Research Services include:',
-                        bullets: [
-                            'Research reports and recommendations.',
-                            'Market analysis and insights.',
-                            'Real-time trading alerts.',
-                            'Educational content and webinars.',
-                            'Model portfolios & guidance.',
-                        ],
-                    },
-                    {
-                        heading: 'Subscription Plans',
-                        bullets: [
-                            'Quarterly subscriptions.',
-                            'Annual subscriptions.',
-                            'Premium advisory packages.',
-                        ],
-                    },
-                ],
-            },
-            {
-                heading: 'Refund Eligibility',
-                subSections: [
-                    {
-                        heading: 'Eligible for Refund',
-                        bullets: [
-                            'Technical issues preventing service access for more than 48 hours.',
-                            'Duplicate payments or billing errors.',
-                            'Service cancellation within 7 days of initial subscription (first-time users only).',
-                            'Failure to provide contracted services due to our fault.',
-                        ],
-                    },
-                    {
-                        heading: 'Not Eligible for Refund',
-                        bullets: [
-                            'Investment losses due to market conditions.',
-                            'Dissatisfaction with investment performance.',
-                            'Changes in personal financial circumstances.',
-                            'Partial consumption of services (after 7-day period).',
-                            'Renewal subscriptions (automatic or manual).',
-                            'Services used beyond the trial/evaluation period.',
-                        ],
-                    },
-                ],
-            },
-            {
-                heading: 'Refund Process',
-                subSections: [
-                    {
-                        heading: 'How to Request a Refund',
-                        numbered: [
-                            'Contact our customer support team within the eligible timeframe.',
-                            'Provide your subscription details and reason for refund request.',
-                            'Submit any supporting documentation if required.',
-                            'Wait for review and approval of your request.',
-                            'Receive refund confirmation and processing timeline.',
-                        ],
-                    },
-                    {
-                        heading: 'Required Information',
-                        bullets: [
-                            'Full name and registered email address.',
-                            'Subscription or transaction ID.',
-                            'Date of purchase/subscription.',
-                            'Detailed reason for refund request.',
-                            'Supporting evidence (if applicable).',
-                        ],
-                    },
-                ],
-            },
-            {
-                heading: 'Refund Timeframes',
-                subSections: [
-                    {
-                        heading: 'Request Processing',
-                        bullets: [
-                            'Review Period: 3-5 business days.',
-                            'Approval Notification: Within 24 hours of review.',
-                            'Processing Time: 5-7 business days.',
-                        ],
-                    },
-                    {
-                        heading: 'Payment Method Timeline',
-                        bullets: [
-                            'Credit/Debit Card: 5-10 business days.',
-                            'Bank Transfer: 3-5 business days.',
-                            'Digital Wallets: 1-3 business days.',
-                        ],
-                    },
-                    {
-                        heading: 'Partial Refunds',
-                        paragraphs: ['In certain circumstances, we may offer partial refunds based on:'],
-                        bullets: [
-                            'Pro-rated usage of annual subscriptions.',
-                            'Service disruptions affecting limited time periods.',
-                            'Downgrade requests to lower service tiers.',
-                            'Special circumstances evaluated on a case-by-case basis.',
-                        ],
-                    },
-                ],
-            },
-            {
-                heading: 'Cancellation Policy',
-                subSections: [
-                    {
-                        heading: 'Subscription Cancellation',
-                        bullets: [
-                            'You may cancel your subscription at any time.',
-                            'Cancellation takes effect at the end of the current billing period.',
-                            'Access to services continues until the end of the paid period.',
-                            'No prorated refunds for mid-cycle cancellations (except within 7-day window).',
-                            'Auto-renewal can be disabled in your account settings.',
-                        ],
-                    },
-                    {
-                        heading: 'How to Cancel',
-                        numbered: [
-                            'Log into your account dashboard.',
-                            'Navigate to subscription management.',
-                            'Select "Cancel Subscription" option.',
-                            'Confirm cancellation request.',
-                            'Receive confirmation email.',
-                        ],
-                    },
-                ],
-            },
-            {
-                heading: 'Special Circumstances',
-                subSections: [
-                    {
-                        heading: 'Force Majeure Events',
-                        paragraphs: [
-                            'In case of unforeseen circumstances beyond our control (natural disasters, government actions, technical failures), we may offer:',
-                        ],
-                        bullets: [
-                            'Service credits for affected periods.',
-                            'Extended subscription periods.',
-                            'Alternative service arrangements.',
-                            'Full or partial refunds at our discretion.',
-                        ],
-                    },
-                    {
-                        heading: 'Regulatory Changes',
-                        paragraphs: [
-                            'If regulatory changes prevent us from providing services to specific clients or regions, we will offer pro-rated refunds for unused service periods.',
-                        ],
-                    },
-                ],
-            },
-            {
-                heading: 'Dispute Resolution',
-                paragraphs: ['If you disagree with our refund decision, you may:'],
                 bullets: [
-                    'Request a review by our senior management team.',
-                    'Provide additional documentation supporting your claim.',
-                    'Seek resolution through our grievance redressal mechanism.',
-                    "Contact SEBI's investor grievance portal if unresolved.",
+                    '2.1. The current fee limit is Rs 1,51,000/- per annum per family of client for all research services of the RA.',
+                    '2.2. The fee limit does not include statutory charges.',
+                    '2.3. The fee limits do not apply to a non-individual client/accredited investor.',
                 ],
             },
             {
-                heading: 'Refund Limitations',
-                bullets: [
-                    'Maximum one refund per client per calendar year.',
-                    'Refunds limited to subscription fees only (excluding GST and processing charges).',
-                    'No refunds for third-party services or charges.',
-                    'Refund eligibility expires 30 days after service completion.',
-                ],
-            },
-            {
-                heading: 'Policy Updates',
                 paragraphs: [
-                    'We reserve the right to modify this refund policy at any time.',
-                    'Changes will be communicated via email and updated on our website.',
-                    'Continued use of our services after policy changes constitutes acceptance of the new terms.',
+                    'RA may charge fees in advance if agreed by the client. Such advance shall not exceed the period stipulated by SEBI; presently it is one quarter. In case of pre-mature termination of the RA services by either the client or the RA, the client shall be entitled to seek refund of proportionate fees only for unexpired period.',
+                    'Fees to RA may be paid by the client through any of the specified modes like cheque, online bank transfer, UPI, etc. Cash payment is not allowed. Optionally the client can make payments through Centralized Fee Collection Mechanism (CeFCoM) managed by BSE Limited (i.e. currently recognized RAASB).',
+                    'The RA is required to abide by the applicable regulations/circulars/ directions specified by SEBI and RAASB from time to time in relation to disclosure and mitigation of any actual or potential conflict of interest. The RA will endeavor to promptly inform the client of any conflict of interest that may affect the services being rendered to the client.',
+                    'Any assured/guaranteed/fixed returns schemes or any other schemes of similar nature are prohibited by law. No scheme of this nature shall be offered to the client by the RA.',
+                    'The RA cannot guarantee returns, profits, accuracy, or risk-free investments from the use of the RA’s research services. All opinions, projections, estimates of the RA are based on the analysis of available data under certain assumptions as of the date of preparation/publication of research report.',
+                    'Any investment made based on recommendations in research reports are subject to market risks, and recommendations do not provide any assurance of returns. There is no recourse to claim any losses incurred on the investments made based on the recommendations in the research report. Any reliance placed on the research report provided by the RA shall be as per the client’s own judgement and assessment of the conclusions contained in the research report.',
+                    'The SEBI registration, Enlistment with RAASB, and NISM certification do not guarantee the performance of the RA or assure any returns to the client.',
+                ],
+            },
+            {
+                heading: 'Grievances',
+                numbered: [
+                    'Step 1: the client should first contact the RA using the details on its website or following contact details: (RA to provide details as per "Grievance Redressal / Escalation Matrix").',
+                    "Step 2: If the resolution is unsatisfactory, the client can also lodge grievances through SEBI'S SCORES platform at www.scores.sebi.gov.in.",
+                    'Step 3: The client may also consider the Online Dispute Resolution (ODR) through the Smart ODR portal at https://smartodr.in.',
+                ],
+            },
+            {
+                paragraphs: [
+                    'Clients are required to keep contact details, including email id and mobile number/s updated with the RA at all times.',
+                    'The RA shall never ask for the client’s login credentials and OTPs for the client’s Trading Account Demat Account and Bank Account. Never share such information with anyone including RA.',
                 ],
             },
         ],
-        contact: {
-            title: 'Contact Information',
-            lines: [
-                'For refund requests or questions about this policy, contact us:',
-                'Facto Research (SEBI Registration No: INH000024480)',
-                registeredOfficeAddress,
-                'Phone Number: +91 9959937373',
-                'Email id: info.factoresearch@gmail.com',
-            ],
-        },
+    },
+    mitcFormatted: {
+        title: 'Most Important Terms and Conditions (MITC)',
+        subtitle: 'Annexure A',
+        sections: [
+            {
+                paragraphs: ['Most Important Terms and Conditions (MITC) [Forming part of the Terms and Conditions for providing research services]'],
+            },
+            {
+                heading: '1.',
+                paragraphs: [
+                    'These terms and conditions, and consent thereon are for the research services provided by the Research Analyst (RA) and RA cannot execute/carry out any trade (purchase/sell transaction) on behalf of, the client. Thus, the clients are advised not to permit RA to execute any trade on their behalf.',
+                ],
+            },
+            {
+                heading: '2.',
+                paragraphs: [
+                    'The fee charged by RA to the client will be subject to the maximum of amount prescribed by SEBI/ Research Analyst Administration and Supervisory Body (RAASB) from time to time (applicable only for Individual and HUF Clients). Note:',
+                ],
+                bullets: [
+                    '2.1. The current fee limit is Rs 1,51,000/- per annum per family of client for all research services of the RA.',
+                    '2.2. The fee limit does not include statutory charges.',
+                    '2.3. The fee limits do not apply to a non-individual client/accredited investor.',
+                ],
+            },
+            {
+                heading: '3.',
+                paragraphs: [
+                    'RA may charge fees in advance if agreed by the client. Such advance shall not exceed the period stipulated by SEBI; presently it is one quarter. In case of pre-mature termination of the RA services by either the client or the RA, the client shall be entitled to seek refund of proportionate fees only for unexpired period.',
+                ],
+            },
+            {
+                heading: '4.',
+                paragraphs: [
+                    'Fees to RA may be paid by the client through any of the specified modes like cheque, online bank transfer, UPI, etc. Cash payment is not allowed. Optionally the client can make payments through Centralized Fee Collection Mechanism (CeFCoM) managed by BSE Limited (i.e. currently recognized RAASB).',
+                ],
+            },
+            {
+                heading: '5.',
+                paragraphs: [
+                    'The RA is required to abide by the applicable regulations/circulars/ directions specified by SEBI and RAASB from time to time in relation to disclosure and mitigation of any actual or potential conflict of interest. The RA will endeavor to promptly inform the client of any conflict of interest that may affect the services being rendered to the client.',
+                ],
+            },
+            {
+                heading: '6.',
+                paragraphs: [
+                    'Any assured/guaranteed/fixed returns schemes or any other schemes of similar nature are prohibited by law. No scheme of this nature shall be offered to the client by the RA.',
+                ],
+            },
+            {
+                heading: '7.',
+                paragraphs: [
+                    "The RA cannot guarantee returns, profits, accuracy, or risk-free investments from the use of the RA's research services. All opinions, projections, estimates of the RA are based on the analysis of available data under certain assumptions as of the date of preparation/publication of research report.",
+                ],
+            },
+            {
+                heading: '8.',
+                paragraphs: [
+                    "Any investment made based on recommendations in research reports are subject to market risks, and recommendations do not provide any assurance of returns. There is no recourse to claim any losses incurred on the investments made based on the recommendations in the research report. Any reliance placed on the research report provided by the RA shall be as per the client's own judgement and assessment of the conclusions contained in the research report.",
+                ],
+            },
+            {
+                heading: '9.',
+                paragraphs: [
+                    'The SEBI registration, Enlistment with RAASB, and NISM certification do not guarantee the performance of the RA or assure any returns to the client.',
+                ],
+            },
+            {
+                heading: '10.',
+                paragraphs: ['For any grievances:'],
+                numbered: [
+                    'Step 1: the client should first contact the RA using the details on its website or following contact details: (RA to provide details as per "Grievance Redressal / Escalation Matrix").',
+                    "Step 2: If the resolution is unsatisfactory, the client can also lodge grievances through SEBI'S SCORES platform at www.scores.sebi.gov.in.",
+                    'Step 3: The client may also consider the Online Dispute Resolution (ODR) through the Smart ODR portal at https://smartodr.in.',
+                ],
+            },
+            {
+                heading: '11.',
+                paragraphs: [
+                    'Clients are required to keep contact details, including email id and mobile number/s updated with the RA at all times.',
+                ],
+            },
+            {
+                heading: '12.',
+                paragraphs: [
+                    "The RA shall never ask for the client's login credentials and OTPs for the client's Trading Account Demat Account and Bank Account. Never share such information with anyone including RA.",
+                ],
+            },
+        ],
+    },
+    returnAndRefundPolicy: {
+        title: 'Refund Policy',
+        subtitle: '',
+        sections: [
+            {
+                paragraphs: [
+                    "Facto Research doesn't entertain any type of money back policy, refund or cancellation policy.",
+                    "As its customer's sole responsibility to access his risk by risk profiling, and go through our terms & conditions & all information associated about services and pricing before making payments.",
+                    'Do not allow children or other unauthorized family members or friends to access your credit cards or your account at the payment site to ensure that no one pays for a Membership without your permission. By making a payment for Membership to our site, you acknowledge that you have read and agree to the above No Refund and no cancellation Policy.',
+                ],
+                bullets: [
+                    'Read all information about our products, services and support given to our clients.',
+                    'Complete risk profile and kyc.',
+                    'Read all About Us',
+                    'Read our Terms of Use.',
+                    'Read our Privacy Policy.',
+                ],
+            },
+        ],
     },
     grievanceRedressal: {
         title: 'Grievance Redressal',

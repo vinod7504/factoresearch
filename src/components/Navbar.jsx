@@ -55,6 +55,10 @@ const legalMenuMeta = {
         Icon: ShieldAlert,
         subtitle: 'Important market risk and service limitation disclosures.',
     },
+    '/legal/mitc': {
+        Icon: ShieldCheck,
+        subtitle: 'Most Important Terms and Conditions for research services.',
+    },
     '/legal/privacy-policy': {
         Icon: ShieldCheck,
         subtitle: 'How your personal data is handled and protected by us.',
@@ -65,7 +69,7 @@ const legalMenuMeta = {
     },
     '/legal/return-and-refund-policy': {
         Icon: Target,
-        subtitle: 'Policy details for cancellations and refund eligibility.',
+        subtitle: 'No refund/No cancellation/Policy for subscriptions.',
     },
     '/legal/grievance-redressal': {
         Icon: MessageSquare,

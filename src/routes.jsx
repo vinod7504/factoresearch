@@ -13,6 +13,7 @@ import InvestmentServicesPricingPage from './pages/pricing/InvestmentServicesPri
 import DisclaimerPage from './pages/legal/DisclaimerPage';
 import PrivacyPolicyPage from './pages/legal/PrivacyPolicyPage';
 import TermsConditionsPage from './pages/legal/TermsConditionsPage';
+import MITCPage from './pages/legal/MITCPage';
 import ReturnRefundPolicyPage from './pages/legal/ReturnRefundPolicyPage';
 import GrievanceRedressalPage from './pages/legal/GrievanceRedressalPage';
 import InvestorCharterPage from './pages/legal/InvestorCharterPage';
@@ -52,9 +53,34 @@ export const routeComponents = {
     '/legal/disclaimer': DisclaimerPage,
     '/legal/privacy-policy': PrivacyPolicyPage,
     '/legal/terms-and-conditions': TermsConditionsPage,
+    '/legal/mitc': MITCPage,
     '/legal/return-and-refund-policy': ReturnRefundPolicyPage,
     '/legal/grievance-redressal': GrievanceRedressalPage,
     '/legal/investor-charter': InvestorCharterPage,
     '/legal/complaint-board': ComplaintBoardPage,
     '/legal/compliance-audit-status': ComplianceAuditStatusPage,
+};
+
+export const routeTitles = {
+    '/': 'FactoResearch',
+    '/services': 'Services | FactoResearch',
+    '/pricing': 'Pricing | FactoResearch',
+    '/pricing/stock-cash': 'Stock Cash | FactoResearch',
+    '/pricing/stock-future': 'Stock Future | FactoResearch',
+    '/pricing/stock-option': 'Stock Option | FactoResearch',
+    '/pricing/index-future': 'Index Future | FactoResearch',
+    '/pricing/index-option': 'Index Option | FactoResearch',
+    '/pricing/investment-services': 'Investment Services | FactoResearch',
+    '/about': 'About Us | FactoResearch',
+    '/contact': 'Contact Us | FactoResearch',
+    '/onboarding': 'Onboarding | FactoResearch',
+    '/legal/disclaimer': 'Disclaimer | FactoResearch',
+    '/legal/privacy-policy': 'Privacy Policy | FactoResearch',
+    '/legal/terms-and-conditions': 'Terms & Conditions | FactoResearch',
+    '/legal/mitc': 'MITC | FactoResearch',
+    '/legal/return-and-refund-policy': 'Refund Policy | FactoResearch',
+    '/legal/grievance-redressal': 'Grievance Redressal | FactoResearch',
+    '/legal/investor-charter': 'Investor Charter | FactoResearch',
+    '/legal/complaint-board': 'Complaint Board | FactoResearch',
+    '/legal/compliance-audit-status': 'Compliance Audit Status | FactoResearch',
 };
