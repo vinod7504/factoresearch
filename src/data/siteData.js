@@ -242,7 +242,6 @@ export const siteData = {
         social: ['Twitter', 'LinkedIn', 'Instagram', 'WhatsApp'],
     },
     footer: {
-        tagline: 'Institutional Grade. SEBI Registered.',
         disclosure:
             'SEBI Investment Risk Disclosure: Investment in securities market are subject to market risks. Read all the related documents carefully before investing. Registration granted by SEBI, membership of BASL and certification from NISM in no way guarantee performance of the intermediary or provide any assurance of returns to investors. Please read the Risk Disclosure Document prescribed by SEBI & exchange before investing.',
     },

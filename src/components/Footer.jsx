@@ -19,7 +19,6 @@ const Footer = () => {
                                 style={{ height: '60px', marginBottom: '20px' }}
                             />
                         </div>
-                        <p className="footer-desc">{siteData.footer.tagline}</p>
                         <div className="social-links">
                             <a href="#"><Twitter size={20} /></a>
                             <a href="#"><Instagram size={20} /></a>
@@ -65,7 +64,6 @@ const Footer = () => {
 
                 <div className="footer-bottom">
                     <p>© 2026 {siteData.brand.name}. All rights reserved.</p>
-                    <p className="sebi-reg">{siteData.footer.tagline}</p>
                 </div>
 
                 <div className="footer-disclosure" style={{ marginTop: '30px', fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>
