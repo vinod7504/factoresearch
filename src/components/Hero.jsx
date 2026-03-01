@@ -3,7 +3,7 @@ import { motion as Motion } from 'framer-motion';
 import { TrendingUp } from 'lucide-react';
 import { RouteLink } from '../router';
 import { siteData } from '../data/siteData';
-import homeShowcasePoster from '../assets/image.png';
+import homeShowcasePoster from '../assets/image.jpeg';
 import homeShowcaseVideo from '../assets/WhatsApp Video 2026-02-27 at 5.24.20 PM.mp4';
 
 const Hero = () => {
