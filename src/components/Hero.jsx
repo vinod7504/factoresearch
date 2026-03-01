@@ -85,7 +85,7 @@ const Hero = () => {
                                 Your browser does not support the video tag.
                             </video>
                         </div>
-                        <p className="hero-video-caption">About Factoresearch</p>
+                        {/* <p className="hero-video-caption">About Factoresearch</p> */}
                     </div>
                 </Motion.div>
             </div>
