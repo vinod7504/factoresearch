@@ -14,6 +14,23 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
     .map((origin) => origin.trim())
     .filter(Boolean);
 
+const isAllowedOrigin = (origin) => {
+    if (!origin || allowedOrigins.length === 0) {
+        return true;
+    }
+
+    if (allowedOrigins.includes(origin)) {
+        return true;
+    }
+
+    try {
+        const { hostname } = new URL(origin);
+        return hostname === 'localhost' || hostname === '127.0.0.1' || hostname.endsWith('.netlify.app');
+    } catch {
+        return false;
+    }
+};
+
 const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT || 587),
@@ -26,13 +43,14 @@ const transporter = nodemailer.createTransport({
 
 const corsOptions = {
     origin(origin, callback) {
-        if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+        if (isAllowedOrigin(origin)) {
             callback(null, true);
             return;
         }
 
-        callback(new Error('Origin not allowed by CORS.'));
+        callback(null, false);
     },
+    optionsSuccessStatus: 204,
 };
 
 const normalizeText = (value) => (typeof value === 'string' ? value.trim() : '');
@@ -131,6 +149,7 @@ const buildHtmlBody = (submission) => {
 };
 
 app.use(cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
 app.use(express.json({ limit: '1mb' }));
 
 app.get('/health', (_req, res) => {

@@ -1,23 +1,15 @@
-const defaultContact = {
-    phone: '+91 99599 37373',
-    email: 'support@factoresearch.com',
-    address: 'D.No.7, SNO.432/4 Plot No.6, Opp JNTU College, KM Colony, Anantapur, Andhra Pradesh-515002.',
-    whatsappUrl: 'https://api.whatsapp.com/send/?phone=919959937373&text&type=phone_number&app_absent=0',
-};
-
-const envContact = {
-    phone: import.meta.env.VITE_SUPPORT_PHONE || defaultContact.phone,
-    email: import.meta.env.VITE_SUPPORT_EMAIL || defaultContact.email,
-    address: import.meta.env.VITE_REGISTERED_ADDRESS || defaultContact.address,
-    whatsappUrl: import.meta.env.VITE_WHATSAPP_URL || defaultContact.whatsappUrl,
-};
+const APP_NAME = import.meta.env.VITE_APP_NAME || 'Facto Research';
+const SUPPORT_PHONE = import.meta.env.VITE_SUPPORT_PHONE || '';
+const SUPPORT_EMAIL = import.meta.env.VITE_SUPPORT_EMAIL || '';
+const REGISTERED_ADDRESS = import.meta.env.VITE_REGISTERED_ADDRESS || '';
+const WHATSAPP_URL = import.meta.env.VITE_WHATSAPP_URL || '';
 
 const ONBOARDING_URL =
     import.meta.env.VITE_ONBOARDING_URL || 'https://onboarding.cognifyai.in/Facto/';
 
 export const siteData = {
     brand: {
-        name: 'Facto Research',
+        name: APP_NAME,
         logoUrl:
             'https://img1.wsimg.com/isteam/ip/890c2873-45ef-40f0-a650-7817ddb60ef4/Untitled%20(512%20x%20512%20px).png/:/rs=w:178,h:178,cg:true,m/cr=w:178,h:178/qt=q:95',
     },
@@ -25,21 +17,21 @@ export const siteData = {
         badge: 'A Decade of Market Mastery',
         title: 'Research Built on Data\nReports Built on Facts.',
         description:
-            "Facto Research is led by a veteran Research Analyst with over 10 years of deep-market experience. We help investors navigate Indian financial markets with clarity, confidence, and consistency.",
+            `${APP_NAME} is led by a veteran Research Analyst with over 10 years of deep-market experience. We help investors navigate Indian financial markets with clarity, confidence, and consistency.`,
         primaryAction: { label: 'Onboarding', path: ONBOARDING_URL },
-        secondaryAction: { label: 'About Facto Research', path: '/about' },
+        secondaryAction: { label: `About ${APP_NAME}`, path: '/about' },
         stats: [
             { value: '10+', label: 'Years of Experience' },
             { value: 'SEBI', label: 'Reg. No. INH000024480' },
         ],
     },
     about: {
-        title: 'About Facto Research',
+        title: `About ${APP_NAME}`,
         decadeTitle: 'A Decade of Market Mastery',
         decadeParagraphs: [
-            'Facto Research is led by a veteran Research Analyst with over 10 years of deep-market experience in Indian equities.',
+            `${APP_NAME} is led by a veteran Research Analyst with over 10 years of deep-market experience in Indian equities.`,
             'A decade in the markets provides a perspective that charts alone cannot show. It brings the wisdom of having navigated diverse market cycles, economic shifts, and structural reforms.',
-            "At Facto Research, we believe successful investing is not about following the noise. It is about following the facts. We provide institutional-grade market intelligence to help investors navigate the complexities of Indian financial markets with clarity and confidence.",
+            `At ${APP_NAME}, we believe successful investing is not about following the noise. It is about following the facts. We provide institutional-grade market intelligence to help investors navigate the complexities of Indian financial markets with clarity and confidence.`,
         ],
         sebiTitle: 'Institutional Grade. SEBI Registered.',
         sebiParagraph:
@@ -233,11 +225,11 @@ export const siteData = {
         ],
     },
     contact: {
-        phone: envContact.phone,
-        whatsapp: envContact.phone,
-        whatsappUrl: envContact.whatsappUrl,
-        email: envContact.email,
-        address: envContact.address,
+        phone: SUPPORT_PHONE,
+        whatsapp: SUPPORT_PHONE,
+        whatsappUrl: WHATSAPP_URL,
+        email: SUPPORT_EMAIL,
+        address: REGISTERED_ADDRESS,
         intro: 'Please contact us directly with questions, comments, or scheduling inquiries.',
         social: ['Twitter', 'LinkedIn', 'Instagram', 'WhatsApp'],
     },

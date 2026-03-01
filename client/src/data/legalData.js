@@ -1,3 +1,12 @@
+const APP_NAME = import.meta.env.VITE_APP_NAME || 'Facto Research';
+const SUPPORT_PHONE = import.meta.env.VITE_SUPPORT_PHONE || '';
+const SUPPORT_EMAIL = import.meta.env.VITE_SUPPORT_EMAIL || '';
+const REGISTERED_ADDRESS = import.meta.env.VITE_REGISTERED_ADDRESS || '';
+const WHATSAPP_URL = import.meta.env.VITE_WHATSAPP_URL || '';
+const INFO_EMAIL = import.meta.env.VITE_INFO_EMAIL || SUPPORT_EMAIL;
+const GRIEVANCE_EMAIL = import.meta.env.VITE_GRIEVANCE_EMAIL || SUPPORT_EMAIL;
+const WEBSITE_URL = import.meta.env.VITE_SITE_URL || '';
+
 export const sebiRiskDisclosure =
     'SEBI Investment Risk Disclosure: Investment in securities market are subject to market risks. Read all the related documents carefully before investing. Registration granted by SEBI, membership of BASL and certification from NISM in no way guarantee performance of the intermediary or provide any assurance of returns to investors. Please read the Risk Disclosure Document prescribed by SEBI & exchange before investing.';
 
@@ -13,8 +22,8 @@ export const legalLinks = [
     { label: 'Compliance Audit Status', path: '/legal/compliance-audit-status' },
 ];
 
-const registeredOfficeAddress =
-    'D.No.7, SNO.432/4 Plot No.6, Opp JNTU College, KM Colony, Anantapur Rural, Anantapur, Andhra Pradesh-515002.';
+const registeredOfficeAddress = REGISTERED_ADDRESS;
+const whatsappPhone = WHATSAPP_URL.match(/phone=(\d+)/)?.[1] || SUPPORT_PHONE;
 
 export const legalDocuments = {
     disclaimer: {
@@ -26,7 +35,7 @@ export const legalDocuments = {
             {
                 heading: 'General Disclaimer',
                 paragraphs: [
-                    'The information provided by Facto Research (Registration No: INH000024480) is for educational and informational purposes only.',
+                    `The information provided by ${APP_NAME} (Registration No: INH000024480) is for educational and informational purposes only.`,
                     'This website and its content are not intended to provide investment, financial, legal, tax, or any other professional advice.',
                     'All information, opinions, research, analysis, and recommendations are based on sources we believe to be reliable, but we make no representation or warranty as to their accuracy, completeness, or correctness.',
                 ],
@@ -41,7 +50,7 @@ export const legalDocuments = {
             {
                 heading: 'No Guarantee of Returns',
                 paragraphs: [
-                    'Facto Research does not guarantee any returns on investments. All investment recommendations are subject to market conditions and individual risk tolerance.',
+                    `${APP_NAME} does not guarantee any returns on investments. All investment recommendations are subject to market conditions and individual risk tolerance.`,
                     'We strongly advise investors to:',
                 ],
                 bullets: [
@@ -63,14 +72,14 @@ export const legalDocuments = {
             {
                 heading: 'Conflicts of Interest',
                 paragraphs: [
-                    'Facto Research and its associates may have financial interests in the securities mentioned in our research reports.',
+                    `${APP_NAME} and its associates may have financial interests in the securities mentioned in our research reports.`,
                     'We may hold positions in recommended stocks and may trade in such securities. Any such positions or trading activities will be disclosed as per SEBI regulations.',
                 ],
             },
             {
                 heading: 'Liability Limitation',
                 paragraphs: [
-                    'Facto Research, its directors, employees, and associates shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising from the use of our research reports or recommendations.',
+                    `${APP_NAME}, its directors, employees, and associates shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising from the use of our research reports or recommendations.`,
                     'This includes but is not limited to:',
                 ],
                 bullets: [
@@ -126,10 +135,10 @@ export const legalDocuments = {
             title: 'Contact Information',
             lines: [
                 'For any queries regarding this disclaimer or our services, please contact:',
-                'Facto Research (SEBI Registration No: INH000024480)',
+                `${APP_NAME} (SEBI Registration No: INH000024480)`,
                 registeredOfficeAddress,
-                'Phone Number: +91 9959937373',
-                'Email id: info@factoresearch.com',
+                `Phone Number: ${SUPPORT_PHONE}`,
+                `Email id: ${INFO_EMAIL}`,
             ],
         },
     },
@@ -139,7 +148,7 @@ export const legalDocuments = {
         sections: [
             {
                 paragraphs: [
-                    'Facto Research (Registration No: INH000024480) is committed to protecting your privacy and ensuring the security of your personal information.',
+                    `${APP_NAME} (Registration No: INH000024480) is committed to protecting your privacy and ensuring the security of your personal information.`,
                     'This Privacy Policy explains how we collect, use, process, and protect your information when you use our website, services, or interact with us.',
                 ],
             },
@@ -235,29 +244,29 @@ export const legalDocuments = {
         contact: {
             title: '8. Contact Information',
             lines: [
-                'For questions about this privacy policy or to exercise your rights, please contact Facto Research at:',
-                'Facto Research (SEBI Registration No: INH000024480)',
+                `For questions about this privacy policy or to exercise your rights, please contact ${APP_NAME} at:`,
+                `${APP_NAME} (SEBI Registration No: INH000024480)`,
                 registeredOfficeAddress,
-                'Phone Number: +91 9959937373',
-                'Email id: info.factoresearch@gmail.com',
+                `Phone Number: ${SUPPORT_PHONE}`,
+                `Email id: ${INFO_EMAIL}`,
             ],
         },
     },
     termsAndConditions: {
         title: 'Terms & Conditions',
-        subtitle: 'Terms governing your access and use of Facto Research services.',
+        subtitle: `Terms governing your access and use of ${APP_NAME} services.`,
         sections: [
             {
                 heading: '1. Acceptance of Terms',
                 paragraphs: [
-                    'By accessing and using the services provided by Facto Research (SEBI Registration No: INH000024480), you agree to be bound by these Terms and Conditions.',
+                    `By accessing and using the services provided by ${APP_NAME} (SEBI Registration No: INH000024480), you agree to be bound by these Terms and Conditions.`,
                     'If you do not agree to these terms, please do not use our services.',
                 ],
             },
             {
-                heading: '2. About Facto Research',
+                heading: `2. About ${APP_NAME}`,
                 paragraphs: [
-                    'Facto Research is a SEBI registered research analyst providing investment advisory services, research reports, and market analysis.',
+                    `${APP_NAME} is a SEBI registered research analyst providing investment advisory services, research reports, and market analysis.`,
                     'Our services are regulated by the Securities and Exchange Board of India (SEBI) under the SEBI (Research Analysts) Regulations, 2014.',
                 ],
             },
@@ -317,14 +326,14 @@ export const legalDocuments = {
             {
                 heading: '7. Intellectual Property Rights',
                 paragraphs: [
-                    'All content provided by Facto Research, including research reports, analysis, and proprietary methodologies, are protected by intellectual property rights.',
+                    `All content provided by ${APP_NAME}, including research reports, analysis, and proprietary methodologies, are protected by intellectual property rights.`,
                     'You may not reproduce, distribute, or use our content for commercial purposes without written permission.',
                 ],
             },
             {
                 heading: '8. Limitation of Liability',
                 paragraphs: [
-                    'To the maximum extent permitted by law, Facto Research and its directors, employees, and associates shall not be liable for:',
+                    `To the maximum extent permitted by law, ${APP_NAME} and its directors, employees, and associates shall not be liable for:`,
                 ],
                 bullets: [
                     'Financial losses arising from investment decisions.',
@@ -336,7 +345,7 @@ export const legalDocuments = {
                 heading: '9. Termination',
                 bullets: [
                     'By User: You may terminate your subscription at any time; it will remain effective until the end of the current billing period.',
-                    'By Facto Research: We may terminate your access for violations of these terms, fraudulent activities, or non-payment.',
+                    `By ${APP_NAME}: We may terminate your access for violations of these terms, fraudulent activities, or non-payment.`,
                 ],
             },
             {
@@ -366,10 +375,10 @@ export const legalDocuments = {
             title: '11. Contact Information',
             lines: [
                 'For questions about these terms and conditions, please contact us:',
-                'Facto Research (SEBI Registration No: INH000024480)',
+                `${APP_NAME} (SEBI Registration No: INH000024480)`,
                 registeredOfficeAddress,
-                'Phone Number: +91 9959937373',
-                'Email id: info.factoresearch@gmail.com',
+                `Phone Number: ${SUPPORT_PHONE}`,
+                `Email id: ${INFO_EMAIL}`,
             ],
         },
     },
@@ -511,7 +520,7 @@ export const legalDocuments = {
         sections: [
             {
                 paragraphs: [
-                    "Facto Research doesn't entertain any type of money back policy, refund or cancellation policy.",
+                    `${APP_NAME} doesn't entertain any type of money back policy, refund or cancellation policy.`,
                     "As its customer's sole responsibility to access his risk by risk profiling, and go through our terms & conditions & all information associated about services and pricing before making payments.",
                     'Do not allow children or other unauthorized family members or friends to access your credit cards or your account at the payment site to ensure that no one pays for a Membership without your permission. By making a payment for Membership to our site, you acknowledge that you have read and agree to the above No Refund and no cancellation Policy.',
                 ],
@@ -532,15 +541,15 @@ export const legalDocuments = {
             {
                 heading: 'Quick Grievance Contact',
                 bullets: [
-                    'Email: grievances@factoresearch.com',
-                    'Phone: +91 9959937373',
+                    `Email: ${GRIEVANCE_EMAIL}`,
+                    `Phone: ${SUPPORT_PHONE}`,
                     'Response Time: Within 72 hours',
                 ],
             },
             {
                 heading: 'Our Commitment',
                 paragraphs: [
-                    'Facto Research (SEBI Registration No: INH000024480) is committed to providing excellent service and maintaining high standards of client satisfaction.',
+                    `${APP_NAME} (SEBI Registration No: INH000024480) is committed to providing excellent service and maintaining high standards of client satisfaction.`,
                     'We have established a comprehensive grievance redressal mechanism to address and resolve concerns in a timely and fair manner.',
                 ],
             },
@@ -591,9 +600,9 @@ export const legalDocuments = {
                     {
                         heading: 'Step 1: Initial Contact',
                         bullets: [
-                            'Phone: +91 9959937373 (9:15 AM - 3:30 PM IST, Monday-Friday).',
-                            'Email: support@factoresearch.com.',
-                            'WhatsApp: +91 9959937373.',
+                            `Phone: ${SUPPORT_PHONE} (9:15 AM - 3:30 PM IST, Monday-Friday).`,
+                            `Email: ${SUPPORT_EMAIL}.`,
+                            `WhatsApp: ${whatsappPhone}.`,
                             'Live Chat: Available on our website during business hours.',
                         ],
                     },
@@ -613,10 +622,10 @@ export const legalDocuments = {
                     {
                         heading: 'Submission Methods',
                         bullets: [
-                            'Email: grievances@factoresearch.com.',
+                            `Email: ${GRIEVANCE_EMAIL}.`,
                             'Written Application: Mail to our registered office address.',
                             'Online Form: Available on our website.',
-                            'Phone: +91 9959937373 (followed by written confirmation).',
+                            `Phone: ${SUPPORT_PHONE} (followed by written confirmation).`,
                         ],
                     },
                 ],
@@ -633,9 +642,9 @@ export const legalDocuments = {
             {
                 heading: 'Escalation Matrix',
                 bullets: [
-                    'Level 1 - Customer Support Team: support@factoresearch.com (0-2 days).',
-                    'Level 2 - Grievance Office: grievances@factoresearch.com (3-7 days).',
-                    'Level 3 - Senior Management: info@factoresearch.com (8-15 days).',
+                    `Level 1 - Customer Support Team: ${SUPPORT_EMAIL} (0-2 days).`,
+                    `Level 2 - Grievance Office: ${GRIEVANCE_EMAIL} (3-7 days).`,
+                    `Level 3 - Senior Management: ${INFO_EMAIL} (8-15 days).`,
                     'Level 4 - SEBI Complaints: scores.sebi.gov.in (external escalation).',
                 ],
             },
@@ -644,8 +653,8 @@ export const legalDocuments = {
                 bullets: [
                     'Name: Godina Kodandpani.',
                     'Designation: Chief Research Analyst & Compliance Officer.',
-                    'Email: grievances@factoresearch.com.',
-                    'Phone: +91 9959937373.',
+                    `Email: ${GRIEVANCE_EMAIL}.`,
+                    `Phone: ${SUPPORT_PHONE}.`,
                     'Available: Monday-Friday, 9:15 AM - 3:30 PM IST.',
                 ],
             },
@@ -693,17 +702,17 @@ export const legalDocuments = {
             {
                 heading: 'Emergency Grievances',
                 paragraphs: [
-                    'For urgent matters requiring immediate attention (unauthorized transactions, security breaches), contact us immediately at +91 9959937373 or grievances@factoresearch.com with "URGENT" in the subject line.',
+                    `For urgent matters requiring immediate attention (unauthorized transactions, security breaches), contact us immediately at ${SUPPORT_PHONE} or ${GRIEVANCE_EMAIL} with "URGENT" in the subject line.`,
                 ],
             },
         ],
         contact: {
             title: 'Registered Office Address',
             lines: [
-                'Facto Research (SEBI Registration No: INH000024480)',
+                `${APP_NAME} (SEBI Registration No: INH000024480)`,
                 registeredOfficeAddress,
-                'Phone Number: +91 9959937373',
-                'Email id: info.factoresearch@gmail.com',
+                `Phone Number: ${SUPPORT_PHONE}`,
+                `Email id: ${INFO_EMAIL}`,
             ],
         },
     },
@@ -714,7 +723,7 @@ export const legalDocuments = {
             {
                 heading: 'Preamble',
                 paragraphs: [
-                    'This Investor Charter sets out the rights and responsibilities of investors/clients and Facto Research as a SEBI registered research analyst.',
+                    `This Investor Charter sets out the rights and responsibilities of investors/clients and ${APP_NAME} as a SEBI registered research analyst.`,
                     'This charter aims to ensure transparency, fairness, and professionalism in all our interactions with investors.',
                 ],
             },
@@ -828,8 +837,8 @@ export const legalDocuments = {
                         heading: 'Internal Redressal',
                         bullets: [
                             'Grievance Officer: GK.',
-                            'Email: grievances@factoresearch.com.',
-                            'Phone: +91 9959937373.',
+                            `Email: ${GRIEVANCE_EMAIL}.`,
+                            `Phone: ${SUPPORT_PHONE}.`,
                             'Resolution Time: 30 business days.',
                         ],
                     },
@@ -865,12 +874,12 @@ export const legalDocuments = {
         contact: {
             title: 'Contact Information',
             lines: [
-                'Facto Research (SEBI Registration No: INH000024480)',
+                `${APP_NAME} (SEBI Registration No: INH000024480)`,
                 'Registered Office Address:',
-                'D.No.7, SNO 432/4, Plot No.6, Opp JNTU College, KM Colony, Anantapur Rural, Anantapur, Andhra Pradesh-515002.',
-                'Email: info@factoresearch.com',
-                'Phone: +91 9959937373',
-                'Website: www.factoresearch.com',
+                registeredOfficeAddress,
+                `Email: ${INFO_EMAIL}`,
+                `Phone: ${SUPPORT_PHONE}`,
+                `Website: ${WEBSITE_URL}`,
                 'Working Hours: Monday-Friday, 9:15 AM - 3:30 PM IST',
             ],
         },
