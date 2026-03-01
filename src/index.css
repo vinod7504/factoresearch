@@ -964,6 +964,25 @@ ul {
   background: var(--bg-primary);
 }
 
+.hero-video-poster {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.hero-video-poster img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  background: var(--bg-primary);
+}
+
 .hero-video-caption {
   margin: 10px 0 0;
   padding: 0;

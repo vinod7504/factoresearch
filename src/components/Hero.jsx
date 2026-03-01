@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { motion as Motion } from 'framer-motion';
 import { TrendingUp } from 'lucide-react';
 import { RouteLink } from '../router';
@@ -7,6 +7,9 @@ import homeShowcasePoster from '../assets/image.jpeg';
 import homeShowcaseVideo from '../assets/WhatsApp Video 2026-02-27 at 5.24.20 PM.mp4';
 
 const Hero = () => {
+    const videoRef = useRef(null);
+    const [showPoster, setShowPoster] = useState(false);
+
     const textReveal = {
         hidden: { opacity: 0 },
         show: {
@@ -16,6 +19,22 @@ const Hero = () => {
                 delayChildren: 0.1,
             },
         },
+    };
+
+    const handleVideoEnd = () => {
+        if (videoRef.current) {
+            videoRef.current.pause();
+            videoRef.current.currentTime = 0;
+        }
+
+        setShowPoster(true);
+    };
+
+    const handlePosterClick = () => {
+        setShowPoster(false);
+        requestAnimationFrame(() => {
+            videoRef.current?.play();
+        });
     };
 
     const textItem = {
@@ -74,16 +93,30 @@ const Hero = () => {
                     </HeroMarketErrorBoundary> */}
                     <div className="hero-video-block">
                         <div className="hero-video-shell">
-                            <video
-                                className="hero-video-player"
-                                src={homeShowcaseVideo}
-                                poster={homeShowcasePoster}
-                                controls
-                                preload="metadata"
-                                playsInline
-                            >
-                                Your browser does not support the video tag.
-                            </video>
+                            {showPoster ? (
+                                <button
+                                    type="button"
+                                    className="hero-video-poster"
+                                    onClick={handlePosterClick}
+                                    aria-label="Play introduction video"
+                                >
+                                    <img src={homeShowcasePoster} alt="Facto Research introduction" />
+                                </button>
+                            ) : (
+                                <video
+                                    ref={videoRef}
+                                    className="hero-video-player"
+                                    src={homeShowcaseVideo}
+                                    poster={homeShowcasePoster}
+                                    controls
+                                    preload="metadata"
+                                    playsInline
+                                    onPlay={() => setShowPoster(false)}
+                                    onEnded={handleVideoEnd}
+                                >
+                                    Your browser does not support the video tag.
+                                </video>
+                            )}
                         </div>
                         {/* <p className="hero-video-caption">About Factoresearch</p> */}
                     </div>
