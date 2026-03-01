@@ -9,7 +9,7 @@ This project now has:
 
 The frontend lives in `client/`.
 
-Copy `client/.env.example` to `client/.env` and set:
+Set these values in `client/.env`:
 
 - `VITE_API_BASE_URL`: your Render backend URL, for example `https://factoresearch-mail-api.onrender.com`
 
@@ -25,7 +25,7 @@ npm run dev
 
 The backend lives in `server/`.
 
-Copy `server/.env.example` to `server/.env` and set:
+Set these values in `server/.env`:
 
 - `SUPPORT_EMAIL`
 - `SMTP_HOST`
@@ -53,7 +53,7 @@ Create a new Render Web Service with:
 - Build Command: `npm install`
 - Start Command: `npm start`
 
-Set the environment variables from `server/.env.example`.
+Set the required environment variables in Render to match `server/.env`.
 
 For `ALLOWED_ORIGINS`, include your Netlify domain, for example:
 
