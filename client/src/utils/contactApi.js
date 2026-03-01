@@ -8,7 +8,7 @@ const getApiBaseUrl = () => {
         return 'http://localhost:3001';
     }
 
-    return '';
+    return 'https://factoresearch.onrender.com';
 };
 
 export const submitContactForm = async (payload) => {
