@@ -6,15 +6,11 @@ const SEBIModal = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        const hasAccepted = localStorage.getItem('sebi_accepted');
-        if (!hasAccepted) {
-            const timer = setTimeout(() => setIsOpen(true), 1000);
-            return () => clearTimeout(timer);
-        }
+        const timer = setTimeout(() => setIsOpen(true), 1000);
+        return () => clearTimeout(timer);
     }, []);
 
     const handleAccept = () => {
-        localStorage.setItem('sebi_accepted', 'true');
         setIsOpen(false);
     };
 
