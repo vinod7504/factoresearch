@@ -4,6 +4,7 @@ import { RouteLink } from '../router';
 import { navLinks } from '../routes';
 import { siteData } from '../data/siteData';
 import { legalLinks } from '../data/legalData';
+import qrImage from '../assets/qr.jpeg';
 
 const Footer = () => {
     return (
@@ -23,6 +24,9 @@ const Footer = () => {
                             <a href="#"><Twitter size={20} /></a>
                             <a href="#"><Instagram size={20} /></a>
                             <a href="#"><Linkedin size={20} /></a>
+                        </div>
+                        <div className="qr-block footer-qr-block">
+                            <img src={qrImage} alt="Facto Research payment QR code" className="qr-image" />
                         </div>
                     </div>
 

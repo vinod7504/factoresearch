@@ -10,18 +10,56 @@ import {
     Layers3,
     Target,
     Sparkles,
-    ShieldAlert,
-    ShieldCheck,
-    Award,
-    MessageSquare,
-    Eye,
-    CheckCircle2,
 } from 'lucide-react';
 import { RouteLink } from '../router';
 import { useRouter } from '../useRouter';
 import { navLinks, pricingLinks } from '../routes';
 import { siteData } from '../data/siteData';
-import { legalLinks } from '../data/legalData';
+
+const serviceLinks = [
+    {
+        key: 'equity-research',
+        label: 'Equity Research & Stock Recommendations',
+        path: '/services',
+        Icon: TrendingUp,
+        subtitle: 'Research-backed stock ideas with entry, exit, and risk guidance.',
+    },
+    {
+        key: 'fundamental-research',
+        label: 'Fundamental Research Reports',
+        path: '/services',
+        Icon: BarChart3,
+        subtitle: 'Business, valuation, and financial quality analysis for investors.',
+    },
+    {
+        key: 'technical-analysis',
+        label: 'Technical Analysis, Market Trends & Live Index Tracking',
+        path: '/services',
+        Icon: Activity,
+        subtitle: 'Momentum, charts, index tracking, and short-term market structure.',
+    },
+    {
+        key: 'portfolio-baskets',
+        label: 'Portfolio Baskets',
+        path: '/services',
+        Icon: Layers3,
+        subtitle: 'Curated baskets with allocation logic and periodic review updates.',
+    },
+    {
+        key: 'thematic-sectoral',
+        label: 'Thematic & Sectoral Research',
+        path: '/services',
+        Icon: Target,
+        subtitle: 'Sector-focused research across emerging trends and market cycles.',
+    },
+    {
+        key: 'educational-content',
+        label: 'Educational Content & Market Learning',
+        path: '/services',
+        Icon: Sparkles,
+        subtitle: 'Courses, webinars, and practical market-learning resources.',
+    },
+];
 
 const pricingMenuMeta = {
     '/pricing/stock-cash': {
@@ -50,57 +88,18 @@ const pricingMenuMeta = {
     },
 };
 
-const legalMenuMeta = {
-    '/legal/disclaimer': {
-        Icon: ShieldAlert,
-        subtitle: 'Important market risk and service limitation disclosures.',
-    },
-    '/legal/mitc': {
-        Icon: ShieldCheck,
-        subtitle: 'Most Important Terms and Conditions for research services.',
-    },
-    '/legal/privacy-policy': {
-        Icon: ShieldCheck,
-        subtitle: 'How your personal data is handled and protected by us.',
-    },
-    '/legal/terms-and-conditions': {
-        Icon: Award,
-        subtitle: 'Terms governing access and usage of our services.',
-    },
-    '/legal/return-and-refund-policy': {
-        Icon: Target,
-        subtitle: 'No refund/No cancellation/Policy for subscriptions.',
-    },
-    '/legal/grievance-redressal': {
-        Icon: MessageSquare,
-        subtitle: 'Steps to raise complaints and resolution timelines.',
-    },
-    '/legal/investor-charter': {
-        Icon: Eye,
-        subtitle: 'Investor rights, responsibilities, and service standards.',
-    },
-    '/legal/complaint-board': {
-        Icon: Activity,
-        subtitle: 'Complaint statistics and disclosures in a transparent format.',
-    },
-    '/legal/compliance-audit-status': {
-        Icon: CheckCircle2,
-        subtitle: 'Current compliance and audit status as per regulations.',
-    },
-};
-
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isServicesMenuOpen, setIsServicesMenuOpen] = useState(false);
     const [isPricingMenuOpen, setIsPricingMenuOpen] = useState(false);
-    const [isLegalMenuOpen, setIsLegalMenuOpen] = useState(false);
+    const [isMobileServicesMenuOpen, setIsMobileServicesMenuOpen] = useState(false);
     const [isMobilePricingMenuOpen, setIsMobilePricingMenuOpen] = useState(false);
-    const [isMobileLegalMenuOpen, setIsMobileLegalMenuOpen] = useState(false);
     const { path } = useRouter();
+    const servicesMenuRef = useRef(null);
     const pricingMenuRef = useRef(null);
-    const legalMenuRef = useRef(null);
+    const servicesCloseTimerRef = useRef(null);
     const pricingCloseTimerRef = useRef(null);
-    const legalCloseTimerRef = useRef(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -112,11 +111,11 @@ const Navbar = () => {
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
+            if (servicesMenuRef.current && !servicesMenuRef.current.contains(event.target)) {
+                setIsServicesMenuOpen(false);
+            }
             if (pricingMenuRef.current && !pricingMenuRef.current.contains(event.target)) {
                 setIsPricingMenuOpen(false);
-            }
-            if (legalMenuRef.current && !legalMenuRef.current.contains(event.target)) {
-                setIsLegalMenuOpen(false);
             }
         };
 
@@ -126,42 +125,44 @@ const Navbar = () => {
 
     useEffect(() => {
         return () => {
+            if (servicesCloseTimerRef.current) {
+                clearTimeout(servicesCloseTimerRef.current);
+            }
             if (pricingCloseTimerRef.current) {
                 clearTimeout(pricingCloseTimerRef.current);
-            }
-            if (legalCloseTimerRef.current) {
-                clearTimeout(legalCloseTimerRef.current);
             }
         };
     }, []);
 
     const linkClassName = (targetPath) => (path === targetPath ? 'active' : '');
+    const isServicesActive = path === '/services';
     const isPricingActive = path === '/pricing' || path.startsWith('/pricing/');
-    const isLegalActive = legalLinks.some((item) => item.path === path);
-    const primaryNavLinks = navLinks.filter((item) => item.path !== '/pricing' && item.path !== '/contact');
+    const primaryNavLinks = navLinks.filter(
+        (item) => item.path !== '/services' && item.path !== '/pricing' && item.path !== '/contact'
+    );
     const contactLink = navLinks.find((item) => item.path === '/contact');
+
+    const handleServicesHoverOpen = () => {
+        if (servicesCloseTimerRef.current) clearTimeout(servicesCloseTimerRef.current);
+        setIsPricingMenuOpen(false);
+        setIsServicesMenuOpen(true);
+    };
+
+    const handleServicesHoverClose = () => {
+        servicesCloseTimerRef.current = setTimeout(() => {
+            setIsServicesMenuOpen(false);
+        }, 120);
+    };
 
     const handlePricingHoverOpen = () => {
         if (pricingCloseTimerRef.current) clearTimeout(pricingCloseTimerRef.current);
-        setIsLegalMenuOpen(false);
+        setIsServicesMenuOpen(false);
         setIsPricingMenuOpen(true);
     };
 
     const handlePricingHoverClose = () => {
         pricingCloseTimerRef.current = setTimeout(() => {
             setIsPricingMenuOpen(false);
-        }, 120);
-    };
-
-    const handleLegalHoverOpen = () => {
-        if (legalCloseTimerRef.current) clearTimeout(legalCloseTimerRef.current);
-        setIsPricingMenuOpen(false);
-        setIsLegalMenuOpen(true);
-    };
-
-    const handleLegalHoverClose = () => {
-        legalCloseTimerRef.current = setTimeout(() => {
-            setIsLegalMenuOpen(false);
         }, 120);
     };
 
@@ -183,8 +184,8 @@ const Navbar = () => {
 
     const handleMobileClose = () => {
         setIsMobileMenuOpen(false);
+        setIsMobileServicesMenuOpen(false);
         setIsMobilePricingMenuOpen(false);
-        setIsMobileLegalMenuOpen(false);
     };
 
     return (
@@ -208,6 +209,43 @@ const Navbar = () => {
                     ))}
                     <div
                         className="pricing-menu"
+                        ref={servicesMenuRef}
+                        onMouseEnter={handleServicesHoverOpen}
+                        onMouseLeave={handleServicesHoverClose}
+                    >
+                        <button
+                            type="button"
+                            className={`pricing-trigger ${isServicesActive ? 'active' : ''}`}
+                            onClick={() => {
+                                setIsPricingMenuOpen(false);
+                                setIsServicesMenuOpen((open) => !open);
+                            }}
+                        >
+                            Services <ChevronDown size={14} className={isServicesMenuOpen ? 'open' : ''} />
+                        </button>
+                        {isServicesMenuOpen && (
+                            <div className="pricing-dropdown glass-card">
+                                {serviceLinks.map((item) => (
+                                    <RouteLink
+                                        key={item.key}
+                                        to={item.path}
+                                        className={`pricing-dropdown-link ${linkClassName(item.path)}`}
+                                        onClick={() => setIsServicesMenuOpen(false)}
+                                    >
+                                        <span className="dropdown-link-icon">
+                                            <item.Icon size={16} />
+                                        </span>
+                                        <span className="dropdown-link-copy">
+                                            <span className="dropdown-link-title">{item.label}</span>
+                                            <span className="dropdown-link-subtitle">{item.subtitle}</span>
+                                        </span>
+                                    </RouteLink>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    <div
+                        className="pricing-menu"
                         ref={pricingMenuRef}
                         onMouseEnter={handlePricingHoverOpen}
                         onMouseLeave={handlePricingHoverClose}
@@ -215,10 +253,7 @@ const Navbar = () => {
                         <button
                             type="button"
                             className={`pricing-trigger ${isPricingActive ? 'active' : ''}`}
-                            onClick={() => {
-                                setIsLegalMenuOpen(false);
-                                setIsPricingMenuOpen((open) => !open);
-                            }}
+                            onClick={() => setIsPricingMenuOpen((open) => !open)}
                         >
                             Pricing <ChevronDown size={14} className={isPricingMenuOpen ? 'open' : ''} />
                         </button>
@@ -231,36 +266,6 @@ const Navbar = () => {
                                         BarChart3,
                                         `pricing-dropdown-link ${linkClassName(item.path)}`,
                                         () => setIsPricingMenuOpen(false)
-                                    )
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                    <div
-                        className="legal-menu"
-                        ref={legalMenuRef}
-                        onMouseEnter={handleLegalHoverOpen}
-                        onMouseLeave={handleLegalHoverClose}
-                    >
-                        <button
-                            type="button"
-                            className={`legal-trigger ${isLegalActive ? 'active' : ''}`}
-                            onClick={() => {
-                                setIsPricingMenuOpen(false);
-                                setIsLegalMenuOpen((open) => !open);
-                            }}
-                        >
-                            Legal <ChevronDown size={14} className={isLegalMenuOpen ? 'open' : ''} />
-                        </button>
-                        {isLegalMenuOpen && (
-                            <div className="legal-dropdown glass-card">
-                                {legalLinks.map((item) => (
-                                    renderRichDropdownLink(
-                                        item,
-                                        legalMenuMeta,
-                                        ShieldCheck,
-                                        `legal-dropdown-link ${linkClassName(item.path)}`,
-                                        () => setIsLegalMenuOpen(false)
                                     )
                                 ))}
                             </div>
@@ -285,7 +290,6 @@ const Navbar = () => {
                     className="mobile-menu-btn"
                     onClick={() => {
                         setIsMobileMenuOpen(!isMobileMenuOpen);
-                        if (isMobileMenuOpen) setIsMobileLegalMenuOpen(false);
                     }}
                 >
                     {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -306,9 +310,39 @@ const Navbar = () => {
                     ))}
                     <button
                         type="button"
+                        className={`mobile-pricing-trigger ${isServicesActive ? 'active' : ''}`}
+                        onClick={() => {
+                            setIsMobilePricingMenuOpen(false);
+                            setIsMobileServicesMenuOpen((open) => !open);
+                        }}
+                    >
+                        Services <ChevronDown size={14} className={isMobileServicesMenuOpen ? 'open' : ''} />
+                    </button>
+                    {isMobileServicesMenuOpen && (
+                        <div className="mobile-pricing-links">
+                            {serviceLinks.map((item) => (
+                                <RouteLink
+                                    key={item.key}
+                                    to={item.path}
+                                    className={`mobile-pricing-link-card ${linkClassName(item.path)}`}
+                                    onClick={handleMobileClose}
+                                >
+                                    <span className="dropdown-link-icon">
+                                        <item.Icon size={16} />
+                                    </span>
+                                    <span className="dropdown-link-copy">
+                                        <span className="dropdown-link-title">{item.label}</span>
+                                        <span className="dropdown-link-subtitle">{item.subtitle}</span>
+                                    </span>
+                                </RouteLink>
+                            ))}
+                        </div>
+                    )}
+                    <button
+                        type="button"
                         className={`mobile-pricing-trigger ${isPricingActive ? 'active' : ''}`}
                         onClick={() => {
-                            setIsMobileLegalMenuOpen(false);
+                            setIsMobileServicesMenuOpen(false);
                             setIsMobilePricingMenuOpen((open) => !open);
                         }}
                     >
@@ -322,29 +356,6 @@ const Navbar = () => {
                                     pricingMenuMeta,
                                     BarChart3,
                                     `mobile-pricing-link-card ${linkClassName(item.path)}`,
-                                    handleMobileClose
-                                )
-                            )}
-                        </div>
-                    )}
-                    <button
-                        type="button"
-                        className={`mobile-legal-trigger ${isLegalActive ? 'active' : ''}`}
-                        onClick={() => {
-                            setIsMobilePricingMenuOpen(false);
-                            setIsMobileLegalMenuOpen((open) => !open);
-                        }}
-                    >
-                        Legal <ChevronDown size={14} className={isMobileLegalMenuOpen ? 'open' : ''} />
-                    </button>
-                    {isMobileLegalMenuOpen && (
-                        <div className="mobile-legal-links">
-                            {legalLinks.map((item) =>
-                                renderRichDropdownLink(
-                                    item,
-                                    legalMenuMeta,
-                                    ShieldCheck,
-                                    `mobile-legal-link-card ${linkClassName(item.path)}`,
                                     handleMobileClose
                                 )
                             )}

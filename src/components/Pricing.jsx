@@ -3,6 +3,7 @@ import { CheckCircle2 } from 'lucide-react';
 import { RouteLink } from '../router';
 import { siteData } from '../data/siteData';
 import { sebiRiskDisclosure } from '../data/legalData';
+import qrImage from '../assets/qr.jpeg';
 
 const durations = [
     { key: 'quarterly', label: 'Quarterly' },
@@ -69,6 +70,10 @@ const Pricing = ({ planSlug = 'stock-cash' }) => {
                     >
                         WhatsApp Us
                     </a>
+                </div>
+
+                <div className="qr-block pricing-qr-block">
+                    <img src={qrImage} alt="Facto Research payment QR code" className="qr-image" />
                 </div>
 
                 <article className="glass-card pricing-risk-disclosure">
