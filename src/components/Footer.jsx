@@ -4,7 +4,6 @@ import { RouteLink } from '../router';
 import { navLinks } from '../routes';
 import { siteData } from '../data/siteData';
 import { legalLinks } from '../data/legalData';
-import qrImage from '../assets/qr.jpeg';
 
 const Footer = () => {
     return (
@@ -24,9 +23,6 @@ const Footer = () => {
                             <a href="#"><Twitter size={20} /></a>
                             <a href="#"><Instagram size={20} /></a>
                             <a href="#"><Linkedin size={20} /></a>
-                        </div>
-                        <div className="qr-block footer-qr-block">
-                            <img src={qrImage} alt="Facto Research payment QR code" className="qr-image" />
                         </div>
                     </div>
 
@@ -70,7 +66,7 @@ const Footer = () => {
                     <p>© 2026 {siteData.brand.name}. All rights reserved.</p>
                 </div>
 
-                <div className="footer-disclosure" style={{ marginTop: '30px', fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>
+                <div className="footer-disclosure" style={{ marginTop: '18px', fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>
                     <p>
                         {siteData.footer.disclosure}
                     </p>

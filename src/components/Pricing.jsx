@@ -73,6 +73,7 @@ const Pricing = ({ planSlug = 'stock-cash' }) => {
                 </div>
 
                 <div className="qr-block pricing-qr-block">
+                    <p className="pricing-qr-label">Pay via our SEBI-verified UPI ID.</p>
                     <img src={qrImage} alt="Facto Research payment QR code" className="qr-image" />
                 </div>
 
