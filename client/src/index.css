@@ -2093,8 +2093,11 @@ ul {
 }
 
 .modal-content {
+  width: min(100%, 500px);
   max-width: 500px;
   padding: 40px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
 }
 
 .modal-header {
@@ -2152,6 +2155,7 @@ ul {
 }
 
 .advice-modal-content {
+  width: min(100%, 560px);
   max-width: 560px;
   padding: 20px;
   background: linear-gradient(180deg, #edf4ff 0%, #eef8f2 100%);
@@ -2239,7 +2243,19 @@ ul {
 }
 
 @media (max-width: 640px) {
+  .modal-overlay {
+    padding: 16px;
+  }
+
+  .modal-content {
+    width: min(100%, 420px);
+    padding: 24px 20px;
+    border-radius: 18px;
+    max-height: calc(100vh - 32px);
+  }
+
   .advice-modal-content {
+    width: min(100%, 400px);
     padding: 18px;
   }
 
