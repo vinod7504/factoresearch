@@ -1,15 +1,4 @@
-const getApiBaseUrl = () => {
-    const configured = import.meta.env.VITE_API_BASE_URL?.trim();
-    if (configured) {
-        return configured.replace(/\/$/, '');
-    }
-
-    if (import.meta.env.DEV) {
-        return 'http://localhost:3001';
-    }
-
-    return 'https://factoresearch.onrender.com';
-};
+import { getApiBaseUrl } from './apiBaseUrl';
 
 export const submitContactForm = async (payload) => {
     const apiBaseUrl = getApiBaseUrl();

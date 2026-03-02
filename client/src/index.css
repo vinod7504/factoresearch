@@ -209,7 +209,8 @@ ul {
 }
 
 .navbar .logo {
-  margin-left: -90px;
+  position: relative;
+  left: -240px;
 }
 
 .logo-img {
@@ -230,7 +231,7 @@ ul {
 
 .nav-links.desktop {
   display: flex;
-  margin-right: -90px;
+  margin-right: -250px;
 }
 
 @media (max-width: 768px) {
@@ -240,7 +241,7 @@ ul {
   }
 
   .navbar .logo {
-    margin-left: 0;
+    left: 0;
   }
 
   .nav-links.desktop {

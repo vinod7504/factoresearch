@@ -1,28 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { TrendingDown, TrendingUp } from 'lucide-react';
+import { getApiBaseUrl } from '../utils/apiBaseUrl';
 
-const REFRESH_INTERVAL_MS = 120000;
+const LIVE_REFRESH_INTERVAL_MS = 1000;
+const OFF_MARKET_REFRESH_INTERVAL_MS = 60000;
 const REQUEST_TIMEOUT_MS = 8500;
-const CACHE_TTL_MS = 60000;
-const RATE_LIMIT_BACKOFF_MS = 5 * 60 * 1000;
 const MIN_QUOTES_FOR_FEED = 1;
 const DAY_SNAPSHOT_KEY = 'marketTickerDaySnapshotV1';
+const MARKET_API_BASE_URL = getApiBaseUrl();
+const MARKET_TIMEZONE = 'Asia/Kolkata';
+const MARKET_OPEN_HHMM = 915;
+const MARKET_CLOSE_HHMM = 1530;
 
 const MARKET_INDEXES = [
-    { label: 'SENSEX', symbols: ['^BSESN'], logo: '/images/market/bse.svg' },
-    { label: 'BANKNIFTY', symbols: ['^NSEBANK'], logo: '/images/market/nse.svg' },
-    { label: 'NIFTY 50', symbols: ['^NSEI'], logo: '/images/market/nse.svg' },
-    { label: 'FINNIFTY', symbols: ['^CNXFIN'], logo: '/images/market/nse.svg' },
-    { label: 'NIFTY MIDCAP 50', symbols: ['^NSEMDCP50'], logo: '/images/market/nse.svg' },
-    { label: 'NIFTY IT', symbols: ['^CNXIT'], logo: '/images/market/nse.svg' },
+    { label: 'SENSEX', symbol: '^BSESN', logo: '/images/market/bse.svg' },
+    { label: 'BANKNIFTY', symbol: '^NSEBANK', logo: '/images/market/nse.svg' },
+    { label: 'NIFTY 50', symbol: '^NSEI', logo: '/images/market/nse.svg' },
+    { label: 'FINNIFTY', symbol: '^CNXFIN', logo: '/images/market/nse.svg' },
+    { label: 'NIFTY MIDCAP 50', symbol: '^NSEMDCP50', logo: '/images/market/nse.svg' },
+    { label: 'NIFTY IT', symbol: '^CNXIT', logo: '/images/market/nse.svg' },
 ];
-
-const marketQuoteCache = {
-    payload: null,
-    timestamp: 0,
-    inflight: null,
-    backoffUntil: 0,
-};
 
 const emptyQuote = (index) => ({
     ...index,
@@ -83,6 +80,30 @@ const formatPrice = (value) => {
     });
 };
 
+const getIndianMarketClock = () => {
+    const parts = new Intl.DateTimeFormat('en-GB', {
+        timeZone: MARKET_TIMEZONE,
+        weekday: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+    }).formatToParts(new Date());
+
+    const byType = (type) => parts.find((part) => part.type === type)?.value || '';
+    const weekday = byType('weekday');
+    const hour = Number(byType('hour'));
+    const minute = Number(byType('minute'));
+    const hhmm = Number.isFinite(hour) && Number.isFinite(minute) ? hour * 100 + minute : -1;
+
+    return { weekday, hhmm };
+};
+
+const isIndianMarketRunning = () => {
+    const { weekday, hhmm } = getIndianMarketClock();
+    if (weekday === 'Sat' || weekday === 'Sun') return false;
+    return hhmm >= MARKET_OPEN_HHMM && hhmm <= MARKET_CLOSE_HHMM;
+};
+
 const fetchJsonWithTimeout = async (url) => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
@@ -106,65 +127,62 @@ const fetchJsonWithTimeout = async (url) => {
     }
 };
 
-const extractQuoteFromChartPayload = (payload) => {
-    const result = payload?.chart?.result?.[0];
-    const meta = result?.meta || {};
-    const quoteSeries = result?.indicators?.quote?.[0] || {};
-    const closes = Array.isArray(quoteSeries.close) ? quoteSeries.close.filter((value) => typeof value === 'number') : [];
-    const lastClose = closes.length > 0 ? closes[closes.length - 1] : null;
-
-    const price = toFiniteNumber(meta.regularMarketPrice ?? lastClose);
-    const previousClose = toFiniteNumber(
-        meta.chartPreviousClose ?? meta.previousClose ?? meta.regularMarketPreviousClose
-    );
-
-    let change = toFiniteNumber(meta.regularMarketChange);
-    let changePercent = toFiniteNumber(meta.regularMarketChangePercent);
-
-    if (change === null && typeof price === 'number' && typeof previousClose === 'number') {
-        change = price - previousClose;
-    }
-
-    if (changePercent === null && typeof change === 'number' && typeof previousClose === 'number' && previousClose !== 0) {
-        changePercent = (change / previousClose) * 100;
-    }
-
-    return {
-        price,
-        change,
-        changePercent,
-    };
-};
-
-const buildChartEndpoints = (symbol) => {
-    const encoded = encodeURIComponent(symbol);
-    const direct = `https://query1.finance.yahoo.com/v8/finance/chart/${encoded}?interval=1d&range=5d`;
+const buildQuoteEndpoints = () => {
+    const symbols = MARKET_INDEXES.map((index) => index.symbol).join(',');
+    const encoded = encodeURIComponent(symbols);
+    const serverProxy = `${MARKET_API_BASE_URL}/api/market-quotes?symbols=${encoded}`;
+    const viteProxy = `/api/market-quotes?symbols=${encoded}`;
+    const direct = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${encoded}`;
     const cors = `https://api.allorigins.win/raw?url=${encodeURIComponent(direct)}`;
 
-    return [
-        `/api/market-chart/${encoded}?interval=1d&range=5d`,
-        cors,
-    ];
+    return [serverProxy, viteProxy, cors];
 };
 
-const fetchQuoteForIndex = async (index) => {
+const extractQuoteMapFromPayload = (payload) => {
+    const results = Array.isArray(payload?.quoteResponse?.result) ? payload.quoteResponse.result : [];
+    const quoteMap = new Map();
+
+    for (const result of results) {
+        const symbol = typeof result?.symbol === 'string' ? result.symbol.toUpperCase() : '';
+        if (!symbol) continue;
+
+        const price = toFiniteNumber(result.regularMarketPrice);
+        const previousClose = toFiniteNumber(result.regularMarketPreviousClose);
+        let change = toFiniteNumber(result.regularMarketChange);
+        let changePercent = toFiniteNumber(result.regularMarketChangePercent);
+
+        if (change === null && typeof price === 'number' && typeof previousClose === 'number') {
+            change = price - previousClose;
+        }
+
+        if (changePercent === null && typeof change === 'number' && typeof previousClose === 'number' && previousClose !== 0) {
+            changePercent = (change / previousClose) * 100;
+        }
+
+        quoteMap.set(symbol, { price, change, changePercent });
+    }
+
+    return quoteMap;
+};
+
+const fetchLiveQuotes = async () => {
     let sawRateLimit = false;
 
-    for (const symbol of index.symbols) {
-        const endpoints = buildChartEndpoints(symbol);
-
-        for (const endpoint of endpoints) {
-            try {
-                const payload = await fetchJsonWithTimeout(endpoint);
-                const parsed = extractQuoteFromChartPayload(payload);
-                if (typeof parsed.price === 'number') {
-                    return {
-                        ...index,
-                        ...parsed,
-                    };
-                }
-            } catch (error) {
-                if (error?.status === 429) sawRateLimit = true;
+    for (const endpoint of buildQuoteEndpoints()) {
+        try {
+            const payload = await fetchJsonWithTimeout(endpoint);
+            const quoteMap = extractQuoteMapFromPayload(payload);
+            const mapped = MARKET_INDEXES.map((index) => {
+                const parsed = quoteMap.get(index.symbol.toUpperCase());
+                return parsed ? { ...index, ...parsed } : emptyQuote(index);
+            });
+            const hasLiveData = mapped.some((item) => typeof item.price === 'number');
+            if (hasLiveData) {
+                return mapped;
+            }
+        } catch (error) {
+            if (error?.status === 429) {
+                sawRateLimit = true;
             }
         }
     }
@@ -175,65 +193,30 @@ const fetchQuoteForIndex = async (index) => {
         throw error;
     }
 
-    return emptyQuote(index);
+    return MARKET_INDEXES.map(emptyQuote);
 };
 
-const fetchQuotesWithCache = async () => {
-    const now = Date.now();
-
-    if (marketQuoteCache.payload && now - marketQuoteCache.timestamp < CACHE_TTL_MS) {
-        return marketQuoteCache.payload;
-    }
-
-    if (marketQuoteCache.inflight) {
-        return marketQuoteCache.inflight;
-    }
-
-    if (marketQuoteCache.backoffUntil > now) {
-        if (marketQuoteCache.payload) return marketQuoteCache.payload;
-        const backoffError = new Error('Ticker request backoff active.');
-        backoffError.status = 429;
-        throw backoffError;
-    }
-
-    marketQuoteCache.inflight = (async () => {
-        const mapped = await Promise.all(
-            MARKET_INDEXES.map(async (index) => {
-                try {
-                    return await fetchQuoteForIndex(index);
-                } catch (error) {
-                    if (error?.status === 429) {
-                        marketQuoteCache.backoffUntil = Date.now() + RATE_LIMIT_BACKOFF_MS;
-                    }
-                    return emptyQuote(index);
-                }
-            })
-        );
-
-        marketQuoteCache.payload = mapped;
-        marketQuoteCache.timestamp = Date.now();
-        return mapped;
-    })();
-
-    try {
-        return await marketQuoteCache.inflight;
-    } finally {
-        marketQuoteCache.inflight = null;
-    }
-};
+const getNextRefreshIntervalMs = () =>
+    isIndianMarketRunning() ? LIVE_REFRESH_INTERVAL_MS : OFF_MARKET_REFRESH_INTERVAL_MS;
 
 const MarketTicker = () => {
     const [quotes, setQuotes] = useState(() => readDaySnapshot() || MARKET_INDEXES.map(emptyQuote));
     const [isLiveFeed, setIsLiveFeed] = useState(false);
     const [hasError, setHasError] = useState(false);
     const [isDaySnapshot, setIsDaySnapshot] = useState(() => Boolean(readDaySnapshot()));
+    const [isMarketOpen, setIsMarketOpen] = useState(() => isIndianMarketRunning());
 
     useEffect(() => {
         let isMounted = true;
+        let timerId = null;
 
-        const fetchQuotes = async () => {
+        const pollQuotes = async () => {
+            const cycleStartedAt = Date.now();
+            const marketOpenNow = isIndianMarketRunning();
+            if (isMounted) setIsMarketOpen(marketOpenNow);
+
             try {
-                const mappedQuotes = await fetchQuotesWithCache();
+                const mappedQuotes = await fetchLiveQuotes();
                 if (!isMounted) return;
 
                 const liveQuotes = mappedQuotes.filter((item) => typeof item.price === 'number');
@@ -241,25 +224,23 @@ const MarketTicker = () => {
                 if (hasLiveData) {
                     setQuotes(liveQuotes);
                     writeDaySnapshot(liveQuotes);
-                    setIsLiveFeed(true);
+                    setIsLiveFeed(marketOpenNow);
                     setHasError(false);
-                    setIsDaySnapshot(false);
-                    return;
+                    setIsDaySnapshot(!marketOpenNow);
+                } else {
+                    const snapshot = readDaySnapshot();
+                    if (snapshot?.length) {
+                        setQuotes(snapshot);
+                        setIsLiveFeed(false);
+                        setHasError(false);
+                        setIsDaySnapshot(true);
+                    } else {
+                        setQuotes(mappedQuotes);
+                        setIsLiveFeed(false);
+                        setHasError(true);
+                        setIsDaySnapshot(false);
+                    }
                 }
-
-                const snapshot = readDaySnapshot();
-                if (snapshot?.length) {
-                    setQuotes(snapshot);
-                    setIsLiveFeed(false);
-                    setHasError(false);
-                    setIsDaySnapshot(true);
-                    return;
-                }
-
-                setQuotes(mappedQuotes);
-                setIsLiveFeed(false);
-                setHasError(true);
-                setIsDaySnapshot(false);
             } catch {
                 if (!isMounted) return;
                 const snapshot = readDaySnapshot();
@@ -268,30 +249,45 @@ const MarketTicker = () => {
                     setIsLiveFeed(false);
                     setHasError(false);
                     setIsDaySnapshot(true);
-                    return;
+                } else {
+                    setIsLiveFeed(false);
+                    setHasError(true);
+                    setIsDaySnapshot(false);
                 }
+            }
 
-                setIsLiveFeed(false);
-                setHasError(true);
-                setIsDaySnapshot(false);
+            if (isMounted) {
+                const targetInterval = getNextRefreshIntervalMs();
+                const elapsed = Date.now() - cycleStartedAt;
+                const nextDelay = Math.max(250, targetInterval - elapsed);
+                timerId = window.setTimeout(pollQuotes, nextDelay);
             }
         };
 
-        fetchQuotes();
-        const intervalId = setInterval(fetchQuotes, REFRESH_INTERVAL_MS);
+        pollQuotes();
 
         return () => {
             isMounted = false;
-            clearInterval(intervalId);
+            if (timerId) {
+                clearTimeout(timerId);
+            }
         };
     }, []);
+
+    const statusLabel = isLiveFeed
+        ? 'Live NSE/BSE'
+        : isMarketOpen
+            ? 'Feed reconnecting'
+            : isDaySnapshot
+                ? 'Market closed'
+                : 'Feed reconnecting';
 
     return (
         <section className="market-ticker" aria-label="Live market values">
             <div className="ticker-shell">
                 <div className={`ticker-status ${isLiveFeed ? 'live' : 'offline'}`}>
                     <span className="ticker-dot" />
-                    {isLiveFeed ? 'Live NSE/BSE' : isDaySnapshot ? 'Day snapshot' : 'Feed reconnecting'}
+                    {statusLabel}
                 </div>
 
                 <div className="ticker-marquee" role="status" aria-live="polite">

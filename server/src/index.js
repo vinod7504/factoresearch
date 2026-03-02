@@ -148,12 +148,332 @@ const buildHtmlBody = (submission) => {
     `;
 };
 
+const MARKET_REQUEST_TIMEOUT_MS = Number(process.env.MARKET_REQUEST_TIMEOUT_MS || 9000);
+const MARKET_QUOTES_CACHE_TTL_MS = Number(process.env.MARKET_QUOTES_CACHE_TTL_MS || 900);
+const MAX_MARKET_SYMBOLS = 20;
+const MARKET_ENDPOINTS = [
+    'https://query1.finance.yahoo.com',
+    'https://query2.finance.yahoo.com',
+];
+const ALLOWED_MARKET_INTERVALS = new Set(['1m', '2m', '5m', '15m', '30m', '60m', '90m', '1d', '1wk', '1mo']);
+const ALLOWED_MARKET_RANGES = new Set(['1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max']);
+const MARKET_SYMBOL_REGEX = /^[A-Z0-9^._=-]{1,24}$/;
+const marketQuotesCache = new Map();
+const marketQuotesInflight = new Map();
+
+const normalizeQueryParam = (value, fallback, allowedValues) => {
+    const normalized = normalizeText(value);
+    return allowedValues.has(normalized) ? normalized : fallback;
+};
+
+const toFiniteNumber = (value) => {
+    const parsed = typeof value === 'number' ? value : Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+};
+
+const parseMarketSymbols = (rawSymbols) => {
+    const normalized = normalizeText(rawSymbols);
+    if (!normalized) return [];
+
+    const unique = new Set(
+        normalized
+            .split(',')
+            .map((symbol) => normalizeText(symbol).toUpperCase())
+            .filter(Boolean)
+    );
+
+    return Array.from(unique);
+};
+
+const fetchYahooMarketQuotes = async ({ symbols }) => {
+    let rateLimited = false;
+    let lastFailureStatus = 502;
+    let lastFailureMessage = 'Market quote feed unavailable.';
+
+    for (const endpoint of MARKET_ENDPOINTS) {
+        const target = new URL(`${endpoint}/v7/finance/quote`);
+        target.searchParams.set('symbols', symbols.join(','));
+        target.searchParams.set('lang', 'en-IN');
+        target.searchParams.set('region', 'IN');
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), MARKET_REQUEST_TIMEOUT_MS);
+
+        try {
+            const response = await fetch(target, {
+                cache: 'no-store',
+                signal: controller.signal,
+                headers: {
+                    Accept: 'application/json,text/plain,*/*',
+                    Referer: 'https://finance.yahoo.com/',
+                    'User-Agent': 'Mozilla/5.0 (compatible; FactoResearch/1.0; +https://factoresearch.com)',
+                },
+            });
+
+            if (response.ok) {
+                return await response.json();
+            }
+
+            lastFailureStatus = response.status;
+            lastFailureMessage = `Market quote request failed with status ${response.status}.`;
+            if (response.status === 429) {
+                rateLimited = true;
+            }
+        } catch (error) {
+            if (error?.name === 'AbortError') {
+                lastFailureStatus = 504;
+                lastFailureMessage = 'Market quote request timed out.';
+            } else {
+                lastFailureStatus = 502;
+                lastFailureMessage = error?.message || 'Market quote request failed.';
+            }
+        } finally {
+            clearTimeout(timeoutId);
+        }
+    }
+
+    const error = new Error(rateLimited ? 'Market quote feed rate-limited.' : lastFailureMessage);
+    error.status = rateLimited ? 429 : lastFailureStatus;
+    throw error;
+};
+
+const extractQuoteFromChartPayload = (symbol, payload) => {
+    const result = payload?.chart?.result?.[0];
+    const meta = result?.meta || {};
+    const quoteSeries = result?.indicators?.quote?.[0] || {};
+    const closes = Array.isArray(quoteSeries.close) ? quoteSeries.close.filter((value) => typeof value === 'number') : [];
+    const lastClose = closes.length > 0 ? closes[closes.length - 1] : null;
+
+    const regularMarketPrice = toFiniteNumber(meta.regularMarketPrice ?? lastClose);
+    const regularMarketPreviousClose = toFiniteNumber(
+        meta.chartPreviousClose ?? meta.previousClose ?? meta.regularMarketPreviousClose
+    );
+
+    let regularMarketChange = toFiniteNumber(meta.regularMarketChange);
+    let regularMarketChangePercent = toFiniteNumber(meta.regularMarketChangePercent);
+
+    if (
+        regularMarketChange === null &&
+        typeof regularMarketPrice === 'number' &&
+        typeof regularMarketPreviousClose === 'number'
+    ) {
+        regularMarketChange = regularMarketPrice - regularMarketPreviousClose;
+    }
+
+    if (
+        regularMarketChangePercent === null &&
+        typeof regularMarketChange === 'number' &&
+        typeof regularMarketPreviousClose === 'number' &&
+        regularMarketPreviousClose !== 0
+    ) {
+        regularMarketChangePercent = (regularMarketChange / regularMarketPreviousClose) * 100;
+    }
+
+    return {
+        symbol,
+        regularMarketPrice,
+        regularMarketChange,
+        regularMarketChangePercent,
+        regularMarketPreviousClose,
+    };
+};
+
+const fetchYahooMarketChart = async ({ symbol, interval, range }) => {
+    let rateLimited = false;
+    let lastFailureStatus = 502;
+    let lastFailureMessage = 'Market feed unavailable.';
+
+    for (const endpoint of MARKET_ENDPOINTS) {
+        const target = new URL(`${endpoint}/v8/finance/chart/${encodeURIComponent(symbol)}`);
+        target.searchParams.set('interval', interval);
+        target.searchParams.set('range', range);
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), MARKET_REQUEST_TIMEOUT_MS);
+
+        try {
+            const response = await fetch(target, {
+                cache: 'no-store',
+                signal: controller.signal,
+                headers: {
+                    Accept: 'application/json,text/plain,*/*',
+                    Referer: 'https://finance.yahoo.com/',
+                    'User-Agent': 'Mozilla/5.0 (compatible; FactoResearch/1.0; +https://factoresearch.com)',
+                },
+            });
+
+            if (response.ok) {
+                return await response.json();
+            }
+
+            lastFailureStatus = response.status;
+            lastFailureMessage = `Market feed request failed with status ${response.status}.`;
+            if (response.status === 429) {
+                rateLimited = true;
+            }
+        } catch (error) {
+            if (error?.name === 'AbortError') {
+                lastFailureStatus = 504;
+                lastFailureMessage = 'Market feed request timed out.';
+            } else {
+                lastFailureStatus = 502;
+                lastFailureMessage = error?.message || 'Market feed request failed.';
+            }
+        } finally {
+            clearTimeout(timeoutId);
+        }
+    }
+
+    const error = new Error(rateLimited ? 'Market feed rate-limited.' : lastFailureMessage);
+    error.status = rateLimited ? 429 : lastFailureStatus;
+    throw error;
+};
+
+const fetchMarketQuotesViaChartFallback = async ({ symbols }) => {
+    const results = await Promise.all(
+        symbols.map(async (symbol) => {
+            try {
+                const payload = await fetchYahooMarketChart({
+                    symbol,
+                    interval: '1m',
+                    range: '1d',
+                });
+                return extractQuoteFromChartPayload(symbol, payload);
+            } catch {
+                return {
+                    symbol,
+                    regularMarketPrice: null,
+                    regularMarketChange: null,
+                    regularMarketChangePercent: null,
+                    regularMarketPreviousClose: null,
+                };
+            }
+        })
+    );
+
+    return {
+        quoteResponse: {
+            result: results.filter((item) => typeof item.regularMarketPrice === 'number'),
+            error: null,
+        },
+    };
+};
+
 app.use(cors(corsOptions));
 app.options(/.*/, cors(corsOptions));
 app.use(express.json({ limit: '1mb' }));
 
 app.get('/health', (_req, res) => {
     res.json({ ok: true });
+});
+
+app.get('/api/market-quotes', async (req, res) => {
+    const symbols = parseMarketSymbols(req.query.symbols);
+    if (!symbols.length) {
+        res.status(400).json({ ok: false, error: 'At least one market symbol is required.' });
+        return;
+    }
+
+    if (symbols.length > MAX_MARKET_SYMBOLS) {
+        res.status(400).json({ ok: false, error: `A maximum of ${MAX_MARKET_SYMBOLS} symbols is allowed.` });
+        return;
+    }
+
+    const invalidSymbol = symbols.find((symbol) => !MARKET_SYMBOL_REGEX.test(symbol));
+    if (invalidSymbol) {
+        res.status(400).json({ ok: false, error: `Invalid market symbol: ${invalidSymbol}` });
+        return;
+    }
+
+    const cacheKey = symbols.join(',');
+    const now = Date.now();
+    const cached = marketQuotesCache.get(cacheKey);
+    if (cached && now - cached.timestamp < MARKET_QUOTES_CACHE_TTL_MS) {
+        res.set('Cache-Control', 'no-store, max-age=0');
+        res.json(cached.payload);
+        return;
+    }
+
+    let inflight = marketQuotesInflight.get(cacheKey);
+    if (!inflight) {
+        inflight = (async () => {
+            try {
+                const payload = await fetchYahooMarketQuotes({ symbols });
+                const hasResults = Array.isArray(payload?.quoteResponse?.result) && payload.quoteResponse.result.length > 0;
+                if (hasResults) {
+                    return payload;
+                }
+                return await fetchMarketQuotesViaChartFallback({ symbols });
+            } catch (error) {
+                if (error?.status === 401 || error?.status === 403) {
+                    const fallbackPayload = await fetchMarketQuotesViaChartFallback({ symbols });
+                    const hasFallbackResults =
+                        Array.isArray(fallbackPayload?.quoteResponse?.result) &&
+                        fallbackPayload.quoteResponse.result.length > 0;
+                    if (hasFallbackResults) {
+                        return fallbackPayload;
+                    }
+                }
+                throw error;
+            }
+        })();
+        marketQuotesInflight.set(cacheKey, inflight);
+    }
+
+    try {
+        const payload = await inflight;
+        marketQuotesCache.set(cacheKey, {
+            payload,
+            timestamp: Date.now(),
+        });
+        res.set('Cache-Control', 'no-store, max-age=0');
+        res.json(payload);
+    } catch (error) {
+        const status = Number.isInteger(error?.status) ? error.status : 502;
+        console.error('Market quote proxy failed', {
+            symbols,
+            status,
+            message: error?.message,
+        });
+        res.status(status).json({
+            ok: false,
+            error: 'Unable to fetch live market data right now.',
+        });
+    } finally {
+        if (marketQuotesInflight.get(cacheKey) === inflight) {
+            marketQuotesInflight.delete(cacheKey);
+        }
+    }
+});
+
+app.get('/api/market-chart/:symbol', async (req, res) => {
+    const symbol = normalizeText(req.params.symbol).toUpperCase();
+    const interval = normalizeQueryParam(req.query.interval, '1d', ALLOWED_MARKET_INTERVALS);
+    const range = normalizeQueryParam(req.query.range, '5d', ALLOWED_MARKET_RANGES);
+
+    if (!MARKET_SYMBOL_REGEX.test(symbol)) {
+        res.status(400).json({ ok: false, error: 'Invalid market symbol.' });
+        return;
+    }
+
+    try {
+        const payload = await fetchYahooMarketChart({ symbol, interval, range });
+        res.set('Cache-Control', 'no-store, max-age=0');
+        res.json(payload);
+    } catch (error) {
+        const status = Number.isInteger(error?.status) ? error.status : 502;
+        console.error('Market chart proxy failed', {
+            symbol,
+            interval,
+            range,
+            status,
+            message: error?.message,
+        });
+        res.status(status).json({
+            ok: false,
+            error: 'Unable to fetch live market data right now.',
+        });
+    }
 });
 
 app.post('/api/contact', async (req, res) => {
