@@ -6,18 +6,20 @@ import SEBIModal from './components/SEBIModal';
 import FestivalOverlay from './components/FestivalOverlay';
 import FloatingChatWidget from './components/FloatingChatWidget';
 import NotFoundPage from './pages/NotFoundPage';
-import { routeComponents, routeTitles } from './routes';
+import { routeComponents } from './routes';
 import { RouterProvider } from './router';
 import { useRouter } from './useRouter';
+import { applyRouteSeo } from './utils/seo';
 import './App.css';
 
 const AppShell = () => {
     const { path } = useRouter();
+    const isKnownRoute = Boolean(routeComponents[path]);
     const PageComponent = routeComponents[path] || NotFoundPage;
 
     useEffect(() => {
-        document.title = routeTitles[path] || 'Page Not Found | FactoResearch';
-    }, [path]);
+        applyRouteSeo(path, { noindex: !isKnownRoute });
+    }, [path, isKnownRoute]);
 
     return (
         <div className="app-wrapper">

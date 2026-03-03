@@ -6,6 +6,10 @@ import { siteData } from '../data/siteData';
 import { legalLinks } from '../data/legalData';
 
 const Footer = () => {
+    const phoneHref = `tel:${(siteData.contact.phone || '').replace(/[^\d+]/g, '')}`;
+    const emailHref = `mailto:${siteData.contact.email || ''}`;
+    const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(siteData.contact.address || '')}`;
+
     return (
         <footer className="footer-section">
             <div className="container">
@@ -51,13 +55,22 @@ const Footer = () => {
                     <div className="footer-contact">
                         <h4>Contact Info</h4>
                         <div className="contact-item">
-                            <Phone size={18} /> <span>{siteData.contact.phone}</span>
+                            <Phone size={18} />
+                            <a className="contact-link" href={phoneHref}>
+                                {siteData.contact.phone}
+                            </a>
                         </div>
                         <div className="contact-item">
-                            <Mail size={18} /> <span>{siteData.contact.email}</span>
+                            <Mail size={18} />
+                            <a className="contact-link" href={emailHref}>
+                                {siteData.contact.email}
+                            </a>
                         </div>
                         <div className="contact-item">
-                            <MapPin size={18} /> <span>{siteData.contact.address}</span>
+                            <MapPin size={18} />
+                            <a className="contact-link" href={mapsHref} target="_blank" rel="noreferrer noopener">
+                                {siteData.contact.address}
+                            </a>
                         </div>
                     </div>
                 </div>

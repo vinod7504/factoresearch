@@ -1,8 +1,20 @@
 const APP_NAME = import.meta.env.VITE_APP_NAME || 'Facto Research';
-const SUPPORT_PHONE = import.meta.env.VITE_SUPPORT_PHONE || '';
-const SUPPORT_EMAIL = import.meta.env.VITE_SUPPORT_EMAIL || '';
-const REGISTERED_ADDRESS = import.meta.env.VITE_REGISTERED_ADDRESS || '';
-const WHATSAPP_URL = import.meta.env.VITE_WHATSAPP_URL || '';
+const DEFAULT_SUPPORT_PHONE = '+91 99599 37373';
+const DEFAULT_SUPPORT_EMAIL = 'support@factoresearch.com';
+const DEFAULT_REGISTERED_ADDRESS =
+    'D.No.7, SNO.432/4 Plot No.6, Opp JNTU College, KM Colony, Anantapur, Andhra Pradesh-515002.';
+const DEFAULT_WHATSAPP_URL =
+    'https://api.whatsapp.com/send/?phone=919959937373&text&type=phone_number&app_absent=0';
+
+const withFallback = (value, fallback) => {
+    const normalized = typeof value === 'string' ? value.trim() : '';
+    return normalized || fallback;
+};
+
+const SUPPORT_PHONE = withFallback(import.meta.env.VITE_SUPPORT_PHONE, DEFAULT_SUPPORT_PHONE);
+const SUPPORT_EMAIL = withFallback(import.meta.env.VITE_SUPPORT_EMAIL, DEFAULT_SUPPORT_EMAIL);
+const REGISTERED_ADDRESS = withFallback(import.meta.env.VITE_REGISTERED_ADDRESS, DEFAULT_REGISTERED_ADDRESS);
+const WHATSAPP_URL = withFallback(import.meta.env.VITE_WHATSAPP_URL, DEFAULT_WHATSAPP_URL);
 
 const ONBOARDING_URL =
     import.meta.env.VITE_ONBOARDING_URL || 'https://onboarding.cognifyai.in/Facto/';
