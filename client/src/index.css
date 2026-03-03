@@ -2803,6 +2803,85 @@ ul {
   opacity: 0.78;
 }
 
+.festival-greeting {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90vw, 760px);
+  text-align: center;
+  pointer-events: none;
+  animation: festival-greeting-reveal 4s ease-in-out forwards;
+}
+
+.festival-greeting h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 5.8vw, 3.4rem);
+  line-height: 1.06;
+  color: #f8fafc;
+  text-shadow:
+    0 0 16px rgba(15, 23, 42, 0.42),
+    0 0 32px rgba(15, 23, 42, 0.2);
+  letter-spacing: 0.02em;
+}
+
+.festival-greeting p {
+  margin: 10px auto 0;
+  max-width: 620px;
+  font-size: clamp(0.88rem, 2.5vw, 1.12rem);
+  color: rgba(241, 245, 249, 0.95);
+  text-shadow: 0 0 12px rgba(15, 23, 42, 0.4);
+}
+
+@keyframes festival-greeting-reveal {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -42%) scale(0.92);
+    filter: blur(4px);
+  }
+
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    filter: blur(0);
+  }
+
+  78% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.01);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -58%) scale(1.03);
+    filter: blur(3px);
+  }
+}
+
+.festival-theme-diwali .festival-greeting h2 {
+  color: #fde68a;
+  text-shadow:
+    0 0 14px rgba(250, 204, 21, 0.55),
+    0 0 30px rgba(244, 114, 182, 0.25);
+}
+
+.festival-theme-holi .festival-greeting h2 {
+  background: linear-gradient(120deg, #f97316 0%, #ef4444 26%, #22c55e 52%, #3b82f6 76%, #a855f7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+}
+
+.festival-theme-tricolor .festival-greeting h2 {
+  background: linear-gradient(180deg, #ff9933 0 33%, #f8fafc 33% 66%, #138808 66% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+}
+
 .festival-holi-burst {
   position: absolute;
   left: var(--festival-left);
@@ -3034,6 +3113,11 @@ ul {
 }
 
 @media (max-width: 768px) {
+  .festival-greeting p {
+    max-width: 92vw;
+    margin-top: 8px;
+  }
+
   .festival-holi-burst {
     width: clamp(110px, 28vw, 190px);
   }

@@ -341,6 +341,10 @@ const FestivalOverlay = () => {
     return (
         <div className={`festival-overlay festival-theme-${activeFestival.theme}`} aria-hidden="true">
             <FestivalEffects theme={activeFestival.theme} />
+            <div className="festival-greeting">
+                <h2>{activeFestival.greeting}</h2>
+                <p>{activeFestival.message}</p>
+            </div>
         </div>
     );
 };
