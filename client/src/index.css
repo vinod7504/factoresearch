@@ -2727,3 +2727,328 @@ ul {
     font-size: 2.5rem;
   }
 }
+
+/* Festival Overlay */
+.festival-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  isolation: isolate;
+  pointer-events: none;
+  animation: festival-overlay-fade 4s ease-out forwards;
+}
+
+@keyframes festival-overlay-fade {
+  0% {
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  82% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.festival-theme-holi {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(239, 68, 68, 0.14), transparent 42%),
+    radial-gradient(circle at 80% 18%, rgba(59, 130, 246, 0.12), transparent 40%),
+    radial-gradient(circle at 70% 80%, rgba(16, 185, 129, 0.1), transparent 46%);
+}
+
+.festival-theme-diwali {
+  background:
+    radial-gradient(circle at 20% 12%, rgba(250, 204, 21, 0.1), transparent 38%),
+    radial-gradient(circle at 80% 10%, rgba(244, 114, 182, 0.09), transparent 44%);
+}
+
+.festival-theme-tricolor {
+  background:
+    radial-gradient(circle at 12% 20%, rgba(255, 153, 51, 0.1), transparent 34%),
+    radial-gradient(circle at 86% 75%, rgba(19, 136, 8, 0.09), transparent 40%);
+}
+
+.festival-theme-kite {
+  background:
+    radial-gradient(circle at 14% 22%, rgba(244, 114, 182, 0.1), transparent 36%),
+    radial-gradient(circle at 84% 20%, rgba(34, 211, 238, 0.1), transparent 34%);
+}
+
+.festival-theme-marigold {
+  background:
+    radial-gradient(circle at 20% 22%, rgba(245, 158, 11, 0.11), transparent 38%),
+    radial-gradient(circle at 86% 16%, rgba(249, 115, 22, 0.1), transparent 40%);
+}
+
+.festival-theme-confetti {
+  background:
+    radial-gradient(circle at 16% 20%, rgba(59, 130, 246, 0.1), transparent 36%),
+    radial-gradient(circle at 84% 14%, rgba(99, 102, 241, 0.1), transparent 34%);
+}
+
+.festival-effects {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.78;
+}
+
+.festival-holi-burst {
+  position: absolute;
+  left: var(--festival-left);
+  top: var(--festival-top);
+  width: clamp(140px, 20vw, 260px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 34%, rgba(255, 255, 255, 0.6), var(--festival-color) 48%, rgba(0, 0, 0, 0) 76%);
+  opacity: 0;
+  transform: scale(0.26);
+  filter: blur(1px);
+  mix-blend-mode: screen;
+  animation: festival-holi-bloom 2.6s ease-out infinite var(--festival-delay);
+}
+
+@keyframes festival-holi-bloom {
+  0% {
+    opacity: 0;
+    transform: scale(0.24);
+  }
+
+  18% {
+    opacity: 0.92;
+  }
+
+  72% {
+    opacity: 0.38;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.25);
+  }
+}
+
+.festival-firework {
+  position: absolute;
+  left: var(--festival-left);
+  top: var(--festival-top);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  color: var(--festival-color);
+  background: currentColor;
+  opacity: 0;
+  animation: festival-firework-dot 2.5s ease-out infinite var(--festival-delay);
+}
+
+.festival-firework::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow:
+    0 -34px 0 1px currentColor,
+    24px -24px 0 1px currentColor,
+    34px 0 0 1px currentColor,
+    24px 24px 0 1px currentColor,
+    0 34px 0 1px currentColor,
+    -24px 24px 0 1px currentColor,
+    -34px 0 0 1px currentColor,
+    -24px -24px 0 1px currentColor;
+  transform: scale(0.08);
+  opacity: 0;
+  animation: festival-firework-burst 2.5s ease-out infinite var(--festival-delay);
+}
+
+@keyframes festival-firework-dot {
+  0% {
+    opacity: 0;
+    transform: translateY(34px) scale(0.35);
+  }
+
+  24% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.2);
+  }
+}
+
+@keyframes festival-firework-burst {
+  0%,
+  24% {
+    opacity: 0;
+    transform: scale(0.05);
+  }
+
+  38% {
+    opacity: 0.98;
+    transform: scale(0.45);
+  }
+
+  70% {
+    opacity: 0.55;
+    transform: scale(0.8);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.festival-tricolor-band {
+  position: absolute;
+  left: -20%;
+  top: var(--festival-top);
+  width: 140%;
+  height: 70px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ff9933 0 33%, #f8fafc 33% 66%, #138808 66% 100%);
+  opacity: 0.33;
+  transform: rotate(var(--festival-rotate));
+  animation: festival-tricolor-wave 4.2s ease-in-out infinite var(--festival-delay);
+}
+
+@keyframes festival-tricolor-wave {
+  0%,
+  100% {
+    transform: translateX(-7%) rotate(var(--festival-rotate));
+  }
+
+  50% {
+    transform: translateX(8%) rotate(var(--festival-rotate));
+  }
+}
+
+.festival-kite {
+  position: absolute;
+  left: var(--festival-left);
+  top: var(--festival-top);
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, #22d3ee, #f472b6);
+  transform: rotate(45deg);
+  border-radius: 4px;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.26);
+  animation: festival-kite-float 5.2s ease-in-out infinite var(--festival-delay);
+}
+
+.festival-kite::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 1px;
+  height: 84px;
+  transform: translateX(-50%) rotate(-45deg);
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(248, 250, 252, 0.7),
+      rgba(248, 250, 252, 0.7) 5px,
+      rgba(248, 250, 252, 0) 5px,
+      rgba(248, 250, 252, 0) 10px
+    );
+}
+
+@keyframes festival-kite-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(45deg);
+  }
+
+  50% {
+    transform: translateY(-18px) rotate(37deg);
+  }
+}
+
+.festival-petal {
+  position: absolute;
+  left: var(--festival-left);
+  top: -10%;
+  width: 14px;
+  height: 18px;
+  border-radius: 80% 80% 50% 50%;
+  background: radial-gradient(circle at 30% 30%, #fde68a, #f59e0b 64%);
+  opacity: 0;
+  animation: festival-petal-fall var(--festival-duration) linear infinite var(--festival-delay);
+}
+
+@keyframes festival-petal-fall {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 0.96;
+  }
+
+  100% {
+    transform: translate3d(30px, 112vh, 0) rotate(260deg);
+    opacity: 0;
+  }
+}
+
+.festival-confetti-bit {
+  position: absolute;
+  left: var(--festival-left);
+  top: -10%;
+  width: 10px;
+  height: 16px;
+  border-radius: 4px;
+  background: hsl(var(--festival-hue) 88% 62%);
+  opacity: 0;
+  animation: festival-confetti-fall var(--festival-duration) linear infinite var(--festival-delay);
+}
+
+@keyframes festival-confetti-fall {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+
+  12% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(26px, 110vh, 0) rotate(380deg);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .festival-holi-burst {
+    width: clamp(110px, 28vw, 190px);
+  }
+
+  .festival-tricolor-band {
+    height: 52px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .festival-overlay *,
+  .festival-overlay *::before,
+  .festival-overlay *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

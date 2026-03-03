@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import MarketTicker from './components/MarketTicker';
 import Footer from './components/Footer';
 import SEBIModal from './components/SEBIModal';
+import FestivalOverlay from './components/FestivalOverlay';
 import FloatingChatWidget from './components/FloatingChatWidget';
 import NotFoundPage from './pages/NotFoundPage';
 import { routeComponents, routeTitles } from './routes';
@@ -20,6 +21,7 @@ const AppShell = () => {
 
     return (
         <div className="app-wrapper">
+            <FestivalOverlay />
             <Navbar />
             <MarketTicker />
             <main className="main-content">
