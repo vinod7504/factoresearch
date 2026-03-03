@@ -23,12 +23,21 @@ const SEBIModal = () => {
         return () => clearTimeout(timer);
     }, []);
 
-    const handleAccept = () => {
-        setIsDisclaimerOpen(false);
+    const openAdviceModal = () => {
         setIsAdviceOpen(true);
         setFormStatus('');
         setFormStatusType('');
         setIsSubmitted(false);
+    };
+
+    const handleAccept = () => {
+        setIsDisclaimerOpen(false);
+        openAdviceModal();
+    };
+
+    const handleCloseDisclaimer = () => {
+        setIsDisclaimerOpen(false);
+        openAdviceModal();
     };
 
     const handleChange = (event) => {
@@ -106,7 +115,7 @@ const SEBIModal = () => {
                             <button
                                 type="button"
                                 className="modal-close-btn"
-                                onClick={() => setIsDisclaimerOpen(false)}
+                                onClick={handleCloseDisclaimer}
                                 aria-label="Close disclaimer"
                             >
                                 <X size={18} />
@@ -146,7 +155,7 @@ const SEBIModal = () => {
                     >
                         <div className="modal-header advice-modal-header">
                             <div>
-                                <h2>Get An Advice!</h2>
+                                <h2>Get In Touch!</h2>
                                 <p>Your Information will never be shared with any third party</p>
                             </div>
                             <button
