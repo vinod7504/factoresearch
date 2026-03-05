@@ -15,7 +15,7 @@ const ServicesPage = () => {
                 eyebrow="What We Do"
                 title="Research"
                 highlight="Services"
-                subtitle="Equity, fundamental, technical, thematic, portfolio, and educational research services."
+                subtitle="Choose a service below to open its full details on a dedicated page."
             />
             <Services />
         </div>

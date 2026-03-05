@@ -1,9 +1,14 @@
 import React from 'react';
 import { motion as Motion } from 'framer-motion';
-import { CheckCircle2 } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { RouteLink } from '../router';
 import { siteData } from '../data/siteData';
 
+const toServicePath = (slug) => `/services/${slug}`;
+
 const Services = () => {
+    const categories = siteData.services.categories;
+
     return (
         <section id="services" className="section-padding services-v2-section">
             <div className="container">
@@ -15,32 +20,44 @@ const Services = () => {
                     transition={{ duration: 0.6 }}
                 >
                     <h2 className="section-title">{siteData.services.title}</h2>
-                    <p className="services-v2-subtitle">
-                        Data-backed, action-focused research support for investors across market cycles.
-                    </p>
+                    <p className="services-v2-subtitle">{siteData.services.subtitle}</p>
                 </Motion.div>
 
-                <div className="services-grid service-detailed-grid services-v2-grid">
-                    {siteData.services.categories.map((category, index) => (
-                        <Motion.article
-                            key={category.title}
-                            initial={{ opacity: 0, y: 26, rotateX: -8 }}
-                            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.08, duration: 0.62 }}
-                            className="service-card glass-card detailed-service-card services-v2-card"
+                <div className="services-v3-selector-grid" aria-label="Service categories">
+                    {categories.map((category, index) => (
+                        <RouteLink
+                            key={category.slug}
+                            to={toServicePath(category.slug)}
+                            className="services-v3-selector-link"
+                            aria-label={`Open ${category.title}`}
                         >
-                            <div className="service-card-tag">0{index + 1}</div>
-                            <h3>{category.title}</h3>
-                            <ul className="service-points services-v2-points">
-                                {category.points.map((point) => (
-                                    <li key={point}>
-                                        <CheckCircle2 size={16} className="check-icon" />
-                                        <span>{point}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </Motion.article>
+                            <Motion.article
+                                className="glass-card services-v3-selector"
+                                initial={{ opacity: 0, y: 24, rotateX: -8 }}
+                                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                                viewport={{ once: true, amount: 0.15 }}
+                                transition={{ delay: index * 0.06, duration: 0.56 }}
+                            >
+                                <div className="services-v3-selector-head">
+                                    <span className="service-card-tag">{String(index + 1).padStart(2, '0')}</span>
+                                    <ArrowUpRight size={14} className="services-v3-selector-arrow" />
+                                </div>
+
+                                <h3>{category.title}</h3>
+                                <p>{category.summary}</p>
+
+                                <ul className="services-v3-preview-points">
+                                    {category.points.slice(0, 3).map((point) => (
+                                        <li key={`${category.slug}-${point.title}`}>
+                                            <CheckCircle2 size={14} className="check-icon" />
+                                            <span>{point.title}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <span className="services-v3-open-indicator">Click here for full details</span>
+                            </Motion.article>
+                        </RouteLink>
                     ))}
                 </div>
             </div>

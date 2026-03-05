@@ -1,5 +1,6 @@
 import HomePage from './pages/HomePage';
 import ServicesPage from './pages/ServicesPage';
+import ServiceDetailPage from './pages/ServiceDetailPage';
 import PricingPage from './pages/PricingPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
@@ -41,6 +42,12 @@ export const pricingLinks = [
 export const routeComponents = {
     '/': HomePage,
     '/services': ServicesPage,
+    '/services/equity-research': ServiceDetailPage,
+    '/services/fundamental-research': ServiceDetailPage,
+    '/services/technical-analysis': ServiceDetailPage,
+    '/services/portfolio-baskets': ServiceDetailPage,
+    '/services/thematic-sectoral': ServiceDetailPage,
+    '/services/educational-content': ServiceDetailPage,
     '/pricing': PricingPage,
     '/pricing/stock-cash': StockCashPricingPage,
     '/pricing/stock-future': StockFuturePricingPage,

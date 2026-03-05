@@ -20,42 +20,42 @@ const serviceLinks = [
     {
         key: 'equity-research',
         label: 'Equity Research & Stock Recommendations',
-        path: '/services',
+        path: '/services/equity-research',
         Icon: TrendingUp,
         subtitle: 'Research-backed stock ideas with entry, exit, and risk guidance.',
     },
     {
         key: 'fundamental-research',
         label: 'Fundamental Research Reports',
-        path: '/services',
+        path: '/services/fundamental-research',
         Icon: BarChart3,
         subtitle: 'Business, valuation, and financial quality analysis for investors.',
     },
     {
         key: 'technical-analysis',
         label: 'Technical Analysis, Market Trends & Live Index Tracking',
-        path: '/services',
+        path: '/services/technical-analysis',
         Icon: Activity,
         subtitle: 'Momentum, charts, index tracking, and short-term market structure.',
     },
     {
         key: 'portfolio-baskets',
         label: 'Portfolio Baskets',
-        path: '/services',
+        path: '/services/portfolio-baskets',
         Icon: Layers3,
         subtitle: 'Curated baskets with allocation logic and periodic review updates.',
     },
     {
         key: 'thematic-sectoral',
         label: 'Thematic & Sectoral Research',
-        path: '/services',
+        path: '/services/thematic-sectoral',
         Icon: Target,
         subtitle: 'Sector-focused research across emerging trends and market cycles.',
     },
     {
         key: 'educational-content',
         label: 'Educational Content & Market Learning',
-        path: '/services',
+        path: '/services/educational-content',
         Icon: Sparkles,
         subtitle: 'Courses, webinars, and practical market-learning resources.',
     },
@@ -134,8 +134,11 @@ const Navbar = () => {
         };
     }, []);
 
-    const linkClassName = (targetPath) => (path === targetPath ? 'active' : '');
-    const isServicesActive = path === '/services';
+    const linkClassName = (targetPath) => {
+        const normalizedTargetPath = (targetPath || '').split('?')[0].split('#')[0] || '/';
+        return path === normalizedTargetPath ? 'active' : '';
+    };
+    const isServicesActive = path === '/services' || path.startsWith('/services/');
     const isPricingActive = path === '/pricing' || path.startsWith('/pricing/');
     const primaryNavLinks = navLinks.filter(
         (item) => item.path !== '/services' && item.path !== '/pricing' && item.path !== '/contact'

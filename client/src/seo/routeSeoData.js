@@ -25,6 +25,54 @@ export const ROUTE_SEO = {
         changefreq: 'weekly',
         priority: '0.9',
     },
+    '/services/equity-research': {
+        title: 'Equity Research & Stock Recommendations | Facto Research',
+        description:
+            'Detailed equity research service with entry/exit levels, target and stop-loss structure, time horizon, and rationale.',
+        heading: 'Equity Research & Stock Recommendations',
+        changefreq: 'weekly',
+        priority: '0.85',
+    },
+    '/services/fundamental-research': {
+        title: 'Fundamental Research Reports | Facto Research',
+        description:
+            'Business model, financial performance, valuation, and industry outlook focused fundamental research reports.',
+        heading: 'Fundamental Research Reports',
+        changefreq: 'weekly',
+        priority: '0.85',
+    },
+    '/services/technical-analysis': {
+        title: 'Technical Analysis & Market Trends | Facto Research',
+        description:
+            'Technical analysis coverage including trend tracking, chart patterns, momentum studies, and support/resistance levels.',
+        heading: 'Technical Analysis, Market Trends & Live Index Tracking',
+        changefreq: 'weekly',
+        priority: '0.85',
+    },
+    '/services/portfolio-baskets': {
+        title: 'Portfolio Baskets | Facto Research',
+        description:
+            'Research-backed portfolio baskets with allocation logic, indicative entry ranges, periodic updates, and tracking.',
+        heading: 'Portfolio Baskets',
+        changefreq: 'weekly',
+        priority: '0.85',
+    },
+    '/services/thematic-sectoral': {
+        title: 'Thematic & Sectoral Research | Facto Research',
+        description:
+            'Thematic and sectoral research across banking, PSU, emerging sectors, and cycle-based market insights.',
+        heading: 'Thematic & Sectoral Research',
+        changefreq: 'weekly',
+        priority: '0.85',
+    },
+    '/services/educational-content': {
+        title: 'Educational Content & Market Learning | Facto Research',
+        description:
+            'Market learning resources including courses, webinars, methodology training, and investing discipline workshops.',
+        heading: 'Educational Content & Market Learning',
+        changefreq: 'weekly',
+        priority: '0.85',
+    },
     '/pricing': {
         title: 'Pricing Plans | Facto Research',
         description:

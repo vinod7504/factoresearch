@@ -68,47 +68,255 @@ export const siteData = {
     },
     services: {
         title: 'Our Research Services',
+        subtitle:
+            'Research-first services with clear structure, risk context, and practical decision support.',
         categories: [
             {
+                slug: 'equity-research',
                 title: 'Equity Research & Stock Recommendations',
-                points: ['Entry/Exit levels', 'Target/SL price', 'Time horizon & risk level', 'Research rationale'],
+                summary: 'Structured recommendations with clear levels, risk framing, and rationale.',
+                overview:
+                    'Action-focused ideas designed to help investors plan entries, exits, and risk with discipline.',
+                points: [
+                    {
+                        title: 'Entry/Exit levels',
+                        description:
+                            'Clear price zones are shared to help you plan entries and exits with structure, avoiding emotional decisions.',
+                        disclosure:
+                            'Levels are research-based and indicative; actual execution depends on liquidity, volatility, and market conditions.',
+                    },
+                    {
+                        title: 'Target/SL price',
+                        description:
+                            'Each idea includes a defined target and stop-loss to support risk-managed participation in the market.',
+                        disclosure:
+                            'Targets/SL are not guarantees and may change with trend, news flow, and price action.',
+                    },
+                    {
+                        title: 'Time horizon & risk level',
+                        description:
+                            'Calls are tagged by expected holding period and risk grade so you can match them with your profile.',
+                        disclosure:
+                            'Suitability varies by investor; higher risk strategies can lead to faster losses as well.',
+                    },
+                    {
+                        title: 'Research rationale',
+                        description:
+                            'Every recommendation includes the "why" - key drivers, triggers, and risks behind the view.',
+                        disclosure:
+                            'Rationale is based on available information and analysis, and can be impacted by unforeseen events.',
+                    },
+                ],
             },
             {
+                slug: 'fundamental-research',
                 title: 'Fundamental Research Reports',
-                points: ['Business model', 'Financial performance', 'Valuation metrics', 'Industry outlook'],
+                summary: 'In-depth business and valuation analysis for long-term decision making.',
+                overview:
+                    'Detailed research reports focused on business quality, financial strength, valuation, and industry context.',
+                points: [
+                    {
+                        title: 'Business model',
+                        description:
+                            'We explain how the company earns, its competitive edge, and what can strengthen or weaken its moat.',
+                        disclosure:
+                            'Insights are based on public sources and sector context, without any assurance of future performance.',
+                    },
+                    {
+                        title: 'Financial performance',
+                        description:
+                            'Detailed review of revenue, margins, cash flows, leverage, and key ratios to assess business health.',
+                        disclosure:
+                            'Financial trends can change with cycles, regulations, and management decisions.',
+                    },
+                    {
+                        title: 'Valuation metrics',
+                        description:
+                            'Valuation using relevant multiples and frameworks to compare price vs fundamentals and peers.',
+                        disclosure:
+                            'Valuation is an estimate, not certainty; market prices can remain irrational for extended periods.',
+                    },
+                    {
+                        title: 'Industry outlook',
+                        description:
+                            'Sector structure, demand drivers, risks, and cycle positioning to evaluate long-term opportunity.',
+                        disclosure:
+                            'Industry forecasts are indicative and may shift due to policy, competition, and macro factors.',
+                    },
+                ],
             },
             {
+                slug: 'technical-analysis',
                 title: 'Technical Analysis, Market Trends & Live Index Tracking',
+                summary: 'Live index tracking and chart-based trend analysis for tactical market views.',
+                overview:
+                    'Market-structure and momentum coverage to track direction, setups, and risk zones in evolving conditions.',
                 points: [
-                    'Live tracking of SENSEX & NIFTY',
-                    'Short term trends',
-                    'Chart patterns',
-                    'Indicators & momentum studies',
-                    'Support & resistance levels',
+                    {
+                        title: 'Live tracking of SENSEX & NIFTY',
+                        description:
+                            'Real-time monitoring of headline indices to understand market direction and risk-on/risk-off mood.',
+                        disclosure: 'Live tracking supports decision-making but does not predict outcomes.',
+                    },
+                    {
+                        title: 'Short term trends',
+                        description:
+                            'Short-horizon trend view to identify momentum phases and potential turning points.',
+                        disclosure:
+                            'Trends can reverse quickly; risk controls are essential in fast markets.',
+                    },
+                    {
+                        title: 'Chart patterns',
+                        description:
+                            'Pattern-based study to spot breakouts, breakdowns, consolidations, and reversal setups.',
+                        disclosure:
+                            'Patterns work on probability, not certainty, and must be used with confirmation and discipline.',
+                    },
+                    {
+                        title: 'Indicators & momentum studies',
+                        description:
+                            'Use of indicators (like momentum/volatility tools) to assess strength, weakness, and exhaustion.',
+                        disclosure:
+                            'Indicators can give false signals - always align with trend and risk management.',
+                    },
+                    {
+                        title: 'Support & resistance levels',
+                        description:
+                            'Key zones are mapped to identify potential demand/supply areas for planning trades or entries.',
+                        disclosure:
+                            'These levels are dynamic and may fail during news events or high volatility.',
+                    },
                 ],
             },
             {
+                slug: 'portfolio-baskets',
                 title: 'Portfolio Baskets',
+                summary: 'Curated baskets with rationale, allocation logic, and periodic review updates.',
+                overview:
+                    'Basket-based portfolio ideas designed for diversified exposure with ongoing review and transparent tracking.',
                 points: [
-                    'Research rationale for each stock',
-                    'Entry range & outlook (indicative)',
-                    'Portfolio allocation logic',
-                    'Periodic review updates',
-                    'Performance tracking',
+                    {
+                        title: 'Research rationale for each stock',
+                        description:
+                            'Each stock is included with a clear reason: fundamentals, trend strength, catalysts, and risk factors.',
+                        disclosure: 'Inclusion is research-led, not a promise of returns.',
+                    },
+                    {
+                        title: 'Entry range & outlook (indicative)',
+                        description:
+                            'We share an indicative entry range and outlook to help stagger buying and manage risk.',
+                        disclosure:
+                            'Ranges are indicative and may be updated based on price action and market conditions.',
+                    },
+                    {
+                        title: 'Portfolio allocation logic',
+                        description:
+                            'Allocation is designed with diversification, risk contribution, and sector balance in mind.',
+                        disclosure:
+                            'Allocations should be customized to your objectives and risk tolerance.',
+                    },
+                    {
+                        title: 'Periodic review updates',
+                        description:
+                            'Regular reviews highlight what changed - results, sector cues, trend shifts, or risk signals.',
+                        disclosure:
+                            'Reviews are informational; investors should act based on suitability and discipline.',
+                    },
+                    {
+                        title: 'Performance tracking',
+                        description:
+                            "Transparent tracking to evaluate what worked, what didn't, and how the basket behaved in cycles.",
+                        disclosure:
+                            'Past performance is not indicative of future results, and tracking is for learning and review.',
+                    },
                 ],
             },
             {
+                slug: 'thematic-sectoral',
                 title: 'Thematic & Sectoral Research',
-                points: ['Banking & financials', 'PSU stocks', 'Emerging sectors', 'Market trends & cycles', 'Risk disclosure & suitability note'],
+                summary: 'Sector and theme-focused research across cycles, policy shifts, and structural trends.',
+                overview:
+                    'Coverage across high-impact sectors and market cycles with explicit assumptions and risk notes.',
+                points: [
+                    {
+                        title: 'Banking & financials',
+                        description:
+                            'Coverage of banks/NBFCs with focus on credit growth, asset quality, margins, and policy impact.',
+                        disclosure:
+                            'Financial stocks are sensitive to rates and cycles; views may change as data evolves.',
+                    },
+                    {
+                        title: 'PSU stocks',
+                        description:
+                            'Research on PSU themes with triggers like reforms, capex cycles, valuations, and sentiment shifts.',
+                        disclosure:
+                            'PSUs can be volatile due to policy decisions; risk disclosure is integral to every view.',
+                    },
+                    {
+                        title: 'Emerging sectors',
+                        description:
+                            'Identify early-stage sectors driven by structural growth, innovation, and changing consumption.',
+                        disclosure:
+                            'Emerging themes carry higher uncertainty; position sizing and patience are key.',
+                    },
+                    {
+                        title: 'Market trends & cycles',
+                        description:
+                            'Cycle-based insights to understand where we are in the market, sector rotation, and risk regime.',
+                        disclosure:
+                            "Market cycles don't repeat exactly; signals are probabilistic, not predictive.",
+                    },
+                    {
+                        title: 'Risk disclosure & suitability note',
+                        description:
+                            'Every note highlights key risks, assumptions, and suitability considerations for informed decisions.',
+                        disclosure:
+                            'Invest only if aligned to your financial goals, horizon, and ability to take loss.',
+                    },
+                ],
             },
             {
+                slug: 'educational-content',
                 title: 'Educational Content & Market Learning',
+                summary: 'Courses, webinars, and practical frameworks to improve market learning discipline.',
+                overview:
+                    'Structured market education focused on process quality, tool usage, and decision discipline.',
                 points: [
-                    'Stock market courses',
-                    'Webinars / seminars',
-                    'Research methodology training',
-                    'Workshops on analysis tools',
-                    'Investing & trading discipline',
+                    {
+                        title: 'Stock market courses',
+                        description:
+                            'Structured courses covering basics to advanced concepts in investing, trading, and risk management.',
+                        disclosure:
+                            'Education improves skill and process; it does not assure profits or prevent losses.',
+                    },
+                    {
+                        title: 'Webinars / seminars',
+                        description:
+                            'Live learning sessions on market structure, current themes, and practical analysis frameworks.',
+                        disclosure:
+                            'Sessions are educational and informational - not personalized investment advice.',
+                    },
+                    {
+                        title: 'Research methodology training',
+                        description:
+                            'Learn step-by-step methods to evaluate businesses, screens, and decision frameworks.',
+                        disclosure:
+                            'Focus is on process and discipline; outcomes depend on market behavior and execution.',
+                    },
+                    {
+                        title: 'Workshops on analysis tools',
+                        description:
+                            'Hands-on training on charting, indicators, financial statements, and tracking templates.',
+                        disclosure:
+                            'Tools support decisions but cannot eliminate risk or guarantee accuracy.',
+                    },
+                    {
+                        title: 'Investing & trading discipline',
+                        description:
+                            'Training on psychology, journaling, risk rules, and consistency for better decision-making.',
+                        disclosure:
+                            'Discipline reduces avoidable mistakes, but losses remain possible in all market conditions.',
+                    },
                 ],
             },
         ],
