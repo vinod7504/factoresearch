@@ -19,7 +19,7 @@ import { siteData } from '../data/siteData';
 const serviceLinks = [
     {
         key: 'equity-research',
-        label: 'Stock,F&O & Equity',
+        label: 'Stocks,F&O & Equity',
         path: '/services/equity-research',
         Icon: TrendingUp,
         subtitle: 'Research-backed stock ideas with entry, exit, and risk guidance.',
