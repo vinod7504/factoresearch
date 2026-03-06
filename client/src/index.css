@@ -687,7 +687,7 @@ ul {
   min-height: 100vh;
   display: flex;
   align-items: flex-start;
-  padding-top: var(--top-offset);
+  padding-top: calc(var(--top-offset) + 24px);
   overflow: hidden;
   isolation: isolate;
 }

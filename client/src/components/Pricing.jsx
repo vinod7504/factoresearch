@@ -12,10 +12,105 @@ const durations = [
 ];
 
 const formatPlanPrice = (price) => (price === 'Custom' ? price : `₹${price}`);
+const formatInvestmentPackagePrice = (price) => {
+    const normalized = String(price || '').trim();
+    if (!normalized) return '';
+    return normalized.includes('₹') ? normalized : `₹${normalized}`;
+};
 
 const Pricing = ({ planSlug = 'stock-cash' }) => {
     const selectedPlan =
         siteData.pricingPlans.find((plan) => plan.slug === planSlug) || siteData.pricingPlans[0];
+    const isInvestmentServices = selectedPlan.slug === 'investment-services';
+
+    if (isInvestmentServices) {
+        const packages = selectedPlan.investorPackages || [];
+        const whatYouGet = selectedPlan.whatYouGet || [];
+
+        return (
+            <section id="pricing" className="section-padding bg-darker">
+                <div className="container">
+                    <div className="pricing-plan-switch">
+                        {siteData.pricingPlans.map((plan) => (
+                            <RouteLink
+                                key={plan.slug}
+                                to={`/pricing/${plan.slug}`}
+                                className={`plan-switch-btn ${selectedPlan.slug === plan.slug ? 'active' : ''}`}
+                            >
+                                {plan.menuLabel}
+                            </RouteLink>
+                        ))}
+                    </div>
+
+                    <h2 className="section-title pricing-main-title">
+                        {selectedPlan.investorResearchTitle || selectedPlan.title}
+                    </h2>
+
+                    <div className="pricing-columns-grid investment-package-columns">
+                        {packages.map((pkg) => (
+                            <article key={pkg.slug} className="pricing-column glass-card investment-package-column">
+                                <h3>{pkg.title}</h3>
+                                <ul>
+                                    <li>
+                                        <CheckCircle2 size={16} className="check-icon" />
+                                        <span>{pkg.validity}</span>
+                                    </li>
+                                    {pkg.points.map((point) => (
+                                        <li key={`${pkg.slug}-${point}`}>
+                                            <CheckCircle2 size={16} className="check-icon" />
+                                            <span>{point}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                                <div className="plan-price-badge investment-price-badge">
+                                    {formatInvestmentPackagePrice(pkg.price)}
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+
+                    {whatYouGet.length > 0 && (
+                        <section className="investment-what-you-get">
+                            <h3 className="section-title investment-what-you-get-title">
+                                {selectedPlan.whatYouGetTitle || 'What You Get'}
+                            </h3>
+                            <div className="investment-what-you-get-grid">
+                                {whatYouGet.map((item) => (
+                                    <article key={item.title} className="glass-card investment-what-you-get-card">
+                                        <h4>{item.title}</h4>
+                                        <p>{item.description}</p>
+                                    </article>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    <div className="pricing-action-row">
+                        <RouteLink
+                            to={siteData.hero.primaryAction.path}
+                            className="btn-primary"
+                            target="_blank"
+                            rel="noreferrer noopener"
+                        >
+                            Start Onboarding
+                        </RouteLink>
+                        <a
+                            className="btn-outline"
+                            href={siteData.contact.whatsappUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            WhatsApp Us
+                        </a>
+                    </div>
+
+                    <article className="glass-card pricing-risk-disclosure">
+                        <p>{sebiRiskDisclosure}</p>
+                    </article>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <section id="pricing" className="section-padding bg-darker">

@@ -405,6 +405,68 @@ export const siteData = {
                 'Periodic review support',
                 'Consultative onboarding',
             ],
+            investorResearchTitle: 'Our Research For Investors',
+            investorPackages: [
+                {
+                    slug: 'facto-blueprint',
+                    title: 'The Facto Blueprint',
+                    validity: 'Validity 6 Months',
+                    points: [
+                        'Sector Insights',
+                        'Forensic Stock Reports',
+                        'Quarterly Earnings Logic',
+                        'Strategic Investment Reports',
+                    ],
+                    price: '69999/-',
+                    theme: 'blueprint',
+                },
+                {
+                    slug: 'facto-strategy-basket',
+                    title: 'Facto Strategy Basket',
+                    validity: 'Validity One Year',
+                    points: [
+                        'Portfolio Facto Basket 25',
+                        'Premium Reports for Investing',
+                        'Earnings Analysis + Macro iew',
+                        'All Everything in Facto Blueprint',
+                    ],
+                    price: '149999/-',
+                    theme: 'strategy',
+                },
+            ],
+            whatYouGetTitle: 'What You Get',
+            whatYouGet: [
+                {
+                    title: 'Strategic Investment Frameworks',
+                    description:
+                        "At Facto Research, we don't guess. We apply a 10-year Strategic Investment Framework to every listed security, ensuring that every report is a product of forensic logic, not market hype.",
+                },
+                {
+                    title: 'Deep-Dive Equity Intelligence',
+                    description:
+                        'Conducting forensic investigations into financial statements to bridge the gap between reported numbers and intrinsic truth. Exposing hidden risks and uncovering long-term value through institutional-grade modeling.',
+                },
+                {
+                    title: 'The Facto Strategy Baskets',
+                    description:
+                        'Curated, high-conviction portfolios built on a decade of forensic logic and verified market data. A structured blueprint of high-growth equities designed for disciplined, long-term wealth creation.',
+                },
+                {
+                    title: 'Thematic/Macro Research',
+                    description:
+                        'Identifying high-impact megatrends and global shifts to capture the structural winners of tomorrow. Synthesizing macroeconomic data into actionable frameworks for long-term capital allocation.',
+                },
+                {
+                    title: 'Whats App/Email alerts',
+                    description:
+                        'Delivering real-time research alerts and actionable updates directly to your preferred channel for instant execution. Ensuring you never miss a market move with seamless, high-priority notifications on technical triggers and fundamental shifts.',
+                },
+                {
+                    title: '24/7 Client Support',
+                    description:
+                        'Providing round-the-clock accessibility to ensure your queries are addressed with expert clarity, any time of day. Ensuring seamless support and dedicated assistance to help you navigate the markets with confidence and constant peace of mind.',
+                },
+            ],
         },
     ],
     values: {
