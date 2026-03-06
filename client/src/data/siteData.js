@@ -79,6 +79,13 @@ export const siteData = {
                     'Action-focused ideas designed to help investors plan entries, exits, and risk with discipline.',
                 points: [
                     {
+                        title: 'Research rationale',
+                        description:
+                            'Every recommendation includes the "why" - key drivers, triggers, and risks behind the view.',
+                        disclosure:
+                            'Rationale is based on available information and analysis, and can be impacted by unforeseen events.',
+                    },
+                    {
                         title: 'Entry/Exit levels',
                         description:
                             'Clear price zones are shared to help you plan entries and exits with structure, avoiding emotional decisions.',
@@ -98,13 +105,6 @@ export const siteData = {
                             'Calls are tagged by expected holding period and risk grade so you can match them with your profile.',
                         disclosure:
                             'Suitability varies by investor; higher risk strategies can lead to faster losses as well.',
-                    },
-                    {
-                        title: 'Research rationale',
-                        description:
-                            'Every recommendation includes the "why" - key drivers, triggers, and risks behind the view.',
-                        disclosure:
-                            'Rationale is based on available information and analysis, and can be impacted by unforeseen events.',
                     },
                 ],
             },
