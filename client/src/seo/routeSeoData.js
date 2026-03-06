@@ -26,10 +26,10 @@ export const ROUTE_SEO = {
         priority: '0.9',
     },
     '/services/equity-research': {
-        title: 'Stocks,F&O & Equity | Facto Research',
+        title: 'Stocks,F&O & Commodities Research Analysis | Facto Research',
         description:
             'Detailed equity research service with entry/exit levels, target and stop-loss structure, time horizon, and rationale.',
-        heading: 'Stocks,F&O & Equity',
+        heading: 'Stocks,F&O & Commodities Research Analysis',
         changefreq: 'weekly',
         priority: '0.85',
     },

@@ -73,7 +73,7 @@ export const siteData = {
         categories: [
             {
                 slug: 'equity-research',
-                title: 'Stocks,F&O & Equity',
+                title: 'Stocks,F&O & Commodities Research Analysis',
                 summary: 'Structured recommendations with clear levels, risk framing, and rationale.',
                 overview:
                     'Action-focused ideas designed to help investors plan entries, exits, and risk with discipline.',
