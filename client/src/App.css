@@ -707,12 +707,14 @@
 .services-v3-selector h3 {
   font-size: 1.04rem;
   line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .services-v3-selector p {
   color: var(--text-secondary);
   font-size: 0.9rem;
   line-height: 1.58;
+  overflow-wrap: anywhere;
 }
 
 .services-v3-preview-points {
@@ -873,6 +875,22 @@
   }
 }
 
+@media (max-width: 1200px) {
+  .services-v3-selector {
+    min-height: 300px;
+    padding: 20px;
+  }
+
+  .services-v3-selector h3 {
+    font-size: 1rem;
+  }
+
+  .services-v3-selector p {
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+}
+
 @media (max-width: 900px) {
   .services-v3-point-grid {
     grid-template-columns: 1fr;
@@ -889,7 +907,9 @@
   }
 
   .services-v3-selector {
-    min-height: 240px;
+    min-height: auto;
+    padding: 18px;
+    gap: 10px;
   }
 
   .services-v3-related-grid {

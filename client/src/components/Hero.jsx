@@ -10,20 +10,6 @@ const Hero = () => {
     const videoRef = useRef(null);
     const [showPoster, setShowPoster] = useState(false);
     const heroTitleLines = siteData.hero.title.split('\n');
-    const splitLastWord = (line = '') => {
-        const normalized = line.trim();
-        const lastSpaceIndex = normalized.lastIndexOf(' ');
-        if (lastSpaceIndex === -1) {
-            return { lead: normalized, tail: '' };
-        }
-
-        return {
-            lead: normalized.slice(0, lastSpaceIndex),
-            tail: normalized.slice(lastSpaceIndex + 1),
-        };
-    };
-    const firstTitleLine = splitLastWord(heroTitleLines[0]);
-    const secondTitleLine = splitLastWord(heroTitleLines[1]);
 
     const textReveal = {
         hidden: { opacity: 0 },
@@ -77,17 +63,11 @@ const Hero = () => {
                         <TrendingUp size={14} /> <span>{siteData.hero.badge}</span>
                     </Motion.div>
                     <Motion.h1 variants={textItem} className="hero-title">
-                        <span className="hero-title-line">
-                            {firstTitleLine.lead}
-                            {' '}
-                            <span className="hero-title-mobile-break"></span>
-                            <span className="hero-title-word-break">{firstTitleLine.tail}</span>
+                        <span className="hero-title-line hero-title-line--primary">
+                            {heroTitleLines[0]}
                         </span>
-                        <span className="hero-title-line">
-                            {secondTitleLine.lead}
-                            {' '}
-                            <span className="hero-title-mobile-break"></span>
-                            <span className="hero-title-word-break">{secondTitleLine.tail}</span>
+                        <span className="hero-title-line hero-title-line--secondary">
+                            {heroTitleLines[1]}
                         </span>
                     </Motion.h1>
                     <Motion.p variants={textItem} className="hero-subtitle">
