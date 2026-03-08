@@ -6,7 +6,7 @@ import nodemailer from 'nodemailer';
 const app = express();
 const port = Number(process.env.PORT || 3001);
 
-const supportEmail = process.env.SUPPORT_EMAIL || 'support@factoresearch.com';
+const supportEmail = process.env.SUPPORT_EMAIL || 'cts ';
 const fromName = process.env.SMTP_FROM_NAME || 'Facto Research';
 const fromEmail = process.env.SMTP_FROM_EMAIL || supportEmail;
 const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
