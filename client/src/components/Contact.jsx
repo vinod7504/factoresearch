@@ -1,37 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { motion as Motion } from 'framer-motion';
-import { ArrowRight, ChevronDown, Check, MessageSquare } from 'lucide-react';
+import { ArrowRight, MessageSquare } from 'lucide-react';
 import { siteData } from '../data/siteData';
 import { submitContactForm } from '../utils/contactApi';
 
 const Contact = () => {
-    const serviceOptions = siteData.services.categories.map((category) => category.title);
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
         phone: '',
-        service: siteData.services.categories[0]?.title || '',
         message: '',
     });
     const [formStatus, setFormStatus] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isServiceMenuOpen, setIsServiceMenuOpen] = useState(false);
-    const serviceSelectRef = useRef(null);
-
-    useEffect(() => {
-        const handleOutsideClick = (event) => {
-            if (serviceSelectRef.current && !serviceSelectRef.current.contains(event.target)) {
-                setIsServiceMenuOpen(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleOutsideClick);
-        document.addEventListener('touchstart', handleOutsideClick);
-        return () => {
-            document.removeEventListener('mousedown', handleOutsideClick);
-            document.removeEventListener('touchstart', handleOutsideClick);
-        };
-    }, []);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -39,17 +20,6 @@ const Contact = () => {
             ...prev,
             [name]: value,
         }));
-        if (formStatus) {
-            setFormStatus('');
-        }
-    };
-
-    const handleServiceSelect = (serviceOption) => {
-        setFormData((prev) => ({
-            ...prev,
-            service: serviceOption,
-        }));
-        setIsServiceMenuOpen(false);
         if (formStatus) {
             setFormStatus('');
         }
@@ -76,7 +46,7 @@ const Contact = () => {
                 name: trimmedName,
                 email: trimmedEmail,
                 phone: trimmedPhone,
-                service: formData.service,
+                service: '',
                 message: trimmedMessage,
                 pageUrl: window.location.href,
             });
@@ -85,10 +55,8 @@ const Contact = () => {
                 fullName: '',
                 email: '',
                 phone: '',
-                service: siteData.services.categories[0]?.title || '',
                 message: '',
             });
-            setIsServiceMenuOpen(false);
         } catch (error) {
             setFormStatus(error.message || 'Unable to send message right now.');
         } finally {
@@ -115,7 +83,7 @@ const Contact = () => {
                         Please contact us directly with questions, comments, or scheduling inquiries.
                     </p>
                 </div>
-                <div className={`contact-main-wrapper contact-form-only glass-card${isServiceMenuOpen ? ' service-menu-open' : ''}`}>
+                <div className="contact-main-wrapper contact-form-only glass-card">
                     <div className="contact-form-panel">
                         <div className="contact-form-head">
                             <h3>Send Your Requirement</h3>
@@ -161,46 +129,6 @@ const Contact = () => {
                                 />
                             </div>
                             <div className="form-group-v3">
-                                <label>Service Interested In</label>
-                                <div className="contact-service-select" ref={serviceSelectRef}>
-                                    <button
-                                        type="button"
-                                        className={`contact-service-trigger${isServiceMenuOpen ? ' open' : ''}`}
-                                        onClick={() => {
-                                            if (isSubmitting) return;
-                                            setIsServiceMenuOpen((open) => !open);
-                                        }}
-                                        aria-haspopup="listbox"
-                                        aria-expanded={isServiceMenuOpen}
-                                        disabled={isSubmitting}
-                                    >
-                                        <span>{formData.service}</span>
-                                        <ChevronDown size={16} className={isServiceMenuOpen ? 'open' : ''} />
-                                    </button>
-                                    {isServiceMenuOpen && (
-                                        <div className="contact-service-menu" role="listbox">
-                                            {serviceOptions.map((serviceOption) => (
-                                                <button
-                                                    key={serviceOption}
-                                                    type="button"
-                                                    className={`contact-service-option${
-                                                        formData.service === serviceOption ? ' selected' : ''
-                                                    }`}
-                                                    onClick={() => handleServiceSelect(serviceOption)}
-                                                    role="option"
-                                                    aria-selected={formData.service === serviceOption}
-                                                >
-                                                    <span>{serviceOption}</span>
-                                                    {formData.service === serviceOption && (
-                                                        <Check size={14} className="contact-service-check" />
-                                                    )}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                            <div className="form-group-v3">
                                 <label>Message</label>
                                 <textarea
                                     rows="4"
@@ -223,10 +151,10 @@ const Contact = () => {
                             </Motion.button>
                             {formStatus && <p className="contact-form-status">{formStatus}</p>}
                         </form>
-                        <div className="contact-trust-row">
-                            <span className="contact-trust-pill">SEBI Registered RA</span>
-                            <span className="contact-trust-pill">Dedicated Human Support</span>
-                        </div>
+                        {/* <div className="contact-trust-row"> */}
+                            {/* <span className="contact-trust-pill">SEBI Registered RA</span> */}
+                            {/* <span className="contact-trust-pill">Dedicated Human Support</span> */}
+                        {/* </div> */}
                     </div>
                 </div>
             </div>
