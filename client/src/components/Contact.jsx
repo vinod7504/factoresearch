@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion as Motion } from 'framer-motion';
-import { Mail, Phone, MapPin, MessageSquare, ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronDown, Check, MessageSquare } from 'lucide-react';
 import { siteData } from '../data/siteData';
 import { submitContactForm } from '../utils/contactApi';
 
 const Contact = () => {
+    const serviceOptions = siteData.services.categories.map((category) => category.title);
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
@@ -14,6 +15,23 @@ const Contact = () => {
     });
     const [formStatus, setFormStatus] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isServiceMenuOpen, setIsServiceMenuOpen] = useState(false);
+    const serviceSelectRef = useRef(null);
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (serviceSelectRef.current && !serviceSelectRef.current.contains(event.target)) {
+                setIsServiceMenuOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleOutsideClick);
+        document.addEventListener('touchstart', handleOutsideClick);
+        return () => {
+            document.removeEventListener('mousedown', handleOutsideClick);
+            document.removeEventListener('touchstart', handleOutsideClick);
+        };
+    }, []);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -21,6 +39,17 @@ const Contact = () => {
             ...prev,
             [name]: value,
         }));
+        if (formStatus) {
+            setFormStatus('');
+        }
+    };
+
+    const handleServiceSelect = (serviceOption) => {
+        setFormData((prev) => ({
+            ...prev,
+            service: serviceOption,
+        }));
+        setIsServiceMenuOpen(false);
         if (formStatus) {
             setFormStatus('');
         }
@@ -59,6 +88,7 @@ const Contact = () => {
                 service: siteData.services.categories[0]?.title || '',
                 message: '',
             });
+            setIsServiceMenuOpen(false);
         } catch (error) {
             setFormStatus(error.message || 'Unable to send message right now.');
         } finally {
@@ -78,72 +108,14 @@ const Contact = () => {
                     >
                         <MessageSquare size={14} /> <span>Direct Communication</span>
                     </Motion.div>
-                    <h2 className="section-title">Contact <span className="gradient-text">Facto Research</span></h2>
+                    <h2 className="section-title">
+                        Contact <span className="gradient-text">Facto Research</span>
+                    </h2>
                     <p className="section-subtitle">
-                        {siteData.contact.intro}
+                        Please contact us directly with questions, comments, or scheduling inquiries.
                     </p>
                 </div>
-
-                <div className="contact-main-wrapper glass-card">
-                    <div className="contact-info-panel">
-                        <div className="contact-hero-visual">
-                            <img
-                                src="/images/contact/support-analyst.svg"
-                                alt="Facto Research analyst support illustration"
-                            />
-                        </div>
-                        <h3 className="panel-title">Contact Information</h3>
-                        <p className="panel-desc">Reach us by phone, email, or office visit.</p>
-
-                        <div className="info-items-v3">
-                            <div className="info-item-v3">
-                                <div className="icon-box-v3">
-                                    <Phone size={20} />
-                                </div>
-                                <div className="info-text-v3">
-                                    <span>Call or WhatsApp</span>
-                                    <p>{siteData.contact.phone}</p>
-                                    <a
-                                        className="whatsapp-contact-btn"
-                                        href={siteData.contact.whatsappUrl}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                    >
-                                        Chat on WhatsApp
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div className="info-item-v3">
-                                <div className="icon-box-v3">
-                                    <Mail size={20} />
-                                </div>
-                                <div className="info-text-v3">
-                                    <span>Email Address</span>
-                                    <p>{siteData.contact.email}</p>
-                                </div>
-                            </div>
-
-                            <div className="info-item-v3">
-                                <div className="icon-box-v3">
-                                    <MapPin size={20} />
-                                </div>
-                                <div className="info-text-v3">
-                                    <span>Registered Office</span>
-                                    <p>{siteData.contact.address}</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="social-minimal-v3">
-                            {siteData.contact.social.map((item) => (
-                                <div key={item} className="social-pill">{item}</div>
-                            ))}
-                        </div>
-
-                        <div className="info-bg-glow"></div>
-                    </div>
-
+                <div className={`contact-main-wrapper contact-form-only glass-card${isServiceMenuOpen ? ' service-menu-open' : ''}`}>
                     <div className="contact-form-panel">
                         <div className="contact-form-head">
                             <h3>Send Your Requirement</h3>
@@ -183,25 +155,50 @@ const Contact = () => {
                                     name="phone"
                                     value={formData.phone}
                                     onChange={handleChange}
-                                    placeholder="+91 99599 37373"
+                                    placeholder="+91"
                                     required
                                     disabled={isSubmitting}
                                 />
                             </div>
                             <div className="form-group-v3">
                                 <label>Service Interested In</label>
-                                <select
-                                    name="service"
-                                    value={formData.service}
-                                    onChange={handleChange}
-                                    disabled={isSubmitting}
-                                >
-                                    {siteData.services.categories.map((category) => (
-                                        <option key={category.title} value={category.title}>
-                                            {category.title}
-                                        </option>
-                                    ))}
-                                </select>
+                                <div className="contact-service-select" ref={serviceSelectRef}>
+                                    <button
+                                        type="button"
+                                        className={`contact-service-trigger${isServiceMenuOpen ? ' open' : ''}`}
+                                        onClick={() => {
+                                            if (isSubmitting) return;
+                                            setIsServiceMenuOpen((open) => !open);
+                                        }}
+                                        aria-haspopup="listbox"
+                                        aria-expanded={isServiceMenuOpen}
+                                        disabled={isSubmitting}
+                                    >
+                                        <span>{formData.service}</span>
+                                        <ChevronDown size={16} className={isServiceMenuOpen ? 'open' : ''} />
+                                    </button>
+                                    {isServiceMenuOpen && (
+                                        <div className="contact-service-menu" role="listbox">
+                                            {serviceOptions.map((serviceOption) => (
+                                                <button
+                                                    key={serviceOption}
+                                                    type="button"
+                                                    className={`contact-service-option${
+                                                        formData.service === serviceOption ? ' selected' : ''
+                                                    }`}
+                                                    onClick={() => handleServiceSelect(serviceOption)}
+                                                    role="option"
+                                                    aria-selected={formData.service === serviceOption}
+                                                >
+                                                    <span>{serviceOption}</span>
+                                                    {formData.service === serviceOption && (
+                                                        <Check size={14} className="contact-service-check" />
+                                                    )}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                             <div className="form-group-v3">
                                 <label>Message</label>
@@ -229,7 +226,6 @@ const Contact = () => {
                         <div className="contact-trust-row">
                             <span className="contact-trust-pill">SEBI Registered RA</span>
                             <span className="contact-trust-pill">Dedicated Human Support</span>
-                            <span className="contact-trust-pill">Privacy First Communication</span>
                         </div>
                     </div>
                 </div>
