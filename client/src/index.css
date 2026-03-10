@@ -31,16 +31,77 @@
 body {
   background-color: var(--bg-primary);
   background-image:
-    radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.13) 0, transparent 52%),
-    radial-gradient(at 50% 0%, rgba(59, 130, 246, 0.08) 0, transparent 52%),
-    radial-gradient(at 100% 0%, rgba(14, 116, 255, 0.12) 0, transparent 52%);
-  background-attachment: fixed;
+    radial-gradient(120% 90% at 0% 0%, rgba(37, 99, 235, 0.12) 0%, rgba(37, 99, 235, 0) 58%),
+    radial-gradient(100% 82% at 100% 0%, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0) 62%),
+    linear-gradient(180deg, #f4f8ff 0%, #edf4ff 52%, #eaf1ff 100%);
+  position: relative;
+  isolation: isolate;
   color: var(--text-primary);
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
   scroll-behavior: smooth;
   scroll-padding-top: var(--top-offset);
+}
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  pointer-events: none;
+  border-radius: 9999px;
+  filter: blur(75px);
+  opacity: 0.5;
+  z-index: 0;
+  will-change: transform;
+}
+
+body::before {
+  width: clamp(300px, 48vw, 760px);
+  height: clamp(300px, 48vw, 760px);
+  top: -20vh;
+  left: -18vw;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.4) 0%, rgba(37, 99, 235, 0.1) 45%, rgba(37, 99, 235, 0) 72%);
+  animation: ui-bg-float-a 24s ease-in-out infinite alternate;
+}
+
+body::after {
+  width: clamp(280px, 45vw, 700px);
+  height: clamp(280px, 45vw, 700px);
+  right: -14vw;
+  bottom: -22vh;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.34) 0%, rgba(14, 165, 233, 0.1) 48%, rgba(14, 165, 233, 0) 74%);
+  animation: ui-bg-float-b 28s ease-in-out infinite alternate;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes ui-bg-float-a {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(10vw, 14vh, 0) scale(1.08);
+  }
+}
+
+@keyframes ui-bg-float-b {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(-10vw, -10vh, 0) scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
+  }
 }
 
 .js-enabled #seo-static-content {
