@@ -180,20 +180,20 @@ const SEBIModal = () => {
                                 disabled={isSubmitted}
                             />
                             <input
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                placeholder="Email *"
-                                required
-                                disabled={isSubmitted}
-                            />
-                            <input
                                 type="tel"
                                 name="phone"
                                 value={formData.phone}
                                 onChange={handleChange}
                                 placeholder="Mobile Number *"
+                                required
+                                disabled={isSubmitted}
+                            />
+                            <input
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                placeholder="Email *"
                                 required
                                 disabled={isSubmitted}
                             />

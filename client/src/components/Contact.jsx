@@ -105,26 +105,26 @@ const Contact = () => {
                                     />
                                 </div>
                                 <div className="form-group-v3">
-                                    <label>Email Address</label>
+                                    <label>Phone Number</label>
                                     <input
-                                        type="email"
-                                        name="email"
-                                        value={formData.email}
+                                        type="text"
+                                        name="phone"
+                                        value={formData.phone}
                                         onChange={handleChange}
-                                        placeholder="Your email"
+                                        placeholder="+91"
                                         required
                                         disabled={isSubmitting}
                                     />
                                 </div>
                             </div>
                             <div className="form-group-v3">
-                                <label>Phone Number</label>
+                                <label>Email Address</label>
                                 <input
-                                    type="text"
-                                    name="phone"
-                                    value={formData.phone}
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
                                     onChange={handleChange}
-                                    placeholder="+91"
+                                    placeholder="Your email"
                                     required
                                     disabled={isSubmitting}
                                 />

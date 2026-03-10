@@ -70,14 +70,6 @@ const FloatingChatWidget = () => {
                             disabled={isSubmitting}
                         />
                         <input
-                            type="email"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(event) => setEmail(event.target.value)}
-                            required
-                            disabled={isSubmitting}
-                        />
-                        <input
                             type="tel"
                             placeholder="Phone Number"
                             value={phone}
@@ -85,9 +77,17 @@ const FloatingChatWidget = () => {
                             required
                             disabled={isSubmitting}
                         />
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
+                            required
+                            disabled={isSubmitting}
+                        />
                         <textarea
                             placeholder="Type your message"
-                            rows="3"
+                            rows="2"
                             value={message}
                             onChange={(event) => setMessage(event.target.value)}
                             required
