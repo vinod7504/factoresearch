@@ -2369,11 +2369,12 @@ ul {
 .advice-form-field {
   display: grid;
   gap: 10px;
+  position: relative;
 }
 
 .advice-select {
   display: grid;
-  gap: 10px;
+  position: relative;
 }
 
 .advice-select-trigger {
@@ -2389,6 +2390,14 @@ ul {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+}
+
+.advice-select-trigger span {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .advice-select-trigger:hover,
@@ -2416,6 +2425,11 @@ ul {
 }
 
 .advice-select-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 25;
   border: 1px solid rgba(148, 163, 184, 0.34);
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.95);
@@ -2586,10 +2600,10 @@ ul {
 }
 
 .footer-contact {
-  background: rgba(255, 255, 255, 0.58);
-  border: 1px solid rgba(37, 99, 235, 0.18);
-  border-radius: 14px;
-  padding: 16px 18px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
 }
 
 .footer-links ul li {

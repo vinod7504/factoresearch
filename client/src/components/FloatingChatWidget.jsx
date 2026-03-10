@@ -83,7 +83,7 @@ const FloatingChatWidget = () => {
                             disabled={isSubmitting}
                         />
                         <button type="submit" className="btn-primary chat-send-btn" disabled={isSubmitting}>
-                            {isSubmitting ? 'Sending...' : 'Send Email'} <Send size={15} />
+                            {isSubmitting ? 'Sending...' : 'Submit'} <Send size={15} />
                         </button>
                         {status && <p className="chat-form-status">{status}</p>}
                     </form>
@@ -94,7 +94,7 @@ const FloatingChatWidget = () => {
                         rel="noreferrer"
                         className="chat-whatsapp-link"
                     >
-                        Open WhatsApp Directly
+                        WhatsApp
                     </a>
                 </div>
             )}
