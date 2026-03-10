@@ -6,11 +6,11 @@ const points = [
     {
         title: 'Proven Frameworks',
         description:
-            'Our research is based on time-tested models that have been sharpened through a decade of real-world application.',
+            'Our research is based on time-tested models that have been sharpened through 15 years of real-world application.',
         Icon: Award,
     },
     {
-        title: '10+ Years of Experience',
+        title: '15+ Years of Experience',
         description:
             'We have seen the markets evolve. Our insights are seasoned, not just reactionary.',
         Icon: Timer,

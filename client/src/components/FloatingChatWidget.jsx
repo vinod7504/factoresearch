@@ -7,6 +7,7 @@ const FloatingChatWidget = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [message, setMessage] = useState('');
     const [status, setStatus] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -15,10 +16,11 @@ const FloatingChatWidget = () => {
         event.preventDefault();
         const trimmedName = name.trim();
         const trimmedEmail = email.trim();
+        const trimmedPhone = phone.trim();
         const trimmedMessage = message.trim();
 
-        if (!trimmedName || !trimmedEmail || !trimmedMessage) {
-            setStatus('Please fill name, email, and message.');
+        if (!trimmedName || !trimmedEmail || !trimmedPhone || !trimmedMessage) {
+            setStatus('Please fill name, email, phone number, and message.');
             return;
         }
 
@@ -29,13 +31,14 @@ const FloatingChatWidget = () => {
                 formType: 'chat',
                 name: trimmedName,
                 email: trimmedEmail,
-                phone: 'Not provided',
+                phone: trimmedPhone,
                 message: trimmedMessage,
                 pageUrl: window.location.href,
             });
             setStatus('Thank you. Your message was sent successfully.');
             setName('');
             setEmail('');
+            setPhone('');
             setMessage('');
         } catch (error) {
             setStatus(error.message || 'Unable to send message right now.');
@@ -74,6 +77,14 @@ const FloatingChatWidget = () => {
                             required
                             disabled={isSubmitting}
                         />
+                        <input
+                            type="tel"
+                            placeholder="Phone Number"
+                            value={phone}
+                            onChange={(event) => setPhone(event.target.value)}
+                            required
+                            disabled={isSubmitting}
+                        />
                         <textarea
                             placeholder="Type your message"
                             rows="3"
@@ -94,7 +105,7 @@ const FloatingChatWidget = () => {
                         rel="noreferrer"
                         className="chat-whatsapp-link"
                     >
-                        WhatsApp
+                        Chat on WhatsApp
                     </a>
                 </div>
             )}

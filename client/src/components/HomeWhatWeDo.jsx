@@ -12,7 +12,7 @@ const items = [
     {
         title: 'Strategic Baskets',
         description:
-            'Thematic collections of stocks designed for long-term wealth creation, backed by a decade of methodology.',
+            'Thematic collections of stocks designed for long-term wealth creation, backed by 15 years of methodology.',
         Icon: Layers3,
     },
     {

@@ -241,7 +241,7 @@ ul {
 }
 
 .logo-img {
-  height: 50px;
+  height: 58px;
   width: auto;
   transition: var(--transition);
 }
@@ -265,6 +265,10 @@ ul {
   .navbar .container {
     padding-left: 16px;
     padding-right: 16px;
+  }
+
+  .logo-img {
+    height: 52px;
   }
 
   .navbar .logo {
@@ -721,10 +725,10 @@ ul {
 /* Hero Section */
 .hero-section {
   position: relative;
-  min-height: 100vh;
+  min-height: calc(100vh - var(--top-offset));
   display: flex;
   align-items: flex-start;
-  padding-top: calc(var(--top-offset) + 24px);
+  padding-top: calc(var(--top-offset) + 8px);
   overflow: hidden;
   isolation: isolate;
 }
@@ -779,7 +783,7 @@ ul {
   }
 
   .hero-image {
-    width: min(100%, 700px);
+    width: min(100%, 640px);
   }
 }
 
@@ -797,13 +801,13 @@ ul {
   }
 
   .hero-image {
-    width: min(100%, 640px);
+    width: min(100%, 580px);
   }
 }
 
 @media (max-width: 1120px) {
   .hero-section {
-    align-items: center;
+    align-items: flex-start;
   }
 
   .hero-section .container {
@@ -814,9 +818,9 @@ ul {
 
   .hero-content {
     grid-template-columns: 1fr;
-    gap: 36px;
+    gap: 24px;
     text-align: center;
-    padding-top: 40px;
+    padding-top: 16px;
   }
 
   .hero-text {
@@ -832,13 +836,14 @@ ul {
   gap: 8px;
   width: fit-content;
   white-space: nowrap;
-  background: rgba(59, 130, 246, 0.1);
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(219, 234, 254, 0.88));
+  border: 1px solid rgba(30, 64, 175, 0.24);
+  box-shadow: 0 10px 22px rgba(30, 64, 175, 0.12);
   padding: 6px 16px;
   border-radius: 100px;
   font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--accent-secondary);
+  font-weight: 700;
+  color: #1e3a8a;
   margin-bottom: 24px;
   animation: badge-glow 3s ease-in-out infinite;
 }
@@ -941,7 +946,7 @@ ul {
 .hero-subtitle {
   font-size: 1.15rem;
   color: var(--text-secondary);
-  margin-bottom: 40px;
+  margin-bottom: 28px;
   max-width: 540px;
   overflow-wrap: anywhere;
 }
@@ -957,7 +962,7 @@ ul {
   .hero-subtitle {
     font-size: 1rem;
     line-height: 1.7;
-    margin-bottom: 28px;
+    margin-bottom: 20px;
   }
 }
 
@@ -1005,7 +1010,7 @@ ul {
 
 .hero-image {
   position: relative;
-  width: min(100%, 788px);
+  width: min(100%, 640px);
   height: auto;
   min-height: 0;
   min-width: 0;
@@ -1015,8 +1020,8 @@ ul {
   justify-self: end;
   align-self: center;
   margin-top: -14px;
-  padding: 12px;
-  border-radius: 26px;
+  padding: 8px;
+  border-radius: 22px;
   border: 1px solid rgba(37, 99, 235, 0.2);
   background:
     radial-gradient(circle at 14% 12%, rgba(59, 130, 246, 0.2), transparent 36%),
@@ -1073,7 +1078,7 @@ ul {
     justify-content: flex-start;
     gap: 16px;
     padding: 14px 0 6px;
-    max-width: 780px;
+    max-width: 620px;
     margin: -8px auto 0;
     border: none;
     border-radius: 0;
@@ -1112,7 +1117,7 @@ ul {
 .hero-video-shell {
   position: relative;
   z-index: 1;
-  width: min(100%, 760px);
+  width: 100%;
   max-width: 100%;
   height: auto;
   aspect-ratio: 3 / 2;
@@ -1695,7 +1700,7 @@ ul {
 
   .hero-content {
     gap: 28px;
-    padding-top: 24px;
+    padding-top: 12px;
   }
 
   .badge {
@@ -2051,12 +2056,7 @@ ul {
 }
 
 .what-we-do-card-inner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 28px;
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0));
-  pointer-events: none;
+  content: none;
 }
 
 .what-we-do-card:hover .what-we-do-card-inner {
@@ -2088,10 +2088,20 @@ ul {
 .what-we-do-card h3 {
   font-size: 1.35rem;
   margin-bottom: 12px;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000;
+  opacity: 1 !important;
+  filter: none !important;
+  text-shadow: none;
 }
 
 .what-we-do-card p {
-  color: #1e3a8a;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000;
+  font-weight: 500;
+  opacity: 1 !important;
+  filter: none !important;
+  text-shadow: none;
   max-width: 95%;
 }
 
@@ -2432,7 +2442,7 @@ ul {
   z-index: 25;
   border: 1px solid rgba(148, 163, 184, 0.34);
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.95);
+  background: #ffffff;
   box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
   max-height: 210px;
   overflow-y: auto;
@@ -2470,6 +2480,9 @@ ul {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  max-height: 82px;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
 .advice-selected-tag {
@@ -2521,7 +2534,9 @@ ul {
     width: min(100%, 420px);
     padding: 24px 20px;
     border-radius: 18px;
-    max-height: calc(100vh - 32px);
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .advice-modal-content {
@@ -2543,7 +2558,15 @@ ul {
   }
 
   .advice-select-menu {
-    max-height: 180px;
+    position: absolute;
+    top: auto;
+    bottom: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    z-index: 80;
+    margin-top: 0;
+    max-height: min(180px, 32dvh);
+    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.18);
   }
 
   .advice-modal-header {
@@ -2628,10 +2651,46 @@ ul {
   font-size: 0.95rem;
 }
 
+.whatsapp-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-radius: 6px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #ffffff;
+  color: #111827;
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none;
+}
+
+.whatsapp-action-btn svg {
+  color: #16a34a;
+  flex-shrink: 0;
+}
+
+.whatsapp-action-btn:hover {
+  background: #f8fafc;
+  border-color: rgba(15, 23, 42, 0.22);
+}
+
+.footer-whatsapp-btn {
+  margin: 0 0 14px;
+}
+
+.contact-whatsapp-btn {
+  margin: 0;
+}
+
 .contact-item svg {
   flex-shrink: 0;
   color: #1e3a8a;
   margin-top: 3px;
+}
+
+.contact-item .compliance-icon {
+  color: #0f766e;
 }
 
 .contact-link {
@@ -2644,6 +2703,42 @@ ul {
 .contact-link:hover {
   color: #1d4ed8;
   text-decoration: underline;
+}
+
+.footer-hours {
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(148, 163, 184, 0.32);
+}
+
+.footer-hours h5 {
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  color: #0f172a;
+}
+
+.footer-hours ul {
+  list-style: none;
+  display: grid;
+  gap: 6px;
+  padding: 0;
+}
+
+.footer-hours li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #1e293b;
+  font-size: 0.88rem;
+}
+
+.footer-hours li span:first-child {
+  font-weight: 700;
+  min-width: 34px;
+}
+
+.footer-hours li span:last-child {
+  text-align: right;
 }
 
 .social-links {

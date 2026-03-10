@@ -22,9 +22,6 @@ const AboutSection = ({ showActions = false, RouteLink = null }) => {
                         transition={{ duration: 0.6 }}
                         className="glass-card about-v2-story"
                     >
-                        <div className="about-v2-story-visual">
-                            <img src="/images/contact/support-analyst.svg" alt="Facto Research analyst illustration" />
-                        </div>
                         <h2>{siteData.about.decadeTitle}</h2>
                         {siteData.about.decadeParagraphs.map((text) => (
                             <p key={text}>{text}</p>

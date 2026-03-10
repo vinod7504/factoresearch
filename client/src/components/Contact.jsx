@@ -3,6 +3,7 @@ import { motion as Motion } from 'framer-motion';
 import { ArrowRight, MessageSquare } from 'lucide-react';
 import { siteData } from '../data/siteData';
 import { submitContactForm } from '../utils/contactApi';
+import WhatsAppBrandIcon from './WhatsAppBrandIcon';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -135,20 +136,31 @@ const Contact = () => {
                                     name="message"
                                     value={formData.message}
                                     onChange={handleChange}
-                                    placeholder="How can we help you?"
+                                    placeholder="Tell us about your enqiry in detail..."
                                     required
                                     disabled={isSubmitting}
                                 />
                             </div>
-                            <Motion.button
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                className="btn-primary luxury-submit"
-                                type="submit"
-                                disabled={isSubmitting}
-                            >
-                                {isSubmitting ? 'Sending...' : 'Submit Enquiry'} <ArrowRight size={18} />
-                            </Motion.button>
+                            <div className="contact-form-actions">
+                                <Motion.button
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="btn-primary luxury-submit"
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                >
+                                    {isSubmitting ? 'Sending...' : 'Submit Enquiry'} <ArrowRight size={18} />
+                                </Motion.button>
+                                <a
+                                    className="contact-whatsapp-btn whatsapp-action-btn"
+                                    href={siteData.contact.whatsappUrl}
+                                    target="_blank"
+                                    rel="noreferrer noopener"
+                                >
+                                    <WhatsAppBrandIcon size={17} />
+                                    <span>Message us on WhatsApp</span>
+                                </a>
+                            </div>
                             {formStatus && <p className="contact-form-status">{formStatus}</p>}
                         </form>
                         {/* <div className="contact-trust-row"> */}

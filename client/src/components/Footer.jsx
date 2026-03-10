@@ -1,13 +1,16 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Instagram, Twitter, Linkedin } from 'lucide-react';
+import { Mail, Phone, MapPin, Instagram, Twitter, Linkedin, ShieldCheck } from 'lucide-react';
 import { RouteLink } from '../router';
 import { navLinks } from '../routes';
 import { siteData } from '../data/siteData';
 import { legalLinks } from '../data/legalData';
+import WhatsAppBrandIcon from './WhatsAppBrandIcon';
 
 const Footer = () => {
+    const complianceEmail = 'compliance@factoresearch.com';
     const phoneHref = `tel:${(siteData.contact.phone || '').replace(/[^\d+]/g, '')}`;
     const emailHref = `mailto:${siteData.contact.email || ''}`;
+    const complianceEmailHref = `mailto:${complianceEmail}`;
     const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(siteData.contact.address || '')}`;
 
     return (
@@ -27,6 +30,18 @@ const Footer = () => {
                             <a href="#"><Twitter size={20} /></a>
                             <a href="#"><Instagram size={20} /></a>
                             <a href="#"><Linkedin size={20} /></a>
+                        </div>
+                        <div className="footer-hours">
+                            <h5>Hours</h5>
+                            <ul>
+                                <li><span>Mon</span><span>09:00 am - 05:00 pm</span></li>
+                                <li><span>Tue</span><span>09:00 am - 05:00 pm</span></li>
+                                <li><span>Wed</span><span>09:00 am - 05:00 pm</span></li>
+                                <li><span>Thu</span><span>09:00 am - 05:00 pm</span></li>
+                                <li><span>Fri</span><span>09:00 am - 05:00 pm</span></li>
+                                <li><span>Sat</span><span>Closed</span></li>
+                                <li><span>Sun</span><span>Closed</span></li>
+                            </ul>
                         </div>
                     </div>
 
@@ -60,10 +75,25 @@ const Footer = () => {
                                 {siteData.contact.phone}
                             </a>
                         </div>
+                        <a
+                            className="footer-whatsapp-btn whatsapp-action-btn"
+                            href={siteData.contact.whatsappUrl}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                        >
+                            <WhatsAppBrandIcon size={17} />
+                            <span>Message us on WhatsApp</span>
+                        </a>
                         <div className="contact-item">
                             <Mail size={18} />
                             <a className="contact-link" href={emailHref}>
                                 {siteData.contact.email}
+                            </a>
+                        </div>
+                        <div className="contact-item">
+                            <ShieldCheck size={18} className="compliance-icon" />
+                            <a className="contact-link" href={complianceEmailHref}>
+                                {complianceEmail}
                             </a>
                         </div>
                         <div className="contact-item">

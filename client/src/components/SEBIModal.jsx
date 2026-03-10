@@ -1,45 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion as Motion, AnimatePresence } from 'framer-motion';
-import { ShieldAlert, X, ChevronDown, Check } from 'lucide-react';
+import { ShieldAlert, X } from 'lucide-react';
 import { useRouter } from '../useRouter';
-import { siteData } from '../data/siteData';
 import { submitContactForm } from '../utils/contactApi';
 
 const SEBIModal = () => {
     const { navigate } = useRouter();
-    const serviceOptions = siteData.services.categories.map((category) => category.title);
     const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false);
     const [isAdviceOpen, setIsAdviceOpen] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         phone: '',
-        interestedServices: [],
+        enquiryMessage: '',
     });
     const [formStatus, setFormStatus] = useState('');
     const [formStatusType, setFormStatusType] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [isServiceMenuOpen, setIsServiceMenuOpen] = useState(false);
-    const serviceSelectRef = useRef(null);
 
     useEffect(() => {
         const timer = setTimeout(() => setIsDisclaimerOpen(true), 1000);
         return () => clearTimeout(timer);
-    }, []);
-
-    useEffect(() => {
-        const handleOutsideClick = (event) => {
-            if (serviceSelectRef.current && !serviceSelectRef.current.contains(event.target)) {
-                setIsServiceMenuOpen(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleOutsideClick);
-        document.addEventListener('touchstart', handleOutsideClick);
-        return () => {
-            document.removeEventListener('mousedown', handleOutsideClick);
-            document.removeEventListener('touchstart', handleOutsideClick);
-        };
     }, []);
 
     const openAdviceModal = () => {
@@ -47,7 +28,6 @@ const SEBIModal = () => {
         setFormStatus('');
         setFormStatusType('');
         setIsSubmitted(false);
-        setIsServiceMenuOpen(false);
     };
 
     const handleAccept = () => {
@@ -72,22 +52,8 @@ const SEBIModal = () => {
         }
     };
 
-    const handleServiceToggle = (serviceOption) => {
-        setFormData((prev) => ({
-            ...prev,
-            interestedServices: prev.interestedServices.includes(serviceOption)
-                ? prev.interestedServices.filter((service) => service !== serviceOption)
-                : [...prev.interestedServices, serviceOption],
-        }));
-        if (formStatus) {
-            setFormStatus('');
-            setFormStatusType('');
-        }
-    };
-
     const handleCloseAdvice = () => {
         setIsAdviceOpen(false);
-        setIsServiceMenuOpen(false);
         setFormStatus('');
         setFormStatusType('');
         setIsSubmitted(false);
@@ -99,7 +65,7 @@ const SEBIModal = () => {
         const trimmedName = formData.name.trim();
         const trimmedEmail = formData.email.trim();
         const trimmedPhone = formData.phone.trim();
-        const selectedServicesText = formData.interestedServices.join(', ');
+        const trimmedEnquiryMessage = formData.enquiryMessage.trim();
 
         if (!trimmedName || !trimmedEmail || !trimmedPhone) {
             setFormStatus('Name, phone number, and email are required.');
@@ -114,8 +80,8 @@ const SEBIModal = () => {
             name: trimmedName,
             email: trimmedEmail,
             phone: trimmedPhone,
-            service: selectedServicesText,
-            message: '',
+            service: '',
+            message: trimmedEnquiryMessage,
             pageUrl: window.location.href,
         })
             .then(() => {
@@ -133,13 +99,6 @@ const SEBIModal = () => {
                 setFormStatusType('error');
             });
     };
-
-    const selectedServiceCount = formData.interestedServices.length;
-    const selectedServiceLabel = selectedServiceCount === 0
-        ? 'Interested Services (Optional)'
-        : selectedServiceCount === 1
-            ? formData.interestedServices[0]
-            : `${selectedServiceCount} services selected`;
 
     return (
         <AnimatePresence>
@@ -238,59 +197,14 @@ const SEBIModal = () => {
                                 required
                                 disabled={isSubmitted}
                             />
-                            <div className="advice-form-field">
-                                <div className="advice-select" ref={serviceSelectRef}>
-                                    <button
-                                        type="button"
-                                        className={`advice-select-trigger${isServiceMenuOpen ? ' open' : ''}`}
-                                        onClick={() => {
-                                            if (isSubmitted) return;
-                                            setIsServiceMenuOpen((open) => !open);
-                                        }}
-                                        aria-haspopup="listbox"
-                                        aria-expanded={isServiceMenuOpen}
-                                        disabled={isSubmitted}
-                                    >
-                                        <span className={selectedServiceCount === 0 ? 'advice-select-placeholder' : ''}>
-                                            {selectedServiceLabel}
-                                        </span>
-                                        <ChevronDown
-                                            size={16}
-                                            className={`advice-select-chevron${isServiceMenuOpen ? ' open' : ''}`}
-                                        />
-                                    </button>
-                                    {isServiceMenuOpen && (
-                                        <div className="advice-select-menu" role="listbox" aria-multiselectable="true">
-                                            {serviceOptions.map((serviceOption) => (
-                                                <button
-                                                    key={serviceOption}
-                                                    type="button"
-                                                    className={`advice-select-option${
-                                                        formData.interestedServices.includes(serviceOption) ? ' selected' : ''
-                                                    }`}
-                                                    onClick={() => handleServiceToggle(serviceOption)}
-                                                    role="option"
-                                                    aria-selected={formData.interestedServices.includes(serviceOption)}
-                                                >
-                                                    <span>{serviceOption}</span>
-                                                    {formData.interestedServices.includes(serviceOption) && (
-                                                        <Check size={14} className="advice-select-check" />
-                                                    )}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                                {selectedServiceCount > 0 && (
-                                    <div className="advice-selected-tags">
-                                        {formData.interestedServices.map((serviceOption) => (
-                                            <span key={serviceOption} className="advice-selected-tag">
-                                                {serviceOption}
-                                            </span>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
+                            <textarea
+                                name="enquiryMessage"
+                                value={formData.enquiryMessage}
+                                onChange={handleChange}
+                                placeholder="Enquiry Message (Optional)"
+                                rows="4"
+                                disabled={isSubmitted}
+                            />
                             <button className="btn-primary advice-submit-btn" type="submit" disabled={isSubmitted}>
                                 {isSubmitted ? 'Submitting...' : 'Send enquiry'}
                             </button>

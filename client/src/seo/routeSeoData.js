@@ -10,9 +10,9 @@ export const ROUTE_SEO = {
         priority: '1.0',
     },
     '/about': {
-        title: 'About Facto Research | A Decade Of Market Experience',
+        title: 'About Facto Research | 15 Years Of Market Experience',
         description:
-            'Learn about Facto Research, our decade of market experience, SEBI-registered foundation, and truth-through-data research philosophy.',
+            'Learn about Facto Research, our 15 years of market experience, SEBI-registered foundation, and truth-through-data research philosophy.',
         heading: 'About Facto Research',
         changefreq: 'monthly',
         priority: '0.8',

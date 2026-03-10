@@ -26,23 +26,23 @@ export const siteData = {
             'https://img1.wsimg.com/isteam/ip/890c2873-45ef-40f0-a650-7817ddb60ef4/Untitled%20(512%20x%20512%20px).png/:/rs=w:178,h:178,cg:true,m/cr=w:178,h:178/qt=q:95',
     },
     hero: {
-        badge: 'A Decade of Market Mastery',
+        badge: '15 Years of Market Mastery',
         title: 'Research Built on Data\nReports Built on Facts.',
         description:
-            `${APP_NAME} is led by a veteran Research Analyst with over 10 years of deep-market experience. We help investors navigate Indian financial markets with clarity, confidence, and consistency.`,
+            `${APP_NAME} is led by a veteran Research Analyst with over 15 years of deep-market experience. We help investors navigate Indian financial markets with clarity, confidence, and consistency.`,
         primaryAction: { label: 'Onboarding', path: ONBOARDING_URL },
         secondaryAction: { label: `About ${APP_NAME}`, path: '/about' },
         stats: [
-            { value: '10+', label: 'Years of Experience' },
+            { value: '15+', label: 'Years of Experience' },
             { value: 'SEBI', label: 'Reg. No. INH000024480' },
         ],
     },
     about: {
         title: `About ${APP_NAME}`,
-        decadeTitle: 'A Decade of Market Mastery',
+        decadeTitle: '15 Years of Market Mastery',
         decadeParagraphs: [
-            `${APP_NAME} is led by a veteran Research Analyst with over 10 years of deep-market experience in Indian equities.`,
-            'A decade in the markets provides a perspective that charts alone cannot show. It brings the wisdom of having navigated diverse market cycles, economic shifts, and structural reforms.',
+            `${APP_NAME} is led by a veteran Research Analyst with over 15 years of deep-market experience in Indian equities.`,
+            '15 years in the markets provide a perspective that charts alone cannot show. It brings the wisdom of having navigated diverse market cycles, economic shifts, and structural reforms.',
             `At ${APP_NAME}, we believe successful investing is not about following the noise. It is about following the facts. We provide institutional-grade market intelligence to help investors navigate the complexities of Indian financial markets with clarity and confidence.`,
         ],
         sebiTitle: 'Institutional Grade. SEBI Registered.',
@@ -50,7 +50,7 @@ export const siteData = {
             'We are a SEBI Registered Research Analyst firm (Registration No. INH000024480). Our foundation is built on the twin pillars of unmatched experience and regulatory excellence. We bring sophisticated research techniques used by institutional desks to the discerning individual investor.',
         philosophyTitle: 'The Facto Philosophy: "Truth Through Data"',
         philosophyIntro:
-            'In a decade of research, we have learned that prices fluctuate, but facts eventually prevail. Our "Facto" methodology is a proprietary research framework refined over 10 years to:',
+            'In 15 years of research, we have learned that prices fluctuate, but facts eventually prevail. Our "Facto" methodology is a proprietary research framework refined over 15 years to:',
         philosophyPoints: [
             {
                 title: 'Forensic Analysis',
@@ -58,11 +58,11 @@ export const siteData = {
             },
             {
                 title: 'Identify Structural Winners',
-                description: 'Spotting companies that can grow consistently over 3, 5, and 10-year horizons.',
+                description: 'Spotting companies that can grow consistently over 3, 5, and 15-year horizons.',
             },
             {
                 title: 'Risk Mitigation',
-                description: 'Using a decade of historical data to avoid value traps and speculative bubbles.',
+                description: 'Using 15 years of historical data to avoid value traps and speculative bubbles.',
             },
         ],
     },
@@ -439,7 +439,7 @@ export const siteData = {
                 {
                     title: 'Strategic Investment Frameworks',
                     description:
-                        "At Facto Research, we don't guess. We apply a 10-year Strategic Investment Framework to every listed security, ensuring that every report is a product of forensic logic, not market hype.",
+                        "At Facto Research, we don't guess. We apply a 15-year Strategic Investment Framework to every listed security, ensuring that every report is a product of forensic logic, not market hype.",
                 },
                 {
                     title: 'Deep-Dive Equity Intelligence',
@@ -449,7 +449,7 @@ export const siteData = {
                 {
                     title: 'The Facto Strategy Baskets',
                     description:
-                        'Curated, high-conviction portfolios built on a decade of forensic logic and verified market data. A structured blueprint of high-growth equities designed for disciplined, long-term wealth creation.',
+                        'Curated, high-conviction portfolios built on 15 years of forensic logic and verified market data. A structured blueprint of high-growth equities designed for disciplined, long-term wealth creation.',
                 },
                 {
                     title: 'Thematic/Macro Research',
@@ -484,7 +484,7 @@ export const siteData = {
     vision: {
         heading: 'Our Vision',
         statement:
-            'To be the most trusted name in independent equity research in India, where every recommendation is backed by a decade of expertise and a commitment to the absolute facts.',
+            'To be the most trusted name in independent equity research in India, where every recommendation is backed by 15 years of expertise and a commitment to the absolute facts.',
     },
     team: {
         heading: 'We Belive In Team Work',
@@ -492,7 +492,7 @@ export const siteData = {
             {
                 role: 'Cheif Research Ananlyst',
                 description:
-                    'A SEBI-registered Research Analyst with a decade of expertise in equity research. Fundamental and technical analysis to deliver comprehensive market insights.',
+                    'A SEBI-registered Research Analyst with 15 years of expertise in equity research. Fundamental and technical analysis to deliver comprehensive market insights.',
             },
             {
                 role: 'Pro Research Team',
