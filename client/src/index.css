@@ -2256,10 +2256,10 @@ ul {
 }
 
 .modal-content {
-  width: min(100%, 500px);
-  max-width: 500px;
-  padding: 40px;
-  max-height: calc(100vh - 40px);
+  width: min(100%, 460px);
+  max-width: 460px;
+  padding: 28px;
+  max-height: calc(100vh - 48px);
   overflow-y: auto;
 }
 
@@ -2267,11 +2267,13 @@ ul {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .modal-header h2 {
   flex: 1;
+  font-size: 1.5rem;
+  line-height: 1.2;
 }
 
 .modal-close-btn {
@@ -2299,18 +2301,20 @@ ul {
 
 .modal-body p {
   color: var(--text-secondary);
-  margin-bottom: 20px;
-  font-size: 0.95rem;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .disclosure-box {
   background: rgba(239, 68, 68, 0.1);
   border: 1px solid rgba(239, 68, 68, 0.2);
-  padding: 16px;
+  padding: 12px;
   border-radius: 8px;
   color: var(--danger);
-  font-size: 0.9rem;
-  margin-bottom: 32px;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  margin-bottom: 18px;
 }
 
 .full-width {
@@ -2318,50 +2322,50 @@ ul {
 }
 
 .advice-modal-content {
-  width: min(100%, 560px);
-  max-width: 560px;
-  padding: 20px;
+  width: min(100%, 500px);
+  max-width: 500px;
+  padding: 16px;
   background: linear-gradient(180deg, #edf4ff 0%, #eef8f2 100%);
 }
 
 .advice-modal-header {
   align-items: flex-start;
   gap: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 
 .advice-modal-header h2 {
-  margin-bottom: 12px;
-  font-size: 2rem;
+  margin-bottom: 8px;
+  font-size: 1.65rem;
   line-height: 1.1;
 }
 
 .advice-modal-header p {
   color: var(--text-primary);
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 0.95rem;
+  line-height: 1.45;
 }
 
 .advice-form {
   display: grid;
-  gap: 18px;
+  gap: 12px;
   overflow: visible;
 }
 
 .advice-form input,
 .advice-form textarea {
   width: 100%;
-  padding: 18px 24px;
-  border-radius: 16px;
+  padding: 13px 16px;
+  border-radius: 12px;
   border: 1px solid rgba(148, 163, 184, 0.32);
   background: rgba(255, 255, 255, 0.92);
   color: var(--text-primary);
-  font-size: 1rem;
+  font-size: 0.96rem;
 }
 
 .advice-form textarea {
   resize: vertical;
-  min-height: 120px;
+  min-height: 90px;
 }
 
 .advice-form input::placeholder,
@@ -2497,9 +2501,9 @@ ul {
 
 .advice-submit-btn {
   width: fit-content;
-  min-width: 210px;
+  min-width: 180px;
   border-radius: 999px;
-  padding: 16px 28px;
+  padding: 12px 22px;
 }
 
 .advice-form-status {
@@ -2532,7 +2536,7 @@ ul {
 
   .modal-content {
     width: min(100%, 420px);
-    padding: 24px 20px;
+    padding: 18px 16px;
     border-radius: 18px;
     max-height: calc(100dvh - 32px);
     overflow-y: auto;
@@ -2540,17 +2544,17 @@ ul {
   }
 
   .advice-modal-content {
-    width: min(100%, 400px);
-    padding: 18px;
+    width: min(100%, 388px);
+    padding: 14px;
   }
 
   .advice-modal-header h2 {
-    font-size: 1.7rem;
+    font-size: 1.45rem;
   }
 
   .advice-form input,
   .advice-form textarea {
-    padding: 16px 18px;
+    padding: 12px 14px;
   }
 
   .advice-select-trigger {
@@ -2570,7 +2574,7 @@ ul {
   }
 
   .advice-modal-header {
-    margin-bottom: 18px;
+    margin-bottom: 12px;
   }
 
   .advice-modal-header p,
@@ -2705,6 +2709,21 @@ ul {
   text-decoration: underline;
 }
 
+.footer-open-today {
+  margin: -2px 0 0 28px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.footer-open-today-prefix {
+  color: #334155;
+}
+
+.footer-open-today-time {
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
 .footer-hours {
   margin-top: 8px;
   padding-top: 10px;
@@ -2717,11 +2736,59 @@ ul {
   color: #0f172a;
 }
 
+.footer-hours-toggle {
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.footer-hours-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px;
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.footer-hours-prefix {
+  color: #334155;
+}
+
+.footer-hours-time {
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+.footer-hours-chevron {
+  flex-shrink: 0;
+  color: #1d4ed8;
+  transition: transform 0.2s ease;
+}
+
+.footer-hours-toggle.open .footer-hours-chevron {
+  transform: rotate(180deg);
+}
+
+.footer-hours-toggle:focus-visible {
+  outline: 2px solid rgba(29, 78, 216, 0.35);
+  outline-offset: 6px;
+  border-radius: 6px;
+}
+
 .footer-hours ul {
   list-style: none;
   display: grid;
   gap: 6px;
   padding: 0;
+  margin-top: 10px;
 }
 
 .footer-hours li {
@@ -2757,6 +2824,10 @@ ul {
   background: var(--glass);
   border-radius: 50%;
   color: var(--text-secondary);
+}
+
+.social-links a.social-whatsapp-link {
+  color: #16a34a;
 }
 
 .social-links a:hover {

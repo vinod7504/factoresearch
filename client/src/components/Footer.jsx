@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Mail, Phone, MapPin, Instagram, Twitter, Linkedin, ShieldCheck } from 'lucide-react';
 import { RouteLink } from '../router';
 import { navLinks } from '../routes';
@@ -6,12 +6,27 @@ import { siteData } from '../data/siteData';
 import { legalLinks } from '../data/legalData';
 import WhatsAppBrandIcon from './WhatsAppBrandIcon';
 
+const BUSINESS_HOURS = [
+    { day: 'Mon', time: '09:00 am - 05:00 pm', open: true },
+    { day: 'Tue', time: '09:00 am - 05:00 pm', open: true },
+    { day: 'Wed', time: '09:00 am - 05:00 pm', open: true },
+    { day: 'Thu', time: '09:00 am - 05:00 pm', open: true },
+    { day: 'Fri', time: '09:00 am - 05:00 pm', open: true },
+    { day: 'Sat', time: 'Closed', open: false },
+    { day: 'Sun', time: 'Closed', open: false },
+];
+
 const Footer = () => {
     const complianceEmail = 'compliance@factoresearch.com';
     const phoneHref = `tel:${(siteData.contact.phone || '').replace(/[^\d+]/g, '')}`;
     const emailHref = `mailto:${siteData.contact.email || ''}`;
     const complianceEmailHref = `mailto:${complianceEmail}`;
     const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(siteData.contact.address || '')}`;
+    const todayHours = useMemo(() => {
+        const todayIndex = new Date().getDay();
+        const todayKey = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][todayIndex];
+        return BUSINESS_HOURS.find((entry) => entry.day === todayKey) || BUSINESS_HOURS[0];
+    }, []);
 
     return (
         <footer className="footer-section">
@@ -30,18 +45,15 @@ const Footer = () => {
                             <a href="#"><Twitter size={20} /></a>
                             <a href="#"><Instagram size={20} /></a>
                             <a href="#"><Linkedin size={20} /></a>
-                        </div>
-                        <div className="footer-hours">
-                            <h5>Hours</h5>
-                            <ul>
-                                <li><span>Mon</span><span>09:00 am - 05:00 pm</span></li>
-                                <li><span>Tue</span><span>09:00 am - 05:00 pm</span></li>
-                                <li><span>Wed</span><span>09:00 am - 05:00 pm</span></li>
-                                <li><span>Thu</span><span>09:00 am - 05:00 pm</span></li>
-                                <li><span>Fri</span><span>09:00 am - 05:00 pm</span></li>
-                                <li><span>Sat</span><span>Closed</span></li>
-                                <li><span>Sun</span><span>Closed</span></li>
-                            </ul>
+                            <a
+                                href={siteData.contact.whatsappUrl}
+                                target="_blank"
+                                rel="noreferrer noopener"
+                                aria-label="WhatsApp"
+                                className="social-whatsapp-link"
+                            >
+                                <WhatsAppBrandIcon size={20} />
+                            </a>
                         </div>
                     </div>
 
@@ -102,6 +114,14 @@ const Footer = () => {
                                 {siteData.contact.address}
                             </a>
                         </div>
+                        <p className="footer-open-today">
+                            <span className="footer-open-today-prefix">
+                                {todayHours.open ? 'Open today' : 'Closed today'}
+                            </span>
+                            {todayHours.open && (
+                                <span className="footer-open-today-time"> {todayHours.time}</span>
+                            )}
+                        </p>
                     </div>
                 </div>
 
