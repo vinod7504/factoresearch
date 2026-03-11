@@ -2307,13 +2307,13 @@ ul {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(15, 23, 42, 0.42);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2000;
   padding: 20px;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(6px);
 }
 
 .modal-content {
@@ -2322,6 +2322,8 @@ ul {
   padding: 28px;
   max-height: calc(100vh - 48px);
   overflow-y: auto;
+  background: #eff6ff !important;
+  background-image: none !important;
 }
 
 .modal-header {
@@ -2346,7 +2348,7 @@ ul {
   justify-content: center;
   border-radius: 50%;
   border: 1px solid rgba(37, 99, 235, 0.18);
-  background: rgba(255, 255, 255, 0.8);
+  background: #dbeafe !important;
   color: var(--text-secondary);
   cursor: pointer;
 }
@@ -2386,7 +2388,8 @@ ul {
   width: min(100%, 500px);
   max-width: 500px;
   padding: 16px;
-  background: linear-gradient(180deg, #edf4ff 0%, #eef8f2 100%);
+  background: #eff6ff !important;
+  background-image: none !important;
 }
 
 .advice-modal-header {
@@ -2419,7 +2422,7 @@ ul {
   padding: 13px 16px;
   border-radius: 12px;
   border: 1px solid rgba(148, 163, 184, 0.32);
-  background: rgba(255, 255, 255, 0.92);
+  background: #f8fbff !important;
   color: var(--text-primary);
   font-size: 0.96rem;
 }
@@ -2692,6 +2695,8 @@ ul {
   border: none;
   border-radius: 0;
   padding: 0;
+  display: grid;
+  gap: 10px;
 }
 
 .footer-links ul li {
@@ -2714,6 +2719,35 @@ ul {
   color: #1e293b;
   margin-bottom: 12px;
   font-size: 0.95rem;
+}
+
+.footer-contact-card {
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.82);
+  transition: var(--transition);
+}
+
+.footer-contact-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(15, 23, 42, 0.2);
+  background: rgba(248, 250, 252, 0.94);
+}
+
+.footer-contact-phone {
+  background: linear-gradient(180deg, rgba(219, 234, 254, 0.82), rgba(239, 246, 255, 0.92));
+}
+
+.footer-contact-email {
+  background: linear-gradient(180deg, rgba(224, 231, 255, 0.82), rgba(245, 243, 255, 0.92));
+}
+
+.footer-contact-compliance {
+  background: linear-gradient(180deg, rgba(204, 251, 241, 0.74), rgba(240, 253, 250, 0.9));
 }
 
 .whatsapp-action-btn {
@@ -2742,6 +2776,8 @@ ul {
 
 .footer-whatsapp-btn {
   margin: 0 0 14px;
+  width: 100%;
+  justify-content: flex-start;
 }
 
 .contact-whatsapp-btn {
@@ -2763,6 +2799,7 @@ ul {
   font-weight: 500;
   line-height: 1.45;
   text-decoration: none;
+  flex: 1;
 }
 
 .contact-link:hover {
@@ -2771,7 +2808,7 @@ ul {
 }
 
 .footer-open-today {
-  margin: -2px 0 0 28px;
+  margin: -2px 0 0 14px;
   font-size: 0.9rem;
   line-height: 1.4;
 }
@@ -2885,6 +2922,18 @@ ul {
   background: var(--glass);
   border-radius: 50%;
   color: var(--text-secondary);
+}
+
+.social-links a.social-twitter {
+  color: #1d9bf0;
+}
+
+.social-links a.social-instagram {
+  color: #c13584;
+}
+
+.social-links a.social-linkedin {
+  color: #0a66c2;
 }
 
 .social-links a.social-whatsapp-link {

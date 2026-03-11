@@ -10,32 +10,43 @@ const AboutSection = ({ showActions = false, RouteLink = null }) => {
         { key: 'mission', icon: Target },
         { key: 'vision', icon: Eye },
     ];
+    const revealProps = {
+        initial: { opacity: 0, y: 20 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, amount: 0.25 },
+    };
 
     return (
         <section id="about" className="section-padding about-v2-section">
             <div className="container about-v2-stack">
                 <div className="about-v2-hero">
                     <Motion.article
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.25 }}
+                        {...revealProps}
                         transition={{ duration: 0.6 }}
                         className="glass-card about-v2-story"
                     >
                         <h2>{siteData.about.decadeTitle}</h2>
-                        {siteData.about.decadeParagraphs.map((text) => (
-                            <p key={text}>{text}</p>
+                        {siteData.about.decadeParagraphs.map((text, index) => (
+                            <Motion.p
+                                key={text}
+                                initial={{ opacity: 0, y: 14 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.4 }}
+                                transition={{ duration: 0.45, delay: 0.12 + index * 0.1 }}
+                            >
+                                {text}
+                            </Motion.p>
                         ))}
                     </Motion.article>
 
-                    <Motion.aside
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, amount: 0.25 }}
-                        transition={{ duration: 0.6, delay: 0.1 }}
-                        className="about-v2-side"
-                    >
-                        <article className="glass-card about-v2-mini">
+                    <aside className="about-v2-side">
+                        <Motion.article
+                            initial={{ opacity: 0, x: 20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, amount: 0.3 }}
+                            transition={{ duration: 0.55, delay: 0.18 }}
+                            className="glass-card about-v2-mini"
+                        >
                             <div className="about-v2-mini-logos">
                                 <img src="/images/market/nse.svg" alt="NSE logo" />
                                 <img src="/images/market/bse.svg" alt="BSE logo" />
@@ -43,13 +54,19 @@ const AboutSection = ({ showActions = false, RouteLink = null }) => {
                             <ShieldCheck size={18} />
                             <h3>{siteData.about.sebiTitle}</h3>
                             <p>{siteData.about.sebiParagraph}</p>
-                        </article>
-                        <article className="glass-card about-v2-mini">
+                        </Motion.article>
+                        <Motion.article
+                            initial={{ opacity: 0, x: 20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, amount: 0.3 }}
+                            transition={{ duration: 0.55, delay: 0.32 }}
+                            className="glass-card about-v2-mini"
+                        >
                             <Database size={18} />
                             <h3>{siteData.about.philosophyTitle}</h3>
                             <p>{siteData.about.philosophyIntro}</p>
-                        </article>
-                    </Motion.aside>
+                        </Motion.article>
+                    </aside>
                 </div>
 
                 <div className="about-v2-trust">

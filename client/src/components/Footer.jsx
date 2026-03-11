@@ -42,9 +42,9 @@ const Footer = () => {
                             />
                         </div>
                         <div className="social-links">
-                            <a href="#"><Twitter size={20} /></a>
-                            <a href="#"><Instagram size={20} /></a>
-                            <a href="#"><Linkedin size={20} /></a>
+                            <a href="#" className="social-twitter" aria-label="Twitter"><Twitter size={20} /></a>
+                            <a href="#" className="social-instagram" aria-label="Instagram"><Instagram size={20} /></a>
+                            <a href="#" className="social-linkedin" aria-label="LinkedIn"><Linkedin size={20} /></a>
                             <a
                                 href={siteData.contact.whatsappUrl}
                                 target="_blank"
@@ -81,7 +81,7 @@ const Footer = () => {
 
                     <div className="footer-contact">
                         <h4>Contact Info</h4>
-                        <div className="contact-item">
+                        <div className="contact-item footer-contact-card footer-contact-phone">
                             <Phone size={18} />
                             <a className="contact-link" href={phoneHref}>
                                 {siteData.contact.phone}
@@ -96,13 +96,13 @@ const Footer = () => {
                             <WhatsAppBrandIcon size={17} />
                             <span>Message us on WhatsApp</span>
                         </a>
-                        <div className="contact-item">
+                        <div className="contact-item footer-contact-card footer-contact-email">
                             <Mail size={18} />
                             <a className="contact-link" href={emailHref}>
                                 {siteData.contact.email}
                             </a>
                         </div>
-                        <div className="contact-item">
+                        <div className="contact-item footer-contact-card footer-contact-compliance">
                             <ShieldCheck size={18} className="compliance-icon" />
                             <a className="contact-link" href={complianceEmailHref}>
                                 {complianceEmail}
