@@ -2696,7 +2696,7 @@ ul {
   border-radius: 0;
   padding: 0;
   display: grid;
-  gap: 10px;
+  gap: 6px;
 }
 
 .footer-links ul li {
@@ -2775,7 +2775,7 @@ ul {
 }
 
 .footer-whatsapp-btn {
-  margin: 0 0 14px;
+  margin: 0 0 6px;
   width: 100%;
   justify-content: flex-start;
 }
@@ -2808,7 +2808,7 @@ ul {
 }
 
 .footer-open-today {
-  margin: -2px 0 0 14px;
+  margin: 0 0 0 14px;
   font-size: 0.9rem;
   line-height: 1.4;
 }
