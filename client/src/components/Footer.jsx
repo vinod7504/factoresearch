@@ -81,7 +81,7 @@ const Footer = () => {
 
                     <div className="footer-contact">
                         <h4>Contact Info</h4>
-                        <div className="contact-item footer-contact-card footer-contact-phone">
+                        <div className="contact-item">
                             <Phone size={18} />
                             <a className="contact-link" href={phoneHref}>
                                 {siteData.contact.phone}
@@ -96,13 +96,13 @@ const Footer = () => {
                             <WhatsAppBrandIcon size={17} />
                             <span>Message us on WhatsApp</span>
                         </a>
-                        <div className="contact-item footer-contact-card footer-contact-email">
+                        <div className="contact-item">
                             <Mail size={18} />
                             <a className="contact-link" href={emailHref}>
                                 {siteData.contact.email}
                             </a>
                         </div>
-                        <div className="contact-item footer-contact-card footer-contact-compliance">
+                        <div className="contact-item">
                             <ShieldCheck size={18} className="compliance-icon" />
                             <a className="contact-link" href={complianceEmailHref}>
                                 {complianceEmail}
