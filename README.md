@@ -98,7 +98,7 @@ Verify:
 - `SMTP_USER` and `SMTP_PASS` are valid mailbox credentials (or an app password if required).
 - `SMTP_HOST` / `SMTP_PORT` / `SMTP_SECURE` match your provider settings.
 - Render can reach your SMTP host from its network region (firewall/provider allowlist issues can cause timeouts and gateway `502`).
-- On Render free web services, outbound SMTP ports `25`, `465`, and `587` are blocked (effective September 26, 2025). Use a paid Render instance or a mail provider API over HTTPS.
+- On Render free web services, outbound SMTP ports `25`, `465`, and `587` are blocked (effective September 26, 2025). Use a paid Render instance for SMTP delivery.
 
 Common values:
 

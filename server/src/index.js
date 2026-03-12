@@ -615,7 +615,7 @@ app.post('/api/contact', async (req, res) => {
             });
             res.status(504).json({
                 ok: false,
-                error: 'SMTP server is unreachable or timed out. On Render free web services, outbound SMTP ports 25/465/587 are blocked. Upgrade Render instance or use an email API provider.',
+                error: 'SMTP server is unreachable or timed out. On Render free web services, outbound SMTP ports 25/465/587 are blocked. Upgrade Render instance or use a server where SMTP outbound is allowed.',
             });
             return;
         }
