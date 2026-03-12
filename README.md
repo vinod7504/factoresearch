@@ -84,3 +84,17 @@ Then redeploy the frontend.
 Forms now submit to the backend API and the backend sends the email to `support@factoresearch.com`.
 
 The email entered by the user is used as `reply-to`, which is the correct and safe approach. The backend should not forge the user email as the SMTP sender.
+
+## SMTP auth troubleshooting
+
+If `/api/contact` returns an SMTP authentication error (`535`, `EAUTH`), the SMTP login is being rejected by the mail provider.
+
+Verify:
+
+- `SMTP_USER` and `SMTP_PASS` are valid mailbox credentials (or an app password if required).
+- `SMTP_HOST` / `SMTP_PORT` / `SMTP_SECURE` match your provider settings.
+
+Common values:
+
+- GoDaddy Workspace Email: `SMTP_HOST=smtpout.secureserver.net`, `SMTP_PORT=465`, `SMTP_SECURE=true`
+- Microsoft 365 (including many GoDaddy M365 mailboxes): `SMTP_HOST=smtp.office365.com`, `SMTP_PORT=587`, `SMTP_SECURE=false`

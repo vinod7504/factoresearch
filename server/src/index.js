@@ -6,9 +6,42 @@ import nodemailer from 'nodemailer';
 const app = express();
 const port = Number(process.env.PORT || 3001);
 
-const supportEmail = process.env.SUPPORT_EMAIL || 'cts ';
-const fromName = process.env.SMTP_FROM_NAME || 'Facto Research';
-const fromEmail = process.env.SMTP_FROM_EMAIL || supportEmail;
+const normalizeEnv = (value) => (typeof value === 'string' ? value.trim() : '');
+const parseEnvBoolean = (value, fallback) => {
+    const normalized = normalizeEnv(value).toLowerCase();
+    if (!normalized) {
+        return fallback;
+    }
+    return ['1', 'true', 'yes', 'on'].includes(normalized);
+};
+const parseEnvPort = (value, fallback) => {
+    const parsed = Number(normalizeEnv(value));
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+};
+
+const supportEmail = normalizeEnv(process.env.SUPPORT_EMAIL) || 'support@factoresearch.com';
+const fromName = normalizeEnv(process.env.SMTP_FROM_NAME) || 'Facto Research';
+const fromEmail = normalizeEnv(process.env.SMTP_FROM_EMAIL) || supportEmail;
+const smtpHost = normalizeEnv(process.env.SMTP_HOST) || 'smtpout.secureserver.net';
+const smtpPort = parseEnvPort(process.env.SMTP_PORT, 465);
+const smtpSecure = parseEnvBoolean(process.env.SMTP_SECURE, true);
+const smtpUser = normalizeEnv(process.env.SMTP_USER);
+const smtpPass = typeof process.env.SMTP_PASS === 'string' ? process.env.SMTP_PASS.replace(/\r?\n/g, '') : '';
+
+const smtpConfigErrors = [];
+if (!supportEmail) {
+    smtpConfigErrors.push('SUPPORT_EMAIL is missing.');
+}
+if (!smtpUser) {
+    smtpConfigErrors.push('SMTP_USER is missing.');
+}
+if (!smtpPass) {
+    smtpConfigErrors.push('SMTP_PASS is missing.');
+}
+if (smtpConfigErrors.length > 0) {
+    console.error('SMTP configuration error:', smtpConfigErrors.join(' '));
+}
+
 const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
     .split(',')
     .map((origin) => origin.trim())
@@ -32,14 +65,21 @@ const isAllowedOrigin = (origin) => {
 };
 
 const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtpout.secureserver.net',
-    port: Number(process.env.SMTP_PORT || 465),
-    secure: String(process.env.SMTP_SECURE || 'true').toLowerCase() === 'true',
-    auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-    },
+    host: smtpHost,
+    port: smtpPort,
+    secure: smtpSecure,
+    auth: smtpUser && smtpPass ? { user: smtpUser, pass: smtpPass } : undefined,
 });
+
+if (smtpConfigErrors.length === 0) {
+    transporter.verify().catch((error) => {
+        console.error('SMTP verification failed:', {
+            code: error?.code,
+            responseCode: error?.responseCode,
+            message: error?.message,
+        });
+    });
+}
 
 const corsOptions = {
     origin(origin, callback) {
@@ -484,6 +524,11 @@ app.post('/api/contact', async (req, res) => {
         return;
     }
 
+    if (smtpConfigErrors.length > 0) {
+        res.status(500).json({ ok: false, error: 'SMTP is not configured on server.' });
+        return;
+    }
+
     try {
         await transporter.sendMail({
             from: `"${fromName}" <${fromEmail}>`,
@@ -496,6 +541,21 @@ app.post('/api/contact', async (req, res) => {
 
         res.json({ ok: true, message: 'Message sent successfully.' });
     } catch (error) {
+        const isAuthError = error?.code === 'EAUTH' || Number(error?.responseCode) === 535;
+        if (isAuthError) {
+            console.error('Mail send failed: SMTP authentication rejected.', {
+                code: error?.code,
+                responseCode: error?.responseCode,
+                response: error?.response,
+                command: error?.command,
+            });
+            res.status(502).json({
+                ok: false,
+                error: 'SMTP authentication failed. Check SMTP_USER/SMTP_PASS and provider SMTP settings.',
+            });
+            return;
+        }
+
         console.error('Mail send failed', error);
         res.status(500).json({ ok: false, error: 'Unable to send email right now.' });
     }
