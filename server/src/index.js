@@ -615,7 +615,7 @@ app.post('/api/contact', async (req, res) => {
             });
             res.status(504).json({
                 ok: false,
-                error: 'SMTP server is unreachable or timed out. Check SMTP_HOST/SMTP_PORT and Render outbound network access.',
+                error: 'SMTP server is unreachable or timed out. On Render free web services, outbound SMTP ports 25/465/587 are blocked. Upgrade Render instance or use an email API provider.',
             });
             return;
         }
