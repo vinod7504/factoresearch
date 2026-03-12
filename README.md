@@ -36,6 +36,10 @@ Set these values in `server/.env`:
 - `SMTP_FROM_NAME`
 - `SMTP_FROM_EMAIL`
 - `ALLOWED_ORIGINS`
+- `SMTP_CONNECTION_TIMEOUT_MS` (optional, default `10000`)
+- `SMTP_GREETING_TIMEOUT_MS` (optional, default `10000`)
+- `SMTP_SOCKET_TIMEOUT_MS` (optional, default `20000`)
+- `SMTP_SEND_TIMEOUT_MS` (optional, default `25000`)
 
 Run the backend:
 
@@ -93,6 +97,7 @@ Verify:
 
 - `SMTP_USER` and `SMTP_PASS` are valid mailbox credentials (or an app password if required).
 - `SMTP_HOST` / `SMTP_PORT` / `SMTP_SECURE` match your provider settings.
+- Render can reach your SMTP host from its network region (firewall/provider allowlist issues can cause timeouts and gateway `502`).
 
 Common values:
 

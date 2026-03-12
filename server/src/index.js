@@ -18,6 +18,10 @@ const parseEnvPort = (value, fallback) => {
     const parsed = Number(normalizeEnv(value));
     return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
 };
+const parseEnvPositiveInt = (value, fallback) => {
+    const parsed = Number(normalizeEnv(value));
+    return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
+};
 
 const supportEmail = normalizeEnv(process.env.SUPPORT_EMAIL) || 'support@factoresearch.com';
 const fromName = normalizeEnv(process.env.SMTP_FROM_NAME) || 'Facto Research';
@@ -27,6 +31,10 @@ const smtpPort = parseEnvPort(process.env.SMTP_PORT, 465);
 const smtpSecure = parseEnvBoolean(process.env.SMTP_SECURE, true);
 const smtpUser = normalizeEnv(process.env.SMTP_USER);
 const smtpPass = typeof process.env.SMTP_PASS === 'string' ? process.env.SMTP_PASS.replace(/\r?\n/g, '') : '';
+const smtpConnectionTimeoutMs = parseEnvPositiveInt(process.env.SMTP_CONNECTION_TIMEOUT_MS, 10000);
+const smtpGreetingTimeoutMs = parseEnvPositiveInt(process.env.SMTP_GREETING_TIMEOUT_MS, 10000);
+const smtpSocketTimeoutMs = parseEnvPositiveInt(process.env.SMTP_SOCKET_TIMEOUT_MS, 20000);
+const smtpSendTimeoutMs = parseEnvPositiveInt(process.env.SMTP_SEND_TIMEOUT_MS, 25000);
 
 const smtpConfigErrors = [];
 if (!supportEmail) {
@@ -46,6 +54,14 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
     .split(',')
     .map((origin) => origin.trim())
     .filter(Boolean);
+const normalizeOriginHost = (value) => normalizeEnv(value).replace(/^https?:\/\//i, '').replace(/\/+$/, '').toLowerCase();
+const allowedOriginHosts = allowedOrigins.map((origin) => {
+    try {
+        return new URL(origin).hostname.toLowerCase();
+    } catch {
+        return normalizeOriginHost(origin);
+    }
+});
 
 const isAllowedOrigin = (origin) => {
     if (!origin || allowedOrigins.length === 0) {
@@ -58,7 +74,13 @@ const isAllowedOrigin = (origin) => {
 
     try {
         const { hostname } = new URL(origin);
-        return hostname === 'localhost' || hostname === '127.0.0.1' || hostname.endsWith('.netlify.app');
+        const normalizedHostname = hostname.toLowerCase();
+        return (
+            allowedOriginHosts.includes(normalizedHostname) ||
+            normalizedHostname === 'localhost' ||
+            normalizedHostname === '127.0.0.1' ||
+            normalizedHostname.endsWith('.netlify.app')
+        );
     } catch {
         return false;
     }
@@ -68,8 +90,30 @@ const transporter = nodemailer.createTransport({
     host: smtpHost,
     port: smtpPort,
     secure: smtpSecure,
+    connectionTimeout: smtpConnectionTimeoutMs,
+    greetingTimeout: smtpGreetingTimeoutMs,
+    socketTimeout: smtpSocketTimeoutMs,
     auth: smtpUser && smtpPass ? { user: smtpUser, pass: smtpPass } : undefined,
 });
+
+const sendMailWithTimeout = async (mailOptions) => {
+    let timeoutId;
+
+    try {
+        return await Promise.race([
+            transporter.sendMail(mailOptions),
+            new Promise((_, reject) => {
+                timeoutId = setTimeout(() => {
+                    const timeoutError = new Error(`SMTP send timed out after ${smtpSendTimeoutMs}ms.`);
+                    timeoutError.code = 'ETIMEDOUT';
+                    reject(timeoutError);
+                }, smtpSendTimeoutMs);
+            }),
+        ]);
+    } finally {
+        clearTimeout(timeoutId);
+    }
+};
 
 if (smtpConfigErrors.length === 0) {
     transporter.verify().catch((error) => {
@@ -530,7 +574,7 @@ app.post('/api/contact', async (req, res) => {
     }
 
     try {
-        await transporter.sendMail({
+        await sendMailWithTimeout({
             from: `"${fromName}" <${fromEmail}>`,
             to: supportEmail,
             replyTo: submission.email,
@@ -542,6 +586,11 @@ app.post('/api/contact', async (req, res) => {
         res.json({ ok: true, message: 'Message sent successfully.' });
     } catch (error) {
         const isAuthError = error?.code === 'EAUTH' || Number(error?.responseCode) === 535;
+        const isConnectivityError = ['ECONNECTION', 'ESOCKET', 'ENOTFOUND', 'ECONNREFUSED', 'EHOSTUNREACH'].includes(
+            error?.code
+        );
+        const isTimeoutError = error?.code === 'ETIMEDOUT';
+
         if (isAuthError) {
             console.error('Mail send failed: SMTP authentication rejected.', {
                 code: error?.code,
@@ -552,6 +601,21 @@ app.post('/api/contact', async (req, res) => {
             res.status(502).json({
                 ok: false,
                 error: 'SMTP authentication failed. Check SMTP_USER/SMTP_PASS and provider SMTP settings.',
+            });
+            return;
+        }
+
+        if (isConnectivityError || isTimeoutError) {
+            console.error('Mail send failed: SMTP server unreachable or timed out.', {
+                code: error?.code,
+                message: error?.message,
+                host: smtpHost,
+                port: smtpPort,
+                secure: smtpSecure,
+            });
+            res.status(504).json({
+                ok: false,
+                error: 'SMTP server is unreachable or timed out. Check SMTP_HOST/SMTP_PORT and Render outbound network access.',
             });
             return;
         }
