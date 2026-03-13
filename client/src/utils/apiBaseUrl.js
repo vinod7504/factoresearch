@@ -8,5 +8,5 @@ export const getApiBaseUrl = () => {
         return 'http://localhost:3001';
     }
 
-    return 'https://factoresearch.onrender.com';
+    return 'https://api.factoresearch.com';
 };
